@@ -1,5 +1,7 @@
 #include "member.hpp"
 #include <iostream>
+#include <ctime>
+#include <chrono>
 using namespace std;
 
 Member::Member(int id, char skill) : User(id, "member"), skill_level(skill) {}
@@ -16,7 +18,7 @@ void Member::view_menu()
     cout << "Member Menu:\n";
     cout << "1. View Schedule\n";
     cout << "2. Reserve a Court\n";
-    cout << "3. Request Cancellation\n";
+    cout << "3. Cancel a Reservation\n";
     cout << "4. Request Time Change\n";
     int choice;
     cin >> choice;
@@ -67,7 +69,9 @@ void Member::reserve()
         std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
         std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
 
-        cout << "Enter the start time you want in the valid format (month, day, year, hour, minute)" std::cin >> month >> day >> year >> hour >> minute;
+        cout << "Enter the start time you want in the valid format (month, day, year, hour, minute)" << endl;
+        int month, day, year, hour, minute;
+        cin >> month >> day >> year >> hour >> minute;
         std::tm time{};
         time.tm_year = year - 1900; //  years since 1900
         time.tm_mon = month - 1;    //  months since january
@@ -78,13 +82,12 @@ void Member::reserve()
         std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
 
         //TODO, implement reservaion valid checks
-        Reservation new_reservation(this->getId(), startTime);
-        std::shared_ptr<Reservation> reservationPtr = std::shared_ptr<Reservation>(new Reservation(new_reservation));
-        my_reservations.push_back(reservationPtr);
+        Reservation new_reservation(User::getId(), startTime);
+        my_reservations.push_back(new_reservation);
     }
 }
 
-void Member::request_cancellation()
+void Member::cancel_reservation()
 {
     
 }

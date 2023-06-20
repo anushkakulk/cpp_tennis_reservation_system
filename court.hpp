@@ -11,7 +11,7 @@ private:
     // this court num (either 1, 2, or 3)
     int court_num;
     // all reservations on this court
-    std::vector<std::shared_ptr<Reservation>> res;
+    std::vector<Reservation*> res;
 
 public:
     Court(int num);

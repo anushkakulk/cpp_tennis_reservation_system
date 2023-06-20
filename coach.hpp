@@ -8,7 +8,7 @@
 class Coach : public User {
 private:
     // all reservations of this coach
-    std::vector<std::shared_ptr<Reservation>> coach_reservations;
+    std::vector<Reservation*> coach_reservations;
 
 public:
     Coach(int id);
@@ -18,8 +18,8 @@ public:
     void view_schedule() override;
     // reserves a spot for this coach from start to end
     void reserve() override;
-    // sends a message to an officer for cancellation
-    void request_cancellation();
+    // cancels a session for this member during the given start end time (if valid)
+    void cancel_reservation() override;
     // sends a message to an officer for a timechange
     void request_timechange();
 };

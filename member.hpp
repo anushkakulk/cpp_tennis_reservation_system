@@ -4,11 +4,13 @@
 #include "user.hpp"
 #include <vector>
 #include <memory>
+#include <ctime>
+#include <chrono>
 
 class Member : public User {
 private:
     char skill_level;
-    std::vector<std::shared_ptr<Reservation>> my_reservations;
+    std::vector<Reservation*> my_reservations;
 
 public:
     Member(int id, char skill);
@@ -20,8 +22,8 @@ public:
     void view_schedule() override;
     // reserves a session for this member during the given start end time (if valid)
     void reserve() override;
-    // sends a message to an officer to request a cancellation, giving it this member's id and the start end time
-    void request_cancellation();
+    // cancels a session for this member 
+    void cancel_reservation() override;
     // sends a message to an officer to request a timechange, giving it this member's id and the start end time
     void request_timechange();
 };

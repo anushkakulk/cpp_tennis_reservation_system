@@ -18,10 +18,12 @@ public:
     int getId();
     // reserves a spot for this user at the given start and end time
     virtual void reserve();
+    // cancels a spot for this user at the given start and end time
+    virtual void cancel_reservation();
     // displays the user-specific menu
     virtual void view_menu();
     // displays the user-specific schedule;
     virtual void view_schedule();
 };
 
-#endif  // USER_H
+#endif  // USER_HPP
