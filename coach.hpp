@@ -11,7 +11,7 @@ private:
     std::vector<Reservation*> coach_reservations;
 
 public:
-    Coach(int id);
+    Coach(int id, const std::string& name);
     // displays the coach specific menu
     void view_menu() override;
     // displays the coach specific schedule

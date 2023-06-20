@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std;
 
-Member::Member(int id, char skill) : User(id, "member"), skill_level(skill) {}
+Member::Member(int id, const std::string& name, char skill) : User(id, name, "member"), skill_level(skill) {}
 
 char Member::get_skill()
 {
@@ -35,7 +35,7 @@ void Member::view_menu()
     }
     else if (choice == 3)
     {
-        request_cancellation();
+        cancel_reservation();
     }
     else if (choice == 4)
     {
