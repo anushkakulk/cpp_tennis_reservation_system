@@ -2,8 +2,8 @@
 002 bob member
 003 carol member
 004 dana member
-004 edgar member
-007 frank coach
-008 grant coach
-009 hank officer
-010 ian officer
+005 edgar member
+006 frank coach
+007 grant coach
+008 hank officer
+009 ian officer

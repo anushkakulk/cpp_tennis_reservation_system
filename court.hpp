@@ -24,7 +24,7 @@ public:
     // returns this court's num
     int get_court_num();
     // returns all of this court's reservations
-    std::vector<std::shared_ptr<Reservation>> get_reservations();
+    std::vector<Reservation*> get_reservations();
 };
 
 #endif  // COURT_H

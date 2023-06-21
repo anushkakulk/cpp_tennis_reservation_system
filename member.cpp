@@ -94,5 +94,11 @@ void Member::cancel_reservation()
 
 void Member::request_timechange()
 {
+// How to handle requests from member/coach to an officer? as in, should we
+// have the user automatically send 008/009 a a request, passing in their id and new start 
+// time? 
+// the issue is, how do we refer to the officer object to call the officer method that
+// makes a time change??? 
+
    
 }
