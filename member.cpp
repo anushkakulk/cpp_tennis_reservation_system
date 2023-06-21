@@ -66,23 +66,37 @@ void Member::reserve()
     else
     {
 
-        std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
-        std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
+    std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
 
-        cout << "Enter the start time you want in the valid format (month, day, year, hour, minute)" << endl;
-        int month, day, year, hour, minute;
-        cin >> month >> day >> year >> hour >> minute;
-        std::tm time{};
-        time.tm_year = year - 1900; //  years since 1900
-        time.tm_mon = month - 1;    //  months since january
-        time.tm_mday = day;
-        time.tm_hour = hour;
-        time.tm_min = minute;
-        std::time_t timeT = std::mktime(&time);
-        std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+    std::cout << "Enter the start time you want in the valid format (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
+    int month, day, year, hour, minute;
+    std::cin >> month >> day >> year >> hour >> minute;
 
-        //TODO, implement reservaion valid checks
-        Reservation new_reservation(User::getId(), startTime);
+    std::cout << "Enter which court you want to reserve: (1, 2, or 3)"
+    int court_num;
+    std::cin >> court_num;
+    std::tm time{};
+    time.tm_year = year - 1900; // years since 1900
+    time.tm_mon = month - 1;    // months since January
+    time.tm_mday = day;
+    time.tm_hour = hour;
+    time.tm_min = minute;
+    std::time_t timeT = std::mktime(&time);
+    std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+
+    // enforce 7 day in advance limit
+    if (startTime > maxReservationTime) {
+        std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
+        return 0;
+    }
+        std::tm* localTime = std::localtime(&startTime);
+
+        Extract the day of the week from the std::tm object
+        int dayOfWeek = localTime->tm_wday;
+
+        // TODO, check that no one is on the court then
+        Reservation new_reservation(User::getId(), startTime, dayOfWeek, court_num);
         my_reservations.push_back(new_reservation);
     }
 }

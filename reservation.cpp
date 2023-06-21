@@ -1,9 +1,10 @@
 #include "reservation.hpp"
 
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, Court* c)
-    : start_datetime(startDateTime), court(c) {
-
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c)
+    : start_datetime(startDateTime), day_of_week(day), court(c) {
+    // adds this players id to reservation
     player_ids.push_back(player_id);
+    // adds this rseervation to the courts 
     c->add_reservation(this);
 }
 

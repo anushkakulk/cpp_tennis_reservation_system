@@ -14,13 +14,15 @@ private:
     // EXAMPLE: std::chrono::system_clock::time_point june19 = std::chrono::system_clock::from_time_t(std::mktime(std::tm{0, 0, 0, 19, 5, 2023}));
     // format is hour, minute, second, day, month - 1, year
     std::chrono::system_clock::time_point start_datetime;
-    // is this reservation for open play or not?    
+    // represents day of the week (0 = sunday, ... 6 = saturday)
+    int day_of_week; 
+    // is this reservation for open play or not?
     bool open_play;
     // the court this reservation is for
     Court* court;
 
 public:
-    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, Court* c);
+    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
     // adds another username to users (enforce max is 2) 
     void add_user(User* u);
     // removes a user from this reservation (needs 1 user to still be on this tho)

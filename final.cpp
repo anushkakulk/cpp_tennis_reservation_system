@@ -25,6 +25,24 @@ cin >> login_id;
 // view_menu() method!!
 
 
+// TIME REPRESENTATION (THIS IS HOW WE REPRESENT DATES, TIMES, AND DAYS OF THE WEEK): 
+// cout << "Enter the start time you want in the valid format (month, day, year, hour, minute)" << endl;
+//         int month, day, year, hour, minute;
+//         cin >> month >> day >> year >> hour >> minute;
+//         std::tm time{};
+//         time.tm_year = year - 1900; //  years since 1900
+//         time.tm_mon = month - 1;    //  months since january
+//         time.tm_mday = day;
+//         time.tm_hour = hour;
+//         time.tm_min = minute;
+//         std::time_t timeT = std::mktime(&time);
+//         std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+//         //std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
+//         // std::tm* localTime = std::localtime(&startTimeT);
+
+//         // Extract the day of the week from the std::tm object
+//         // int dayOfWeek = localTime->tm_wday;
+
 
 //  -   lowkey not everything needs to work but i feel like we should get the basic
 //      user makes/cancels a reservation and can view the schedule done asap!!  
