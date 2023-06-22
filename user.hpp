@@ -17,7 +17,6 @@ private:
     int id;
     // name for a user
     std::string name;
-    std::string name;
     // string, either "member" "coach" "officer"
     std::string membership_type;
     // all courts
@@ -32,12 +31,6 @@ public:
     std::string get_name();
     // returns this user's id 
     std::vector<Court*>  get_courts();
-
-    User(int id, const std::string& name, const std::string& type);
-    // returns this user's id 
-    int getId();
-    // returns this user's id 
-    std::string get_name();
 
     // reserves a spot for this user at the given start and end time
     virtual void reserve();

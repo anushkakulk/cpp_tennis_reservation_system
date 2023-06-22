@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <chrono>
+#include <string>
+#include "member.hpp"
 
 class Court; // Forward declaration of the Court class
 

@@ -92,4 +92,3 @@ void User::cancel_reservation() {
         }
     }
 }
-

@@ -1,5 +1,5 @@
 #include "court.hpp"
-
+#include <algorithm>
 Court::Court(int num) : court_num(num) {}
 
 // checks if time is between 30 minutes from the reservations start time
@@ -23,7 +23,7 @@ void Court::add_reservation(Reservation* r) {
 }
 
 // deletes the given from its list of reservations
-void Court::delete_reservation(Reservation& r) {
+void Court::delete_reservation(Reservation* r) {
     auto it = std::find(res.begin(), res.end(), r);
     if (it != res.end()) {
         res.erase(it);
