@@ -14,10 +14,9 @@ class Member : public User {
 public:
     char skill_level;
     std::vector<Reservation*> my_reservations;
-    std::vector<Officer*> all_officers;
 
 public:
-    Member(int id, const std::string& name,  char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
+    Member(int id, char skill);
     // returns this member's skill level: either 'A' 'B' or 'C'
     char get_skill();
     // displays the the member specific menu
