@@ -1,11 +1,14 @@
 #ifndef OFFICER_HPP
 #define OFFICER_HPP
 
-#include "member.hpp"
+#include <vector>
+#include <chrono>
+
+class Court; // Forward declaration of the Court class
 
 class Officer : public Member {
 public:
-    Officer(int id, char skill);
+    Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
     // reserved open play time for the given id for the given start/end datetimes
     void reserve_openplay(int id, std::chrono::system_clock::time_point start_time);
     // changes the time for the given id at the given start/end datetimes to 
@@ -13,4 +16,4 @@ public:
     void modify_reservation(int id, std::chrono::system_clock::time_point start_time, std::chrono::system_clock::time_point new_start);
 };
 
-#endif  // OFFICER_H
+#endif  // OFFICER_HPP

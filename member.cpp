@@ -98,6 +98,7 @@ if (desiredCourt != nullptr) {
 
     // enforce 7 day in advance limit
     std::chrono::system_clock::time_point maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
+    
     if (startTime > maxReservationTime) {
         std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
         return;
@@ -108,9 +109,6 @@ if (desiredCourt != nullptr) {
 
     // Extract the day of the week from the std::tm object
     int dayOfWeek = localTime->tm_wday;
-
-        // Extract the day of the week from the std::tm object
-        int dayOfWeek = localTime->tm_wday;
 
         // TODO, check that no one is on the court then
         my_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));

@@ -4,12 +4,8 @@
 #include <chrono>
 using namespace std;
 
-Coach::Coach(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : User(id, name, "coach", courts), skill_level(skill), all_officers(officers) {}
+Coach::Coach(int id, const std::string& name, std::vector<Court*> courts, std::vector<Officer*> officers) : User(id, name, "coach", courts), all_officers(officers) {}
 
-char Coach::get_skill()
-{
-    return skill_level;
-}
 
 // Coach specific menu options
 void Coach::view_menu()
@@ -106,14 +102,13 @@ if (desiredCourt != nullptr) {
     std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
     std::tm* localTime = std::localtime(&startTimeT);
 
-    // Extract the day of the week from the std::tm object
-    int dayOfWeek = localTime->tm_wday;
+
 
         // Extract the day of the week from the std::tm object
         int dayOfWeek = localTime->tm_wday;
 
         // TODO, check that no one is on the court then
-        my_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));
+        coach_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));
 
     } else {
         std::cout << "Error, no court of the given number exists" << std::endl;

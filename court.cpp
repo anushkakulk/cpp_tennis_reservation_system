@@ -1,4 +1,5 @@
 #include "court.hpp"
+#include <algorithm>
 
 Court::Court(int num) : court_num(num) {}
 
@@ -18,12 +19,12 @@ bool Court::is_reserved(std::chrono::system_clock::time_point time) {
 }
 
 // adds reservation to its list of reservatiosn
-void Court::add_reservation(Reservation& r) {
+void Court::add_reservation(Reservation* r) {
     res.push_back(r);
 }
 
 // deletes the given from its list of reservations
-void Court::delete_reservation(Reservation& r) {
+void Court::delete_reservation(Reservation* r) {
     auto it = std::find(res.begin(), res.end(), r);
     if (it != res.end()) {
         res.erase(it);

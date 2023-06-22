@@ -1,17 +1,21 @@
 #ifndef USER_HPP
 #define USER_HPP
 
+#include "reservation.hpp"
+#include "court.hpp"
 #include <string>
 #include <chrono>
 #include <vector>
-#include "reservation.hpp"
+
+class Court;
+class Reservation;
 
 class User {
 private:
     // unique id for each user
     int id;
     // name for a user
-    string name;
+    std::string name;
     // string, either "member" "coach" "officer"
     std::string membership_type;
     // all courts
@@ -22,7 +26,7 @@ public:
     // returns this user's id 
     int getId();
     // returns this user's id 
-    string get_name();
+    std::string get_name();
     // returns this user's id 
     std::vector<Court*>  get_courts();
     // reserves a spot for this user at the given start and end time

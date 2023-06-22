@@ -1,32 +1,35 @@
 #include <vector>
 #include <iostream>
+#include "user.hpp"
+#include "member.hpp"
+#include "coach.hpp"
+#include "reservation.hpp"
+#include "court.hpp"
+
 using namespace std; 
-
-int main () {
-
+int main() {
 Court one = Court(1);
-Court two = Court(2);
-Court three = Court(3);
-vector<Court*> all_courts = {one, two, three};
+    Court two = Court(2);
+    Court three = Court(3);
+    vector<Court*> all_courts = {&one, &two, &three};  // Pass the addresses of Court objects
 
-User i = Officer(008 "grant");
-User j = Officer(009, "ian");
-vector<User*> all_officers = {i,j};
+    Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
+    Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});  // Pass the address of Officer i
+    vector<Officer*> all_officers = {&i, &j};  // Pass the addresses of Officer objects
 
-User a = Member(001, "alice", 'A', all_courts, all_officers);
-User b = Member(002, "bob", 'B', all_courts, all_officers);
-User c = Member(003, "carol",'C', all_courts, all_officers);
-User d = Member(003, "dana", 'A', all_courts, all_officers);
-User e = Member(004, "edgar", 'B', all_courts, all_officers);
-User f = Member(005, "frank", 'C', all_courts, all_officers);
-User g = Coach(006 "grant", all_courts, all_officers);
-User h = Coach(007, "hank", all_courts, all_officers);
+    Member a = Member(1, "alice", 'A', all_courts, all_officers);
+    Member b = Member(2, "bob", 'B', all_courts, all_officers);
+    Member c = Member(3, "carol", 'C', all_courts, all_officers);
+    Member d = Member(3, "dana", 'A', all_courts, all_officers);
+    Member e = Member(4, "edgar", 'B', all_courts, all_officers);
+    Member f = Member(5, "frank", 'C', all_courts, all_officers);
+    Coach g = Coach(6, "grant", all_courts, all_officers);
+    Coach h = Coach(7, "hank", all_courts, all_officers);
 
-vector<User*> all_users = {a,b,c,d,e,f,g,h,i,j};
-
+    vector<User*> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j};  // Pass the addresses of User objects
 
 cout << "Welcome to the court reservation system!" << endl;
-cout << "Please enter your user id: (should be from 001 through 009)" << endl;
+cout << "Please enter your user id: (should be from 1 through 9)" << endl;
 int login_id;
 cin >> login_id;
 // iterate through users and see who's id matches the login, then call their respective

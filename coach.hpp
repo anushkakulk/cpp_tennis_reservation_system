@@ -1,9 +1,9 @@
 #ifndef COACH_HPP
 #define COACH_HPP
 
+#include "reservation.hpp"
 #include "user.hpp"
 #include "officer.hpp"
-#include "reservation.hpp"
 #include <vector>
 #include <memory>
 

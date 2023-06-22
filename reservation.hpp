@@ -5,6 +5,9 @@
 #include <chrono>
 #include "user.hpp"
 #include "court.hpp"
+class User;
+class Court;
+
 
 class Reservation {
 private:
@@ -24,9 +27,9 @@ private:
 public:
     Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
     // adds another username to users (enforce max is 2) 
-    void add_user(User* u);
+    void add_user(User& u);
     // removes a user from this reservation (needs 1 user to still be on this tho)
-    void remove_user(User* u);
+    void remove_user(User& u);
     // returns ids of players on this reservation
     std::vector<int> get_players();
     // removes this reservation

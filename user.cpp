@@ -1,7 +1,7 @@
 #include "user.hpp"
 #include <iostream>
 
-User(int id, const std::string& name, const std::string& type,  std::vector<Court*> all_courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
+User::User(int id, const std::string& name, const std::string& type, std::vector<Court*> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
 // returns this user's id
 int User::getId() {
