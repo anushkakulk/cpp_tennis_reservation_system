@@ -1,6 +1,6 @@
 #include "officer.hpp"
 
-Officer::Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : Member(id, name, skill, courts, officers) {}
+Officer::Officer(int id, const std::string& name, char skill, std::vector<std::shared_ptr<Court>> courts, std::vector<std::shared_ptr<Officer>> officers) : Member(id, name, skill, courts, officers) {}
 
 void Officer::view_menu() {
   

@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <memory>
 #include "user.hpp"
 #include "member.hpp"
 #include "coach.hpp"
@@ -8,31 +9,32 @@
 
 using namespace std; 
 int main() {
-Court one = Court(1);
-    Court two = Court(2);
-    Court three = Court(3);
-    vector<Court*> all_courts = {&one, &two, &three};  // Pass the addresses of Court objects
+std::shared_ptr<Court> one = std::shared_ptr<Court>(new Court(1));
+std::shared_ptr<Court> two = std::shared_ptr<Court>(new Court(2));
+std::shared_ptr<Court> three = std::shared_ptr<Court>(new Court(3));
+std::vector<std::shared_ptr<Court>> all_courts = {one, two, three};
 
-    Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
-    Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});  // Pass the address of Officer i
-    vector<Officer*> all_officers = {&i, &j};  // Pass the addresses of Officer objects
+std::shared_ptr<Officer> i = std::shared_ptr<Officer>(new Officer(8, "grant", 'A', all_courts, std::vector<std::shared_ptr<Officer>>()));
+std::shared_ptr<Officer> j = std::shared_ptr<Officer>(new Officer(9, "ian", 'A', all_courts, std::vector<std::shared_ptr<Officer>>{i}));
+std::vector<std::shared_ptr<Officer>> all_officers = {i, j};
 
-    Member a = Member(1, "alice", 'A', all_courts, all_officers);
-    Member b = Member(2, "bob", 'B', all_courts, all_officers);
-    Member c = Member(3, "carol", 'C', all_courts, all_officers);
-    Member d = Member(3, "dana", 'A', all_courts, all_officers);
-    Member e = Member(4, "edgar", 'B', all_courts, all_officers);
-    Member f = Member(5, "frank", 'C', all_courts, all_officers);
-    Coach g = Coach(6, "grant", all_courts, all_officers);
-    Coach h = Coach(7, "hank", all_courts, all_officers);
+std::shared_ptr<Member> a = std::shared_ptr<Member>(new Member(1, "alice", 'A', all_courts, all_officers));
+std::shared_ptr<Member> b = std::shared_ptr<Member>(new Member(2, "bob", 'B', all_courts, all_officers));
+std::shared_ptr<Member> c = std::shared_ptr<Member>(new Member(3, "carol", 'C', all_courts, all_officers));
+std::shared_ptr<Member> d = std::shared_ptr<Member>(new Member(3, "dana", 'A', all_courts, all_officers));
+std::shared_ptr<Member> e = std::shared_ptr<Member>(new Member(4, "edgar", 'B', all_courts, all_officers));
+std::shared_ptr<Member> f = std::shared_ptr<Member>(new Member(5, "frank", 'C', all_courts, all_officers));
 
-    vector<User*> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j};  // Pass the addresses of User objects
+std::shared_ptr<Coach> g = std::shared_ptr<Coach>(new Coach(6, "grant", all_courts, all_officers));
+std::shared_ptr<Coach> h = std::shared_ptr<Coach>(new Coach(7, "hank", all_courts, all_officers));
+
+std::vector<std::shared_ptr<User>> all_users = {a, b, c, d, e, f, g, h, i, j};
 
 cout << "Welcome to the court reservation system!" << endl;
 cout << "Please enter your user id: (should be from 1 through 9)" << endl;
 int login_id;
 cin >> login_id;
-for (User* user : all_users) {
+for (const std::shared_ptr<User>& user : all_users) {
     if (user->getId() == login_id) {
         user->view_menu();
         break;  

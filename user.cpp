@@ -1,7 +1,7 @@
 #include "user.hpp"
 #include <iostream>
 
-User::User(int id, const std::string& name, const std::string& type, std::vector<Court*> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
+User::User(int id, const std::string& name, const std::string& type, std::vector<std::shared_ptr<Court>> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
 // returns this user's id
 int User::getId() {
@@ -14,7 +14,7 @@ std::string User::get_name() {
 }
 
 // returns all courts accessible by this user
-std::vector<Court*> User::get_courts() {
+std::vector<std::shared_ptr<Court>> User::get_courts() {
     return all_courts;
 }
 

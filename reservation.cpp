@@ -3,12 +3,12 @@
 #include <iostream>
 
 
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c)
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, std::shared_ptr<Court> c)
     : start_datetime(startDateTime), day_of_week(day), court(c) {
     // adds this players id to reservation
     player_ids.push_back(player_id);
     // adds this rseervation to the courts 
-    c->add_reservation(this);
+    court->add_reservation(std::shared_ptr<Reservation>(this));
     std::time_t startTime = std::chrono::system_clock::to_time_t(start_datetime);
     std::cout << "Reservation made by ID: " << player_id
               << " at " << std::ctime(&startTime) << "on day " << day << " (0 = sun, 1 = mon, ... 6 = sat)" << std::endl;
@@ -36,7 +36,7 @@ std::vector<int> Reservation::get_players() {
 }
 
 void Reservation::delete_reservation() {
-    court->delete_reservation(this);
+    court->delete_reservation(std::shared_ptr<Reservation>(this));
 }
 
 std::chrono::system_clock::time_point Reservation::get_start() {
