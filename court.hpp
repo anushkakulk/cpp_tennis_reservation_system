@@ -18,9 +18,9 @@ public:
     // returns true if this court is reserved during the given datetime
     bool is_reserved(std::chrono::system_clock::time_point time);
     // adds a reservation to this court's reservations
-    void add_reservation(Reservation& r);
+    void add_reservation(Reservation* r);
     // removes the given reservation from this court's reservations
-    void delete_reservation(Reservation& r);
+    void delete_reservation(Reservation* r);
     // returns this court's num
     int get_court_num();
     // returns all of this court's reservations

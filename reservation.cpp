@@ -1,4 +1,5 @@
 #include "reservation.hpp"
+#include <algorithm>
 
 Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c)
     : start_datetime(startDateTime), day_of_week(day), court(c) {
@@ -11,7 +12,7 @@ Reservation::Reservation(int player_id, const std::chrono::system_clock::time_po
 void Reservation::add_user(User& u) {
     //  max of 2 players in a reservation
     if (player_ids.size() < 2) {
-        player_ids.push_back(u.get_id());
+        player_ids.push_back(u.getId());
     }
 }
 
@@ -43,4 +44,8 @@ bool Reservation::is_openplay() {
 
 void Reservation::set_start(int id, std::chrono::system_clock::time_point time) {
     // find the reservation with the given id and time, and change it
+}
+
+bool Reservation::operator==(const Reservation& other) const {
+    return id == other.id;
 }
