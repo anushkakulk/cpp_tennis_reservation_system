@@ -23,7 +23,8 @@ private:
     bool open_play;
     // the court this reservation is for
     Court* court;
-
+    // reservation id
+    int id;
 public:
     Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
     // adds another username to users (enforce max is 2) 
@@ -40,6 +41,10 @@ public:
     bool is_openplay();
     // changes the start time for this reservation (first checks that id is from an officer)
     void set_start(int id, std::chrono::system_clock::time_point time);
+    // override '==' operator to compare 
+    bool operator==(const Reservation& other) const;
+    // returns the id of this reservation
+    int get_id();
 };
 
 #endif  // RESERVATION_H

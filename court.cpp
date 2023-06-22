@@ -1,5 +1,4 @@
 #include "court.hpp"
-#include <algorithm>
 
 Court::Court(int num) : court_num(num) {}
 
@@ -24,12 +23,13 @@ void Court::add_reservation(Reservation* r) {
 }
 
 // deletes the given from its list of reservations
-void Court::delete_reservation(Reservation* r) {
+void Court::delete_reservation(Reservation& r) {
     auto it = std::find(res.begin(), res.end(), r);
     if (it != res.end()) {
         res.erase(it);
     }
 }
+
 // returns its court number
 int Court::get_court_num() {
     return court_num;

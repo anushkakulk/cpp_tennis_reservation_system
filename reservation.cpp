@@ -46,3 +46,7 @@ bool Reservation::is_openplay() {
 void Reservation::set_start(int id, std::chrono::system_clock::time_point time) {
     // find the reservation with the given id and time, and change it
 }
+
+bool Reservation::operator==(const Reservation& other) const {
+    return id == other.id;
+}
