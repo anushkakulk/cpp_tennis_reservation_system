@@ -1,5 +1,6 @@
 #include "reservation.hpp"
 #include <algorithm>
+#include <iostream>
 
 
 Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c)
@@ -8,6 +9,9 @@ Reservation::Reservation(int player_id, const std::chrono::system_clock::time_po
     player_ids.push_back(player_id);
     // adds this rseervation to the courts 
     c->add_reservation(this);
+    std::time_t startTime = std::chrono::system_clock::to_time_t(start_datetime);
+    std::cout << "Reservation made by ID: " << player_id
+              << " at " << std::ctime(&startTime) << "on day " << day << " (0 = sun, 1 = mon, ... 6 = sat)" << std::endl;
 }
 
 void Reservation::add_user(User& u) {

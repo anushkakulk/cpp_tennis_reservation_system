@@ -59,15 +59,12 @@ void Member::reserve()
     cout << "Enter the court number you want (1-3)" << endl;
     int courtNum;
     cin >> courtNum;
-    if (courtNum != 1 || courtNum != 2 || courtNum != 3)
+    if (courtNum != 1 && courtNum != 2 && courtNum != 3)
     {
         cout << "Invalid choice. Please try again." << endl;
     }
     else
     {
-
-    std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
-    std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
 
     std::cout << "Enter the start time you want in the valid format (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
     int month, day, year, hour, minute;
@@ -96,20 +93,24 @@ if (desiredCourt != nullptr) {
     std::time_t timeT = std::mktime(&time);
     std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
 
-    // enforce 7 day in advance limit
-    std::chrono::system_clock::time_point maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
-    
-    if (startTime > maxReservationTime) {
-        std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
-        return;
-    }
-    
+    // makes sure its in the future
+if (startTime <= std::chrono::system_clock::now()) {
+    std::cout << "Invalid reservation time, can only reserve in the future" << std::endl;
+    return;
+}
+
+// enforce the 7 day rule 
+auto maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
+if (startTime > maxReservationTime) {
+    std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
+    return;
+}
+
     std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
     std::tm* localTime = std::localtime(&startTimeT);
 
-    // Extract the day of the week from the std::tm object
-    int dayOfWeek = localTime->tm_wday;
-
+        // Extract the day of the week from the std::tm object
+        int dayOfWeek = localTime->tm_wday;
         // TODO, check that no one is on the court then
         my_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));
 

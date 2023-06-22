@@ -4,8 +4,6 @@ Court::Court(int num) : court_num(num) {}
 
 // checks if time is between 30 minutes from the reservations start time
 bool Court::is_reserved(std::chrono::system_clock::time_point time) {
-    std::chrono::system_clock::time_point endTime = time + std::chrono::minutes(30);
-
     for (const auto& reservation : res) {
         std::chrono::system_clock::time_point start = reservation->get_start();
         std::chrono::system_clock::time_point end = start + std::chrono::minutes(30);
