@@ -46,6 +46,7 @@ void Coach::view_schedule()
 {
     // print out the schedule by iterating through courts and iterating through each courts reservations
     // for the next 24 hours
+    
 }
 
 void Coach::reserve()
@@ -79,6 +80,7 @@ void Coach::reserve()
         //TODO, implement reservaion valid checks
         Reservation new_reservation(User::getId(), startTime);
         my_reservations.push_back(new_reservation);
+        
     }
 }
 
