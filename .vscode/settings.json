@@ -38,7 +38,8 @@
         "utility": "cpp",
         "typeinfo": "cpp",
         "string": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "random": "cpp"
     },
     "github-enterprise.uri": "https://github.khoury.northeastern.edu"
 }

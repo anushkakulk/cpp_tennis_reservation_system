@@ -4,17 +4,25 @@ using namespace std;
 
 int main () {
 
-// User a = Member(001, "alice");
-// User b = Member(002, "bob");
-// User c = Member(003, "carol");
-// User d = Member(003, "dana");
-// User e = Member(004, "edgar");
-// User f = Member(005, "frank");
-// User g = Coach(006 "grant");
-// User h = Coach(007, "hank");
-// User i = Officer(008 "grant");
-// User j = Officer(009, "ian");
-// vector<User*> all_users = {a,b,c,d,e,f,g,h,i,j};
+Court one = Court(1);
+Court two = Court(2);
+Court three = Court(3);
+vector<Court*> all_courts = {one, two, three};
+
+User i = Officer(008 "grant");
+User j = Officer(009, "ian");
+vector<User*> all_officers = {i,j};
+
+User a = Member(001, "alice", 'A', all_courts, all_officers);
+User b = Member(002, "bob", 'B', all_courts, all_officers);
+User c = Member(003, "carol",'C', all_courts, all_officers);
+User d = Member(003, "dana", 'A', all_courts, all_officers);
+User e = Member(004, "edgar", 'B', all_courts, all_officers);
+User f = Member(005, "frank", 'C', all_courts, all_officers);
+User g = Coach(006 "grant", all_courts, all_officers);
+User h = Coach(007, "hank", all_courts, all_officers);
+
+vector<User*> all_users = {a,b,c,d,e,f,g,h,i,j};
 
 
 cout << "Welcome to the court reservation system!" << endl;

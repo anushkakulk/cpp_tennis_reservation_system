@@ -1,7 +1,7 @@
 #include "user.hpp"
 #include <iostream>
 
-User::User(int id, const std::string& name, const std::string& type) : id(id), membership_type(type) {}
+User(int id, const std::string& name, const std::string& type,  std::vector<Court*> all_courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
 // returns this user's id
 int User::getId() {
@@ -11,6 +11,11 @@ int User::getId() {
 // returns this user's name
 std::string User::get_name() {
     return name;
+}
+
+// returns all courts accessible by this user
+std::vector<Court*> User::get_courts() {
+    return all_courts;
 }
 
 // displays the user-specific menu

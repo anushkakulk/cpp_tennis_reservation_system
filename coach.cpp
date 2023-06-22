@@ -4,7 +4,12 @@
 #include <chrono>
 using namespace std;
 
-Coach::Coach(int id, const std::string& name, char skill) : User(id, name, "coach"), skill_level(skill) {}
+Coach::Coach(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : User(id, name, "coach", courts), skill_level(skill), all_officers(officers) {}
+
+char Coach::get_skill()
+{
+    return skill_level;
+}
 
 // Coach specific menu options
 void Coach::view_menu()
@@ -46,7 +51,6 @@ void Coach::view_schedule()
 {
     // print out the schedule by iterating through courts and iterating through each courts reservations
     // for the next 24 hours
-    
 }
 
 void Coach::reserve()
@@ -62,26 +66,60 @@ void Coach::reserve()
     else
     {
 
-        std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
-        std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
+    std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point maxReservationTime = currentTime + std::chrono::hours(24 * 7);
 
-        cout << "Enter the start time you want in the valid format (month, day, year, hour, minute)" << endl;
-        int month, day, year, hour, minute;
-        cin >> month >> day >> year >> hour >> minute;
-        std::tm time{};
-        time.tm_year = year - 1900; //  years since 1900
-        time.tm_mon = month - 1;    //  months since january
-        time.tm_mday = day;
-        time.tm_hour = hour;
-        time.tm_min = minute;
-        std::time_t timeT = std::mktime(&time);
-        std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+    std::cout << "Enter the start time you want in the valid format (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
+    int month, day, year, hour, minute;
+    std::cin >> month >> day >> year >> hour >> minute;
 
-        //TODO, implement reservaion valid checks
-        Reservation new_reservation(User::getId(), startTime);
-        my_reservations.push_back(new_reservation);
-        
+    std::cout << "Enter which court you want to reserve: (1, 2, or 3)";
+    int court_num;
+    std::cin >> court_num;
+
+Court* desiredCourt = nullptr;  
+
+for (const auto& c : User::get_courts()) {
+    if (court_num == c->get_court_num()) {
+        desiredCourt = c;  
+        break;  
     }
+}
+
+if (desiredCourt != nullptr) {
+    std::tm time{};
+    time.tm_year = year - 1900; // years since 1900
+    time.tm_mon = month - 1;    // months since January
+    time.tm_mday = day;
+    time.tm_hour = hour;
+    time.tm_min = minute;
+    std::time_t timeT = std::mktime(&time);
+    std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+
+    // enforce 7 day in advance limit
+    std::chrono::system_clock::time_point maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
+    if (startTime > maxReservationTime) {
+        std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
+        return;
+    }
+    
+    std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
+    std::tm* localTime = std::localtime(&startTimeT);
+
+    // Extract the day of the week from the std::tm object
+    int dayOfWeek = localTime->tm_wday;
+
+        // Extract the day of the week from the std::tm object
+        int dayOfWeek = localTime->tm_wday;
+
+        // TODO, check that no one is on the court then
+        my_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));
+
+    } else {
+        std::cout << "Error, no court of the given number exists" << std::endl;
+        return;
+    }
+}
 }
 
 void Coach::cancel_reservation()

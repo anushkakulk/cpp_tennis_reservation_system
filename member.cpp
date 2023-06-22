@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std;
 
-Member::Member(int id, const std::string& name, char skill) : User(id, name, "member"), skill_level(skill) {}
+Member::Member(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : User(id, name, "member", courts), skill_level(skill), all_officers(officers) {}
 
 char Member::get_skill()
 {
@@ -73,9 +73,20 @@ void Member::reserve()
     int month, day, year, hour, minute;
     std::cin >> month >> day >> year >> hour >> minute;
 
-    std::cout << "Enter which court you want to reserve: (1, 2, or 3)"
+    std::cout << "Enter which court you want to reserve: (1, 2, or 3)";
     int court_num;
     std::cin >> court_num;
+
+Court* desiredCourt = nullptr;  
+
+for (const auto& c : User::get_courts()) {
+    if (court_num == c->get_court_num()) {
+        desiredCourt = c;  
+        break;  
+    }
+}
+
+if (desiredCourt != nullptr) {
     std::tm time{};
     time.tm_year = year - 1900; // years since 1900
     time.tm_mon = month - 1;    // months since January
@@ -86,19 +97,29 @@ void Member::reserve()
     std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
 
     // enforce 7 day in advance limit
+    std::chrono::system_clock::time_point maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
     if (startTime > maxReservationTime) {
         std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
-        return 0;
+        return;
     }
-        std::tm* localTime = std::localtime(&startTime);
+    
+    std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
+    std::tm* localTime = std::localtime(&startTimeT);
 
-        Extract the day of the week from the std::tm object
+    // Extract the day of the week from the std::tm object
+    int dayOfWeek = localTime->tm_wday;
+
+        // Extract the day of the week from the std::tm object
         int dayOfWeek = localTime->tm_wday;
 
         // TODO, check that no one is on the court then
-        Reservation new_reservation(User::getId(), startTime, dayOfWeek, court_num);
-        my_reservations.push_back(new_reservation);
+        my_reservations.push_back(new Reservation(User::getId(), startTime, dayOfWeek, desiredCourt));
+
+    } else {
+        std::cout << "Error, no court of the given number exists" << std::endl;
+        return;
     }
+}
 }
 
 void Member::cancel_reservation()

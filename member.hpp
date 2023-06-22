@@ -2,18 +2,22 @@
 #define MEMBER_HPP
 
 #include "user.hpp"
+#include "reservation.hpp"
+#include "court.hpp"
+#include "officer.hpp"
 #include <vector>
 #include <memory>
 #include <ctime>
 #include <chrono>
 
 class Member : public User {
-private:
+public:
     char skill_level;
     std::vector<Reservation*> my_reservations;
+    std::vector<Officer*> all_officers;
 
 public:
-    Member(int id, char skill);
+    Member(int id, const std::string& name,  char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
     // returns this member's skill level: either 'A' 'B' or 'C'
     char get_skill();
     // displays the the member specific menu
@@ -26,6 +30,11 @@ public:
     void cancel_reservation() override;
     // sends a message to an officer to request a timechange, giving it this member's id and the start end time
     void request_timechange();
+    // getters
+    const std::vector<Reservation*>& get_reservations() const;
+    const std::vector<Officer*>& getAllOfficers() const;
+    
+
 };
 
 #endif  // MEMBER_H

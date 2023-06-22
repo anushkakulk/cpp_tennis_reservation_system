@@ -2,16 +2,19 @@
 #define COACH_HPP
 
 #include "user.hpp"
+#include "officer.hpp"
+#include "reservation.hpp"
 #include <vector>
 #include <memory>
 
 class Coach : public User {
-private:
+public:
     // all reservations of this coach
     std::vector<Reservation*> coach_reservations;
+    std::vector<Officer *> all_officers;
 
 public:
-    Coach(int id, const std::string& name);
+    Coach(int id, const std::string& name, std::vector<Court*> courts,  std::vector<Officer*> officers);
     // displays the coach specific menu
     void view_menu() override;
     // displays the coach specific schedule
