@@ -23,15 +23,17 @@ private:
     // all courts
     std::vector<Court *> all_courts;
 
+public: 
+    std::vector<Reservation*> my_reservations;
 public:
     User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts);
 
     // RULE OF 5
-    // User(const User &other);                // Copy constructor
-    // User &operator=(const User &other);     // Copy assignment operator
-    // User(User &&other) noexcept;            // Move constructor
-    // User &operator=(User &&other) noexcept; // Move assignment operator
-    // ~User();                                // Destructor
+    User(const User &other);                // Copy constructor
+    User &operator=(const User &other);     // Copy assignment operator
+    User(User &&other) noexcept;            // Move constructor
+    User &operator=(User &&other) noexcept; // Move assignment operator
+    ~User();                                // Destructor
     // returns this user's id
     int getId();
     // returns this user's id

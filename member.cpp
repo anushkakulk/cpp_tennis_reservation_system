@@ -8,70 +8,58 @@ using namespace std;
 
 Member::Member(int id, const std::string &name, char skill, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "member", courts), skill_level(skill), all_officers(officers) {}
 
-// // copy constructor
-// Member::Member(const Member& other)
-//     : User(other), skill_level(other.skill_level) {
-//     for (const auto* reservation : other.my_reservations) {
-//         my_reservations.push_back(new Reservation(*reservation));
-//     }
-// }
-// // copy assignment operator
-// Member& Member::operator=(const Member& other) {
-//     if (this == &other) {
-//         return *this;
-//     }
-//     User::operator=(other);
-//     skill_level = other.skill_level;
+// copy constructor
+Member::Member(const Member& other)
+    : User(other), skill_level(other.skill_level) {
+   
+}
+// copy assignment operator
+Member& Member::operator=(const Member& other) {
+    if (this == &other) {
+        return *this;
+    }
+    User::operator=(other);
+    all_officers = other.all_officers;
 
-//     // free pointers allocation
-//     for (auto* reservation : my_reservations) {
-//         delete reservation;
-//     }
-//     my_reservations.clear();
+    // // free up vector<officer> allocation
+    // for (auto* o : all_officers) {
+    //     delete o;
+    // }
+    all_officers.clear();
 
-//     for (const auto* reservation : other.my_reservations) {
-//         my_reservations.push_back(new Reservation(*reservation));
-//     }
+    // copy 
+    for (const auto* o : other.all_officers) {
+        all_officers.push_back(new Officer(*o));
+    }
+    skill_level=other.skill_level;
+    return *this;
+}
+// move constructor
+Member::Member(Member&& other) noexcept
+    : User(std::move(other)), skill_level(std::move(other.skill_level)),
+       all_officers(std::move(other.all_officers)) {
+    other.skill_level = 'F';
+    other.all_officers.clear();
+}
+// move assignment operator
+Member& Member::operator=(Member&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    User::operator=(std::move(other));
+    skill_level = (std::move(other.skill_level));
+   
+    all_officers = std::move(other.all_officers);
 
-//     return *this;
-// }
-// // move constructor
-// Member::Member(Member&& other) noexcept
-//     : User(std::move(other)), skill_level(std::move(other.skill_level)),
-//       my_reservations(std::move(other.my_reservations)), all_officers(std::move(other.all_officers)) {
-//     other.skill_level = 'F';
-//     other.my_reservations.clear();
-//     other.all_officers.clear();
-// }
-// // move assignment operator
-// Member& Member::operator=(Member&& other) noexcept {
-//     if (this == &other) {
-//         return *this;
-//     }
-//     User::operator=(std::move(other));
-//     skill_level = (std::move(other.skill_level));
-//     for (auto* reservation : my_reservations) {
-//         delete reservation;
-//     }
+    other.skill_level = 'F';
+   
+    other.all_officers.clear();
 
-//     my_reservations.clear();
+    return *this;
+}
 
-//     my_reservations = std::move(other.my_reservations);
-//     all_officers = std::move(other.all_officers);
+Member::~Member() = default;
 
-//     other.skill_level = 'F';
-//     other.my_reservations.clear();
-//     other.all_officers.clear();
-
-//     return *this;
-// }
-
-// Member::~Member() {
-//     // free the vector of pointers allocation
-//     for (auto* reservation : my_reservations) {
-//         delete reservation;
-//     }
-// }
 char Member::get_skill()
 {
     return skill_level;
@@ -270,10 +258,11 @@ void Member::request_timechange()
     
     cout << "Sending Officer requests" << endl;
     cout << endl;
-    cout << "Enter the number associated with your option choice (1-4)" << endl;
+    cout << "Enter the number associated with your option choice (1-3)" << endl;
     cout << "What kind of modification would you like to do today? " << endl;
     cout << "1. Change an existing reservation's time" << endl;
-    cout << "2. Cancel" << endl;
+    cout << "2. Cancel an existing reservation's via an officer" << endl;
+    cout << "3. Make a reservation via an officer" << endl;
     unsigned int mod;
     cin >> mod;
     if (mod == 1) {
@@ -304,7 +293,8 @@ void Member::request_timechange()
     cout << "Enter the number of the reservation you want to modify: ";
     unsigned int input;
     cin >> input;   
-
+    std::time_t old_time = std::chrono::system_clock::to_time_t(my_reservations[input]->get_start());
+    std::chrono::system_clock::time_point old_start = std::chrono::system_clock::from_time_t(old_time);
     std::cout << "Enter the start time you want in the valid format (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
     int month, day, year, hour, minute;
     std::cin >> month >> day >> year >> hour >> minute;
@@ -316,15 +306,12 @@ void Member::request_timechange()
             time.tm_hour = hour - 1;
             time.tm_min = minute;
             std::time_t timeT = std::mktime(&time);
-            std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
+            std::chrono::system_clock::time_point new_start = std::chrono::system_clock::from_time_t(timeT);
             // max 7 days in advance
             auto maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
-            
-            
 
-            
             // makes sure its in the future
-            if (startTime <= std::chrono::system_clock::now())
+            if (new_start <= std::chrono::system_clock::now())
             {
                 std::cout << "Invalid reservation time, can only reserve in the future" << std::endl;
                 std::cout << std::endl;
@@ -332,7 +319,7 @@ void Member::request_timechange()
             }
 
             // enforce the 7 day rule
-            else if (startTime > maxReservationTime)
+            else if (new_start > maxReservationTime)
             {
                 std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
                 std::cout << std::endl;
@@ -352,13 +339,16 @@ void Member::request_timechange()
     }
 
     if (selectedOfficer != nullptr) {
-    selectedOfficer->modify_reservation(this->getId(), startTime);
+    selectedOfficer->modify_reservation(this->getId(), old_start, new_start);
+    this->view_menu();
     }
-
     } 
     } else if (mod == 2) {
         this->cancel_reservation();
+    } else if (mod == 3) {
+        this->reserve();
     } else {
         return;
      }
-    }
+ }
+ 

@@ -19,77 +19,70 @@ Reservation::Reservation(int player_id, const std::chrono::system_clock::time_po
               << " at " << std::ctime(&startTime) << "on day " << day << " (0 = sun, 1 = mon, ... 6 = sat)" << std::endl;
 }
 
-// void Reservation::add_user(User &u)
-// {
-//     //  max of 2 players in a reservation
-//     if (player_ids.size() < 2)
-//     {
-//         player_ids.push_back(u.getId());
-//     }
-// }
-// // copy constructor
-// Reservation::Reservation(const Reservation &other)
-//     : player_ids(other.player_ids),
-//       start_datetime(other.start_datetime),
-//       day_of_week(other.day_of_week),
-//       open_play(other.open_play),
-//       id(other.id),
-//       court(other.court) {}
+void Reservation::add_user(User &u)
+{
+    //  max of 2 players in a reservation
+    if (player_ids.size() < 2)
+    {
+        player_ids.push_back(u.getId());
+    }
+}
+// copy constructor
+Reservation::Reservation(const Reservation &other)
+    : player_ids(other.player_ids),
+      start_datetime(other.start_datetime),
+      day_of_week(other.day_of_week),
+      open_play(other.open_play),
+      court(other.court) {}
 
-// // copy assignmetn operator
-// Reservation &Reservation::operator=(const Reservation &other)
-// {
-//     if (this == &other)
-//     {
-//         return *this;
-//     }
+// copy assignmetn operator
+Reservation &Reservation::operator=(const Reservation &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
 
-//     player_ids = other.player_ids;
-//     start_datetime = other.start_datetime;
-//     day_of_week = other.day_of_week;
-//     open_play = other.open_play;
-//     id = other.id;
-//     court = other.court;
+    player_ids = other.player_ids;
+    start_datetime = other.start_datetime;
+    day_of_week = other.day_of_week;
+    open_play = other.open_play;
+    court = other.court;
 
-//     return *this;
-// }
-// // move constrcutr
-// Reservation::Reservation(Reservation &&other) noexcept
-//     : player_ids(std::move(other.player_ids)),
-//       start_datetime(std::move(other.start_datetime)),
-//       day_of_week(other.day_of_week),
-//       open_play(other.open_play),
-//       id(other.id),
-//       court(other.court)
-// {
-//     other.id = 0;
-//     other.court = nullptr;
-// }
-// // move assignment operator
-// Reservation &Reservation::operator=(Reservation &&other) noexcept
-// {
-//     if (this == &other)
-//     {
-//         return *this;
-//     }
+    return *this;
+}
+// move constrcutr
+Reservation::Reservation(Reservation &&other) noexcept
+    : player_ids(std::move(other.player_ids)),
+      start_datetime(std::move(other.start_datetime)),
+      day_of_week(other.day_of_week),
+      open_play(other.open_play),
+      court(other.court)
+{
+    other.court = nullptr;
+}
+// move assignment operator
+Reservation &Reservation::operator=(Reservation &&other) noexcept
+{
+    if (this == &other)
+    {
+        return *this;
+    }
 
-//     player_ids = std::move(other.player_ids);
-//     start_datetime = std::move(other.start_datetime);
-//     day_of_week = other.day_of_week;
-//     open_play = other.open_play;
-//     id = other.id;
-//     court = other.court;
+    player_ids = std::move(other.player_ids);
+    start_datetime = std::move(other.start_datetime);
+    day_of_week = other.day_of_week;
+    open_play = other.open_play;
+   
+    court = other.court;
 
-//     other.id = 0;
-//     other.court = nullptr;
+    other.court = nullptr;
 
-//     return *this;
-// }
-// // Destructor
-// Reservation::~Reservation()
-// {
-//     // we have no dynamixally allocated resrouces so nothing here
-// }
+    return *this;
+}
+// Destructor
+Reservation::~Reservation() = default;
+
 void Reservation::remove_user(User &u)
 {
     // Ensure there is at least 1 user remaining in the reservation
@@ -125,8 +118,52 @@ bool Reservation::is_openplay()
 
 void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
 {
-    // find the reservation with the given id and time, and change it
+    std::time_t startTimeT = std::chrono::system_clock::to_time_t(time);
+    std::tm *localTime = std::localtime(&startTimeT);
+    int hour = localTime->tm_hour;
+    int minute = localTime->tm_min;
+    int dayOfWeek = localTime->tm_wday;
+
+    // in the future
+    if (time <= std::chrono::system_clock::now())
+    {
+        std::cout << "Invalid reservation time, can only reserve in the future" << std::endl;
+        std::cout << std::endl;
+        return;
+    }
+
+    // week in advance only
+    std::chrono::system_clock::time_point maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
+    if (time > maxReservationTime)
+    {
+        std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
+        std::cout << std::endl;
+        return;
+    }
+
+    if (id == 6 || id == 7) {
+        // check if the reservation is within coaching hours (9am-11:30am and 3pm-5:30pm, Monday to Friday)
+        if (!((hour >= 9 && hour <= 11) || (hour == 15 && minute >= 0 && minute <= 30) || (hour == 17 && minute == 0)) || !(dayOfWeek >= 1 && dayOfWeek <= 5))
+        {
+            std::cout << "Invalid reservation time. Reservations are allowed between 9am-11:30am and 3pm-5:30pm, Monday to Friday." << std::endl;
+            std::cout << std::endl;
+            return;
+        }
+    }
+    else if (id == 8 || id == 9) {
+        // check if the reservation is within open play hours (6pm-9:30pm)
+        if (!((hour == 18 && minute >= 0) || (hour >= 19 && hour < 21) || (hour == 21 && minute <= 30)))
+        {
+            std::cout << "Invalid reservation time. Open Play Reservations are allowed between 6pm and 9:30pm." << std::endl;
+            std::cout << std::endl;
+            return;
+        }
+    }
+    // cool, so update the time
+    start_datetime = time;
+    day_of_week = dayOfWeek;
 }
+
 
 std::string Reservation::toString() const {
     std::stringstream ss;
@@ -139,7 +176,8 @@ std::string Reservation::toString() const {
     int court_num = court->get_court_num();
 
     ss << "Player ID: " << get_player_id()
-       << ", Start Time: " << std::put_time(ptm,"%c")
+      //  << ", Start Time: " << std::put_time(ptm,"%c")
+      // MIGHT WANNA TRY THIS: std::ctime(&ptm)
        << ", Day: " << day_of_week
        << ", Court: " << court_num;
 

@@ -3,86 +3,90 @@
 
 User::User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
-// // copy constructor
-// User::User(const User &other)
-//     : id(other.id), name(other.name), membership_type(other.membership_type)
-// {
-//     for (const auto &court : other.all_courts)
-//     {
-//         all_courts.push_back(new Court(*court));
-//     }
-// }
+// copy constructor
+User::User(const User& other)
+    : id(other.id), name(other.name), membership_type(other.membership_type) {
+    for (const auto& court : other.all_courts) {
+        all_courts.push_back(new Court(*court));
+    }
+    for (const auto& reservation : other.my_reservations) {
+        my_reservations.push_back(new Reservation(*reservation));
+    }
+}
 
-// // copy assignment operatior
-// User &User::operator=(const User &other)
-// {
-//     if (this == &other)
-//     {
-//         return *this;
-//     }
+// ccopy assignment operator
+User& User::operator=(const User& other) {
+    if (this == &other) {
+        return *this;
+    }
 
-//     id = other.id;
-//     name = other.name;
-//     membership_type = other.membership_type;
+    id = other.id;
+    name = other.name;
+    membership_type = other.membership_type;
 
-//     // clear pointer allocation
-//     for (auto court : all_courts)
-//     {
-//         delete court;
-//     }
-//     all_courts.clear();
+    // clear pointer allocations
+    for (auto court : all_courts) {
+        delete court;
+    }
+    all_courts.clear();
 
-//     for (const auto &court : other.all_courts)
-//     {
-//         all_courts.push_back(new Court(*court));
-//     }
+    for (auto reservation : my_reservations) {
+        delete reservation;
+    }
+    my_reservations.clear();
 
-//     return *this;
-// }
+    // Copy courts
+    for (const auto& court : other.all_courts) {
+        all_courts.push_back(new Court(*court));
+    }
 
-// // move constructor
-// User::User(User &&other) noexcept
-//     : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
-//       all_courts(std::move(other.all_courts))
-// {
-//     other.id = 0;
-// }
+    // Copy reservations
+    for (const auto& reservation : other.my_reservations) {
+        my_reservations.push_back(new Reservation(*reservation));
+    }
 
-// // move assignment operator
-// User &User::operator=(User &&other) noexcept
-// {
-//     if (this == &other)
-//     {
-//         return *this;
-//     }
+    return *this;
+}
 
-//     id = other.id;
-//     name = std::move(other.name);
-//     membership_type = std::move(other.membership_type);
+// move constructor
+User::User(User&& other) noexcept
+    : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
+      all_courts(std::move(other.all_courts)), my_reservations(std::move(other.my_reservations)) {
+    other.id = 0;
+}
 
-//     // clear pointer allocation
-//     for (auto court : all_courts)
-//     {
-//         delete court;
-//     }
-//     all_courts.clear();
+// move assignment operator
+User& User::operator=(User&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
 
-//     all_courts = std::move(other.all_courts);
+    id = other.id;
+    name = std::move(other.name);
+    membership_type = std::move(other.membership_type);
 
-//     other.id = 0;
+    // clear pointer allocations
+    for (auto court : all_courts) {
+        delete court;
+    }
+    all_courts.clear();
 
-//     return *this;
-// }
+    for (auto reservation : my_reservations) {
+        delete reservation;
+    }
+    my_reservations.clear();
 
-// // destructor
-// User::~User()
-// {
-//     for (auto court : all_courts)
-//     {
-//         delete court;
-//     }
-//     all_courts.clear();
-// }
+    all_courts = std::move(other.all_courts);
+    my_reservations = std::move(other.my_reservations);
+
+    other.id = 0;
+
+    return *this;
+}
+
+
+// destructor
+User::~User() = default;
 
 // returns this user's id
 int User::getId()

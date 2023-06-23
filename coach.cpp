@@ -6,60 +6,52 @@ using namespace std;
 
 Coach::Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "coach", courts), all_officers(officers) {}
 
-// // copy constructor
-// Coach::Coach(const Coach& other) : User(other), all_officers(other.all_officers) {
-//     for (const auto* reservation : other.coach_reservations) {
-//         coach_reservations.push_back(new Reservation(*reservation));
-//     }
-// }
+// copy constructor
+Coach::Coach(const Coach& other) : User(other), all_officers(other.all_officers) {
+    
+}
 
-// // copy assignment operator
-// Coach& Coach::operator=(const Coach& other) {
-//     if (this == &other) {
-//         return *this;
-//     }
-//     User::operator=(other);
-//     all_officers = other.all_officers;
+// copy assignment operator
+Coach& Coach::operator=(const Coach& other) {
+    if (this == &other) {
+        return *this;
+    }
+    User::operator=(other);
+    all_officers = other.all_officers;
 
-//     // free up vector<reservation> allocation
-//     for (auto* reservation : coach_reservations) {
-//         delete reservation;
-//     }
-//     coach_reservations.clear();
+    // free up vector<officer> allocation
+    for (auto* o : all_officers) {
+        delete o;
+    }
+    all_officers.clear();
 
-//     // copy 
-//     for (const auto* reservation : other.coach_reservations) {
-//         coach_reservations.push_back(new Reservation(*reservation));
-//     }
+    // copy 
+    for (const auto* o : other.all_officers) {
+        all_officers.push_back(new Officer(*o));
+    }
 
-//     return *this;
-// }
-// // move constructor
-// Coach::Coach(Coach&& other) noexcept
-//     : User(std::move(other)), coach_reservations(std::move(other.coach_reservations)), all_officers(std::move(other.all_officers)) {
-//     other.all_officers.clear();
-// }
-// // move assignment operator
-// Coach& Coach::operator=(Coach&& other) noexcept {
-//     if (this == &other) {
-//         return *this;
-//     }
+    return *this;
+}
+// move constructor
+Coach::Coach(Coach&& other) noexcept
+    : User(std::move(other)), all_officers(std::move(other.all_officers)) {
+    other.all_officers.clear();
+}
+// move assignment operator
+Coach& Coach::operator=(Coach&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
 
-//     User::operator=(std::move(other));
-//     coach_reservations = std::move(other.coach_reservations);
-//     all_officers = std::move(other.all_officers);
+    User::operator=(std::move(other));
+    all_officers = std::move(other.all_officers);
 
-//     other.all_officers.clear();
+    other.all_officers.clear();
 
-//     return *this;
-// }
-// // destructor
-// Coach::~Coach() {
-//     // free up vector<reservation> allocation
-//     for (auto* reservation : coach_reservations) {
-//         delete reservation;
-//     }
-// }
+    return *this;
+}
+// destructor
+Coach::~Coach() = default;
 
 // Coach specific menu options
 void Coach::view_menu()
@@ -185,7 +177,7 @@ void Coach::reserve()
             {
 
                 // TODO, check that no one is on the court then
-                coach_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
+                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
                 cout << endl;
                 this->view_menu();
             }
@@ -205,22 +197,22 @@ void Coach::cancel_reservation()
     cout << endl;
     cout << "Here are your reservations:" << endl;
 
-    for (size_t i = 0; i < coach_reservations.size(); ++i)
+    for (size_t i = 0; i < my_reservations.size(); ++i)
     {
         cout << "[" << (i + 1) << "] "
              << "Reservation Details:" << endl;
         cout << "Player ID(s): ";
-        for (size_t j = 0; j < coach_reservations[i]->get_players().size(); ++j)
+        for (size_t j = 0; j < my_reservations[i]->get_players().size(); ++j)
         {
-            cout << coach_reservations[i]->get_players()[j];
-            if (j < coach_reservations[i]->get_players().size() - 1)
+            cout << my_reservations[i]->get_players()[j];
+            if (j < my_reservations[i]->get_players().size() - 1)
             {
                 cout << ", ";
             }
         }
 
         cout << endl;
-        std::time_t startTime = std::chrono::system_clock::to_time_t(coach_reservations[i]->get_start());
+        std::time_t startTime = std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
         std::tm *timeInfo = std::localtime(&startTime);
 
         cout << "Start Time: " << std::ctime(&startTime) << "on day " << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
@@ -231,17 +223,17 @@ void Coach::cancel_reservation()
     unsigned int input;
     cin >> input;
     // make sure its valid
-    if (input >= 1 && input <= coach_reservations.size())
+    if (input >= 1 && input <= my_reservations.size())
     {
         // get the res
-        Reservation *selectedReservation = coach_reservations[input - 1];
+        Reservation *selectedReservation = my_reservations[input - 1];
         // get the court this res is on
         Court *reservationCourt = selectedReservation->court;
         // erase it from the court's vector
         reservationCourt->delete_reservation(selectedReservation);
 
         // erase the reservation from the coach's vector of reservations
-        coach_reservations.erase(coach_reservations.begin() + (input - 1));
+        my_reservations.erase(my_reservations.begin() + (input - 1));
 
         cout << "Reservation cancelled." << endl;
         std::cout << std::endl;
