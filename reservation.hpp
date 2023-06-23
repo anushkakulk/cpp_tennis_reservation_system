@@ -21,8 +21,6 @@ private:
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
-    // reservation id
-    int id;
 
 public: 
     // the court this reservation is for
@@ -53,7 +51,7 @@ public:
     // override '==' operator to compare 
     bool operator==(const Reservation& other) const;
     // returns the id of this reservation
-    int get_id();
+    int get_player_id() const;
     // convert reservation to string
     std::string toString() const;
 };

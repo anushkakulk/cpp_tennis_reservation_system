@@ -112,7 +112,7 @@ void Court::saveReservationToFile(Reservation* r) {
     std::ofstream file(filename, std::ios_base::app);
 
     if (file.is_open()) {
-        file << r.toString() << "\n";
+        file << r->toString() << "\n";
         file.close();
     }
     else {
@@ -128,7 +128,7 @@ void Court::removeReservationFromFile(Reservation* r) {
     if (fileIn.is_open() && fileOut.is_open()) {
         std::string line;
         while (getline(fileIn, line)) {
-            if (line != r.toString()) {
+            if (line != r->toString()) {
                 fileOut << line << "\n";
             }
         }
