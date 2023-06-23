@@ -23,39 +23,31 @@ private:
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
+    // the court this reservation is for
+    std::shared_ptr<Court> court;
     // reservation id
     int id;
 
 public:
-    // the court this reservation is for
-    std::shared_ptr<Court> court;
-
-public:
-    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, bool open_play, std::shared_ptr<Court> c);
+    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, std::shared_ptr<Court> c);
     // adds another username to users (enforce max is 2) 
     void add_user(User& u);
     // removes a user from this reservation (needs 1 user to still be on this tho)
     void remove_user(User& u);
     // returns ids of players on this reservation
-    std::vector<int> get_players()  const;
+    std::vector<int> get_players();
     // removes this reservation
     void delete_reservation();
     // returns the start datetime
-    std::chrono::system_clock::time_point get_start()  const;
+    std::chrono::system_clock::time_point get_start();
     // returns openplay bool
-    bool is_openplay()  const;
-    // returns the day of the week
-    int get_day() const;
+    bool is_openplay();
     // changes the start time for this reservation (first checks that id is from an officer)
     void set_start(int id, std::chrono::system_clock::time_point time);
     // override '==' operator to compare 
     bool operator==(const Reservation& other) const;
     // returns the id of this reservation
-    int get_id() const;
-    // overloads << operator and outputs reservation information
-    friend std::ostream &operator<<(std::ostream &os, const Reservation &reservation);
-
-   
+    int get_id();
 };
 
 #endif  // RESERVATION_H

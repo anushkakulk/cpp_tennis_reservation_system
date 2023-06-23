@@ -42,8 +42,6 @@ public:
     virtual void view_menu();
     // displays the user-specific schedule;
     virtual void view_schedule();
-
- 
 };
 
 #endif  // USER_HPP

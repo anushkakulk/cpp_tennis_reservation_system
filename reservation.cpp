@@ -3,8 +3,8 @@
 #include <iostream>
 
 
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, bool op,  std::shared_ptr<Court> c)
-    : start_datetime(startDateTime), day_of_week(day), open_play(op), court(c) {
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, std::shared_ptr<Court> c)
+    : start_datetime(startDateTime), day_of_week(day), court(c) {
     // adds this players id to reservation
     player_ids.push_back(player_id);
     // adds this rseervation to the courts 
@@ -31,8 +31,7 @@ void Reservation::remove_user(User& u) {
     }
 }
 
-// this is ids!
-std::vector<int> Reservation::get_players() const {
+std::vector<int> Reservation::get_players() {
     return player_ids;
 }
 
@@ -40,16 +39,12 @@ void Reservation::delete_reservation() {
     court->delete_reservation(std::shared_ptr<Reservation>(this));
 }
 
-std::chrono::system_clock::time_point Reservation::get_start() const {
+std::chrono::system_clock::time_point Reservation::get_start() {
     return start_datetime;
 }
 
-bool Reservation::is_openplay() const {
+bool Reservation::is_openplay() {
     return open_play;
-}
-
-int Reservation::get_day() const {
-    return day_of_week;
 }
 
 void Reservation::set_start(int id, std::chrono::system_clock::time_point time) {
@@ -58,21 +53,4 @@ void Reservation::set_start(int id, std::chrono::system_clock::time_point time) 
 
 bool Reservation::operator==(const Reservation& other) const {
     return id == other.id;
-}
-
-
-// outputs info about the given reservation
-std::ostream &operator<<(std::ostream &os, const Reservation &reservation)
-{
-    const std::vector<int> &players = reservation.get_players();
-    os << "Reservation Player IDs: ";
-    for (const auto &player : players)
-    {
-        os << player << " ";
-    }
-    os << std::endl;
-    os << "Start Time: " << std::chrono::system_clock::to_time_t(reservation.get_start()) << std::endl;
-    os << "Day of Week: " << reservation.get_day() << std::endl;
-    os << "Open Play: " << (reservation.is_openplay() ? "Yes" : "No") << std::endl;
-    return os;
 }

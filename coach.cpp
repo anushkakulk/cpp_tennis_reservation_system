@@ -129,7 +129,7 @@ for (const auto& c : User::get_courts())
             {
 
                 // TODO, check that no one is on the court then
-coach_reservations.push_back(std::shared_ptr<Reservation>(new Reservation(this->getId(), startTime, dayOfWeek, false, desiredCourt)));
+coach_reservations.push_back(std::shared_ptr<Reservation>(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt)));
             }
         }
         else
