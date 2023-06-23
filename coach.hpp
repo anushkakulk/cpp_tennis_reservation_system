@@ -25,6 +25,7 @@ public:
     void cancel_reservation() override;
     // sends a message to an officer for a time change
     void request_timechange();
+    
 };
 
 #endif  // COACH_HPP
