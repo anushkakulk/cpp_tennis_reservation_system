@@ -45,7 +45,7 @@ Court& Court::operator=(Court&& other) noexcept {
     other.court_num = 0;
     res = std::move(other.res);
 
-    // Reset the moved-from object
+    other.court_num = 0;
     other.res.clear();
 
     return *this;
