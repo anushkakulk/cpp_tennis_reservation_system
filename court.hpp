@@ -31,7 +31,7 @@ public:
     void delete_reservation(Reservation* r);
     // returns this court's num
     int get_court_num();
-    // returns all of this court's reservations
+    // returns all of this court's  reservations
     std::vector<Reservation*> get_reservations();
     // saves reservation to file
     void saveReservationToFile(Reservation* r);

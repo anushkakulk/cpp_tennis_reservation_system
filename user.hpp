@@ -34,9 +34,9 @@ public:
     // ~User();                                // Destructor
     // returns this user's id
     int getId();
-    // returns this user's id
+    // returns this user's name
     std::string get_name();
-    // returns this user's id
+    // retrieve courts
     std::vector<Court *> get_courts();
 
     // reserves a spot for this user at the given start and end time

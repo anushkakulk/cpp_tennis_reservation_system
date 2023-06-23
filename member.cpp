@@ -157,7 +157,7 @@ void Member::reserve()
             time.tm_mon = month - 1;    // months since January
             time.tm_mday = day;
             time.tm_hour = hour - 1;
-            time.tm_min = minute;
+            // time.tm_min = minute;/;p[\]-
             std::time_t timeT = std::mktime(&time);
             std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
             // max 7 days in advance

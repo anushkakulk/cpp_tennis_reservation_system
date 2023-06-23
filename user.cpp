@@ -137,6 +137,53 @@ void User::view_schedule()
 {
     // print out the schedule by iterating through courts and iterating through each courts reservations
     // for the next 24 hours
+    // Get current time
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+
+    // Add 24 hours to current time
+    std::chrono::system_clock::time_point next_day = now + std::chrono::hours(24);
+
+    // Iterate through each court
+    for (auto &court : all_courts) {
+        // Get the filename of court's reservation file
+        std::string filename = "court" + std::to_string(court->get_court_num()) + ".txt";
+
+        // Open the file
+        std::ifstream file(filename);
+
+        if (file.is_open()) {
+            std::string line;
+
+            // Read each line (reservation) in the file
+            while (getline(file, line)) {
+                // Parse the reservation details from the line
+                // This part depends on how you've formatted the toString() function in Reservation class
+
+                std::istringstream ss(line);
+
+                // Assuming that the start time is second in the formatted string from Reservation::toString()
+                std::string ignore, start_time_str;
+                std::getline(ss, ignore, ',');
+                std::getline(ss, start_time_str, ',');
+
+                // Assuming start time string is formatted as "%Y-%m-%d %H:%M:%S", convert it to time_point
+                std::tm tm = {};
+                std::istringstream start_time_ss(start_time_str);
+                start_time_ss >> std::get_time(&tm, " %Y-%m-%d %H:%M:%S");
+                auto start_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+
+                // If the start time of the reservation is within the next 24 hours
+                if (start_time >= now && start_time <= next_day) {
+                    std::cout << line << std::endl;
+                }
+            }
+
+            file.close();
+        }
+        else {
+            std::cout << "Unable to open file" << std::endl;
+        }
+    }
 }
 
 // reserves a court for this user
