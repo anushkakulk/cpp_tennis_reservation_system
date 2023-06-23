@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std;
 
-Coach::Coach(int id, const std::string &name, std::vector<std::shared_ptr<Court>>  courts, std::vector<std::shared_ptr<Officer>> officers) : User(id, name, "coach", courts), all_officers(officers) {}
+Coach::Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "coach", courts), all_officers(officers) {}
 
 // Coach specific menu options
 void Coach::view_menu()
@@ -68,17 +68,16 @@ void Coach::reserve()
         int month, day, year, hour, minute;
         std::cin >> month >> day >> year >> hour >> minute;
 
-        std::shared_ptr<Court> desiredCourt = nullptr;
+        Court *desiredCourt = nullptr;
 
-for (const auto& c : User::get_courts())
-{
-    if (court_num == c->get_court_num())
-    {
-        desiredCourt = c;
-        break;
-    }
-}
-
+        for (const auto &c : User::get_courts())
+        {
+            if (court_num == c->get_court_num())
+            {
+                desiredCourt = c;
+                break;
+            }
+        }
 
         if (desiredCourt != nullptr)
         {
@@ -129,7 +128,7 @@ for (const auto& c : User::get_courts())
             {
 
                 // TODO, check that no one is on the court then
-coach_reservations.push_back(std::shared_ptr<Reservation>(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt)));
+                coach_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
             }
         }
         else

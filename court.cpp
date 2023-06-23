@@ -16,12 +16,12 @@ bool Court::is_reserved(std::chrono::system_clock::time_point time) {
 }
 
 // adds reservation to its list of reservatiosn
-void Court::add_reservation(std::shared_ptr<Reservation> r) {
+void Court::add_reservation(Reservation* r) {
     res.push_back(r);
 }
 
-// deletes the given reservation from its list of reservations
-void Court::delete_reservation(std::shared_ptr<Reservation> r) {
+// deletes the given from its list of reservations
+void Court::delete_reservation(Reservation* r) {
     auto it = std::find(res.begin(), res.end(), r);
     if (it != res.end()) {
         res.erase(it);
@@ -34,6 +34,6 @@ int Court::get_court_num() {
 }
 
 // returns list of reservations
-std::vector<std::shared_ptr<Reservation>> Court::get_reservations() {
+std::vector<Reservation*> Court::get_reservations() {
     return res;
 }

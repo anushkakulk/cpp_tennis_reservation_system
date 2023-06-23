@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std;
 
-Member::Member(int id, const std::string &name, char skill, std::vector<std::shared_ptr<Court>> courts, std::vector<std::shared_ptr<Officer>> officers) : User(id, name, "member", courts), skill_level(skill), all_officers(officers) {}
+Member::Member(int id, const std::string &name, char skill, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "member", courts), skill_level(skill), all_officers(officers) {}
 
 char Member::get_skill()
 {
@@ -73,17 +73,16 @@ void Member::reserve()
         int month, day, year, hour, minute;
         std::cin >> month >> day >> year >> hour >> minute;
 
-        std::shared_ptr<Court> desiredCourt = nullptr;
+        Court *desiredCourt = nullptr;
 
-for (const auto& c : User::get_courts())
-{
-    if (court_num == c->get_court_num())
-    {
-        desiredCourt = c;
-        break;
-    }
-}
-
+        for (const auto &c : User::get_courts())
+        {
+            if (court_num == c->get_court_num())
+            {
+                desiredCourt = c;
+                break;
+            }
+        }
 
         if (desiredCourt != nullptr)
         {
@@ -123,7 +122,7 @@ for (const auto& c : User::get_courts())
             {
 
                 // TODO, check that no one is on the court then
-                my_reservations.push_back(std::shared_ptr<Reservation>(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt)));
+                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
             }
         }
         else

@@ -4,15 +4,13 @@
 #include <vector>
 #include <chrono>
 #include <string>
-#include <memory>
-
 #include "member.hpp"
 
 class Court; // Forward declaration of the Court class
 
 class Officer : public Member {
 public:
-    Officer(int id, const std::string& name, char skill, std::vector<std::shared_ptr<Court>> courts, std::vector<std::shared_ptr<Officer>> officers);
+    Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
     // displays the coach specific menu
     void view_menu() override;
     // reserved open play time for the given id for the given start/end datetimes

@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <chrono>
-#include <memory>
-
 #include "user.hpp"
 #include "court.hpp"
 class User;
@@ -24,12 +22,11 @@ private:
     // is this reservation for open play or not?
     bool open_play;
     // the court this reservation is for
-    std::shared_ptr<Court> court;
+    Court* court;
     // reservation id
     int id;
-
 public:
-    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, std::shared_ptr<Court> c);
+    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
     // adds another username to users (enforce max is 2) 
     void add_user(User& u);
     // removes a user from this reservation (needs 1 user to still be on this tho)
