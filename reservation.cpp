@@ -14,77 +14,77 @@ Reservation::Reservation(int player_id, const std::chrono::system_clock::time_po
               << " at " << std::ctime(&startTime) << "on day " << day << " (0 = sun, 1 = mon, ... 6 = sat)" << std::endl;
 }
 
-void Reservation::add_user(User &u)
-{
-    //  max of 2 players in a reservation
-    if (player_ids.size() < 2)
-    {
-        player_ids.push_back(u.getId());
-    }
-}
-// copy constructor
-Reservation::Reservation(const Reservation &other)
-    : player_ids(other.player_ids),
-      start_datetime(other.start_datetime),
-      day_of_week(other.day_of_week),
-      open_play(other.open_play),
-      id(other.id),
-      court(other.court) {}
+// void Reservation::add_user(User &u)
+// {
+//     //  max of 2 players in a reservation
+//     if (player_ids.size() < 2)
+//     {
+//         player_ids.push_back(u.getId());
+//     }
+// }
+// // copy constructor
+// Reservation::Reservation(const Reservation &other)
+//     : player_ids(other.player_ids),
+//       start_datetime(other.start_datetime),
+//       day_of_week(other.day_of_week),
+//       open_play(other.open_play),
+//       id(other.id),
+//       court(other.court) {}
 
-// copy assignmetn operator
-Reservation &Reservation::operator=(const Reservation &other)
-{
-    if (this == &other)
-    {
-        return *this;
-    }
+// // copy assignmetn operator
+// Reservation &Reservation::operator=(const Reservation &other)
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-    player_ids = other.player_ids;
-    start_datetime = other.start_datetime;
-    day_of_week = other.day_of_week;
-    open_play = other.open_play;
-    id = other.id;
-    court = other.court;
+//     player_ids = other.player_ids;
+//     start_datetime = other.start_datetime;
+//     day_of_week = other.day_of_week;
+//     open_play = other.open_play;
+//     id = other.id;
+//     court = other.court;
 
-    return *this;
-}
-// move constrcutr
-Reservation::Reservation(Reservation &&other) noexcept
-    : player_ids(std::move(other.player_ids)),
-      start_datetime(std::move(other.start_datetime)),
-      day_of_week(other.day_of_week),
-      open_play(other.open_play),
-      id(other.id),
-      court(other.court)
-{
-    other.id = 0;
-    other.court = nullptr;
-}
-// move assignment operator
-Reservation &Reservation::operator=(Reservation &&other) noexcept
-{
-    if (this == &other)
-    {
-        return *this;
-    }
+//     return *this;
+// }
+// // move constrcutr
+// Reservation::Reservation(Reservation &&other) noexcept
+//     : player_ids(std::move(other.player_ids)),
+//       start_datetime(std::move(other.start_datetime)),
+//       day_of_week(other.day_of_week),
+//       open_play(other.open_play),
+//       id(other.id),
+//       court(other.court)
+// {
+//     other.id = 0;
+//     other.court = nullptr;
+// }
+// // move assignment operator
+// Reservation &Reservation::operator=(Reservation &&other) noexcept
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-    player_ids = std::move(other.player_ids);
-    start_datetime = std::move(other.start_datetime);
-    day_of_week = other.day_of_week;
-    open_play = other.open_play;
-    id = other.id;
-    court = other.court;
+//     player_ids = std::move(other.player_ids);
+//     start_datetime = std::move(other.start_datetime);
+//     day_of_week = other.day_of_week;
+//     open_play = other.open_play;
+//     id = other.id;
+//     court = other.court;
 
-    other.id = 0;
-    other.court = nullptr;
+//     other.id = 0;
+//     other.court = nullptr;
 
-    return *this;
-}
-// Destructor
-Reservation::~Reservation()
-{
-    // we have no dynamixally allocated resrouces so nothing here
-}
+//     return *this;
+// }
+// // Destructor
+// Reservation::~Reservation()
+// {
+//     // we have no dynamixally allocated resrouces so nothing here
+// }
 void Reservation::remove_user(User &u)
 {
     // Ensure there is at least 1 user remaining in the reservation

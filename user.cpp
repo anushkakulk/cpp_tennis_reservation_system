@@ -3,86 +3,86 @@
 
 User::User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
-// copy constructor
-User::User(const User &other)
-    : id(other.id), name(other.name), membership_type(other.membership_type)
-{
-    for (const auto &court : other.all_courts)
-    {
-        all_courts.push_back(new Court(*court));
-    }
-}
+// // copy constructor
+// User::User(const User &other)
+//     : id(other.id), name(other.name), membership_type(other.membership_type)
+// {
+//     for (const auto &court : other.all_courts)
+//     {
+//         all_courts.push_back(new Court(*court));
+//     }
+// }
 
-// copy assignment operatior
-User &User::operator=(const User &other)
-{
-    if (this == &other)
-    {
-        return *this;
-    }
+// // copy assignment operatior
+// User &User::operator=(const User &other)
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-    id = other.id;
-    name = other.name;
-    membership_type = other.membership_type;
+//     id = other.id;
+//     name = other.name;
+//     membership_type = other.membership_type;
 
-    // clear pointer allocation
-    for (auto court : all_courts)
-    {
-        delete court;
-    }
-    all_courts.clear();
+//     // clear pointer allocation
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
 
-    for (const auto &court : other.all_courts)
-    {
-        all_courts.push_back(new Court(*court));
-    }
+//     for (const auto &court : other.all_courts)
+//     {
+//         all_courts.push_back(new Court(*court));
+//     }
 
-    return *this;
-}
+//     return *this;
+// }
 
-// move constructor
-User::User(User &&other) noexcept
-    : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
-      all_courts(std::move(other.all_courts))
-{
-    other.id = 0;
-}
+// // move constructor
+// User::User(User &&other) noexcept
+//     : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
+//       all_courts(std::move(other.all_courts))
+// {
+//     other.id = 0;
+// }
 
-// move assignment operator
-User &User::operator=(User &&other) noexcept
-{
-    if (this == &other)
-    {
-        return *this;
-    }
+// // move assignment operator
+// User &User::operator=(User &&other) noexcept
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-    id = other.id;
-    name = std::move(other.name);
-    membership_type = std::move(other.membership_type);
+//     id = other.id;
+//     name = std::move(other.name);
+//     membership_type = std::move(other.membership_type);
 
-    // clear pointer allocation
-    for (auto court : all_courts)
-    {
-        delete court;
-    }
-    all_courts.clear();
+//     // clear pointer allocation
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
 
-    all_courts = std::move(other.all_courts);
+//     all_courts = std::move(other.all_courts);
 
-    other.id = 0;
+//     other.id = 0;
 
-    return *this;
-}
+//     return *this;
+// }
 
-// destructor
-User::~User()
-{
-    for (auto court : all_courts)
-    {
-        delete court;
-    }
-    all_courts.clear();
-}
+// // destructor
+// User::~User()
+// {
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
+// }
 
 // returns this user's id
 int User::getId()

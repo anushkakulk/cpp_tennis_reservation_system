@@ -6,70 +6,70 @@ using namespace std;
 
 Member::Member(int id, const std::string &name, char skill, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "member", courts), skill_level(skill), all_officers(officers) {}
 
-// copy constructor
-Member::Member(const Member& other)
-    : User(other), skill_level(other.skill_level) {
-    for (const auto* reservation : other.my_reservations) {
-        my_reservations.push_back(new Reservation(*reservation));
-    }
-}
-// copy assignment operator
-Member& Member::operator=(const Member& other) {
-    if (this == &other) {
-        return *this;
-    }
-    User::operator=(other);
-    skill_level = other.skill_level;
+// // copy constructor
+// Member::Member(const Member& other)
+//     : User(other), skill_level(other.skill_level) {
+//     for (const auto* reservation : other.my_reservations) {
+//         my_reservations.push_back(new Reservation(*reservation));
+//     }
+// }
+// // copy assignment operator
+// Member& Member::operator=(const Member& other) {
+//     if (this == &other) {
+//         return *this;
+//     }
+//     User::operator=(other);
+//     skill_level = other.skill_level;
 
-    // free pointers allocation
-    for (auto* reservation : my_reservations) {
-        delete reservation;
-    }
-    my_reservations.clear();
+//     // free pointers allocation
+//     for (auto* reservation : my_reservations) {
+//         delete reservation;
+//     }
+//     my_reservations.clear();
 
-    for (const auto* reservation : other.my_reservations) {
-        my_reservations.push_back(new Reservation(*reservation));
-    }
+//     for (const auto* reservation : other.my_reservations) {
+//         my_reservations.push_back(new Reservation(*reservation));
+//     }
 
-    return *this;
-}
-// move constructor
-Member::Member(Member&& other) noexcept
-    : User(std::move(other)), skill_level(std::move(other.skill_level)),
-      my_reservations(std::move(other.my_reservations)), all_officers(std::move(other.all_officers)) {
-    other.skill_level = 'F';
-    other.my_reservations.clear();
-    other.all_officers.clear();
-}
-// move assignment operator
-Member& Member::operator=(Member&& other) noexcept {
-    if (this == &other) {
-        return *this;
-    }
-    User::operator=(std::move(other));
-    skill_level = (std::move(other.skill_level));
-    for (auto* reservation : my_reservations) {
-        delete reservation;
-    }
+//     return *this;
+// }
+// // move constructor
+// Member::Member(Member&& other) noexcept
+//     : User(std::move(other)), skill_level(std::move(other.skill_level)),
+//       my_reservations(std::move(other.my_reservations)), all_officers(std::move(other.all_officers)) {
+//     other.skill_level = 'F';
+//     other.my_reservations.clear();
+//     other.all_officers.clear();
+// }
+// // move assignment operator
+// Member& Member::operator=(Member&& other) noexcept {
+//     if (this == &other) {
+//         return *this;
+//     }
+//     User::operator=(std::move(other));
+//     skill_level = (std::move(other.skill_level));
+//     for (auto* reservation : my_reservations) {
+//         delete reservation;
+//     }
 
-    my_reservations.clear();
+//     my_reservations.clear();
 
-    my_reservations = std::move(other.my_reservations);
-    all_officers = std::move(other.all_officers);
+//     my_reservations = std::move(other.my_reservations);
+//     all_officers = std::move(other.all_officers);
 
-    other.skill_level = 'F';
-    other.my_reservations.clear();
-    other.all_officers.clear();
+//     other.skill_level = 'F';
+//     other.my_reservations.clear();
+//     other.all_officers.clear();
 
-    return *this;
-}
+//     return *this;
+// }
 
-Member::~Member() {
-    // free the vector of pointers allocation
-    for (auto* reservation : my_reservations) {
-        delete reservation;
-    }
-}
+// Member::~Member() {
+//     // free the vector of pointers allocation
+//     for (auto* reservation : my_reservations) {
+//         delete reservation;
+//     }
+// }
 char Member::get_skill()
 {
     return skill_level;

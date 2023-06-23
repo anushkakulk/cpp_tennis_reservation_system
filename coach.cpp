@@ -6,60 +6,60 @@ using namespace std;
 
 Coach::Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "coach", courts), all_officers(officers) {}
 
-// copy constructor
-Coach::Coach(const Coach& other) : User(other), all_officers(other.all_officers) {
-    for (const auto* reservation : other.coach_reservations) {
-        coach_reservations.push_back(new Reservation(*reservation));
-    }
-}
+// // copy constructor
+// Coach::Coach(const Coach& other) : User(other), all_officers(other.all_officers) {
+//     for (const auto* reservation : other.coach_reservations) {
+//         coach_reservations.push_back(new Reservation(*reservation));
+//     }
+// }
 
-// copy assignment operator
-Coach& Coach::operator=(const Coach& other) {
-    if (this == &other) {
-        return *this;
-    }
-    User::operator=(other);
-    all_officers = other.all_officers;
+// // copy assignment operator
+// Coach& Coach::operator=(const Coach& other) {
+//     if (this == &other) {
+//         return *this;
+//     }
+//     User::operator=(other);
+//     all_officers = other.all_officers;
 
-    // free up vector<reservation> allocation
-    for (auto* reservation : coach_reservations) {
-        delete reservation;
-    }
-    coach_reservations.clear();
+//     // free up vector<reservation> allocation
+//     for (auto* reservation : coach_reservations) {
+//         delete reservation;
+//     }
+//     coach_reservations.clear();
 
-    // copy 
-    for (const auto* reservation : other.coach_reservations) {
-        coach_reservations.push_back(new Reservation(*reservation));
-    }
+//     // copy 
+//     for (const auto* reservation : other.coach_reservations) {
+//         coach_reservations.push_back(new Reservation(*reservation));
+//     }
 
-    return *this;
-}
-// move constructor
-Coach::Coach(Coach&& other) noexcept
-    : User(std::move(other)), coach_reservations(std::move(other.coach_reservations)), all_officers(std::move(other.all_officers)) {
-    other.all_officers.clear();
-}
-// move assignment operator
-Coach& Coach::operator=(Coach&& other) noexcept {
-    if (this == &other) {
-        return *this;
-    }
+//     return *this;
+// }
+// // move constructor
+// Coach::Coach(Coach&& other) noexcept
+//     : User(std::move(other)), coach_reservations(std::move(other.coach_reservations)), all_officers(std::move(other.all_officers)) {
+//     other.all_officers.clear();
+// }
+// // move assignment operator
+// Coach& Coach::operator=(Coach&& other) noexcept {
+//     if (this == &other) {
+//         return *this;
+//     }
 
-    User::operator=(std::move(other));
-    coach_reservations = std::move(other.coach_reservations);
-    all_officers = std::move(other.all_officers);
+//     User::operator=(std::move(other));
+//     coach_reservations = std::move(other.coach_reservations);
+//     all_officers = std::move(other.all_officers);
 
-    other.all_officers.clear();
+//     other.all_officers.clear();
 
-    return *this;
-}
-// destructor
-Coach::~Coach() {
-    // free up vector<reservation> allocation
-    for (auto* reservation : coach_reservations) {
-        delete reservation;
-    }
-}
+//     return *this;
+// }
+// // destructor
+// Coach::~Coach() {
+//     // free up vector<reservation> allocation
+//     for (auto* reservation : coach_reservations) {
+//         delete reservation;
+//     }
+// }
 
 // Coach specific menu options
 void Coach::view_menu()
@@ -70,7 +70,7 @@ void Coach::view_menu()
     cout << "2. Reserve a Court" << endl;
     cout << "3. Cancel a Reservation" << endl;
     cout << "4. Request Time Change" << endl;
-    // cout << "5. Quit to Terminal" << endl;
+    cout << "5. Quit to Terminal" << endl;
     int choice;
     cin >> choice;
 
@@ -91,9 +91,9 @@ void Coach::view_menu()
     {
         request_timechange();
     }
-    // else if (choice == 5) {
-    //     return;
-    // }
+    else if (choice == 5) {
+        return;
+    }
     else
     {
         cout << "Invalid choice. Please try again.\n";
