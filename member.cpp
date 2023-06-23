@@ -35,7 +35,7 @@ Member& Member::operator=(const Member& other) {
 }
 // move constructor
 Member::Member(Member&& other) noexcept
-    : User(std::move(other)), skill_level(std::exchange(other.skill_level, '\0')),
+    : User(std::move(other)), skill_level(std::move(other.skill_level)),
       my_reservations(std::move(other.my_reservations)), all_officers(std::move(other.all_officers)) {
     other.skill_level = '\0';
     other.my_reservations.clear();
@@ -47,7 +47,7 @@ Member& Member::operator=(Member&& other) noexcept {
         return *this;
     }
     User::operator=(std::move(other));
-    skill_level = std::exchange(other.skill_level, '\0');
+    skill_level = (std::move(other.skill_level));
 
     for (auto* reservation : my_reservations) {
         delete reservation;

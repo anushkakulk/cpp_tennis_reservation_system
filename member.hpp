@@ -42,7 +42,7 @@ public:
     void request_timechange();
     // getters
     const std::vector<Reservation*> get_reservations() const;
-    const std::vector<Officer*> getAllOfficers() const;
+    const std::vector<Officer*> get_officers() const;
 };
 
 #endif  // MEMBER_HPP
