@@ -1,6 +1,11 @@
 #include "reservation.hpp"
 #include <algorithm>
 #include <iostream>
+#include <chrono>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+
 
 Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c)
     : start_datetime(startDateTime), day_of_week(day), court(c)
@@ -123,30 +128,31 @@ void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
     // find the reservation with the given id and time, and change it
 }
 
-bool Reservation::operator==(const Reservation &other) const
-{
-    return id == other.id;
-}
-
-#include <chrono>
-#include <sstream>
-#include <iomanip>
-#include <ctime>
-
 std::string Reservation::toString() const {
     std::stringstream ss;
 
     // Convert the time_point to time_t to print it
-    std::time_t start_time_t = std::chrono::system_clock::to_time_t(startDateTime);
+    std::time_t start_time_t = std::chrono::system_clock::to_time_t(start_datetime);
     std::tm * ptm = std::localtime(&start_time_t);
 
     // Assume court_num is the identifier for Court
-    int court_num = court->getCourtNum();
+    int court_num = court->get_court_num();
 
-    ss << "Player ID: " << player_id
+    ss << "Player ID: " << get_player_id()
        << ", Start Time: " << std::put_time(ptm,"%c")
-       << ", Day: " << day
+       << ", Day: " << day_of_week
        << ", Court: " << court_num;
 
     return ss.str();
 }
+
+int Reservation::get_player_id() const {
+    if (!player_ids.empty()) {
+        return player_ids[0];
+    } else {
+        // Handle case when there is no player in the list
+        // For instance, you can return -1 or throw an exception
+        return -1;
+    }
+}
+
