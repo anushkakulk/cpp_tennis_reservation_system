@@ -1,92 +1,97 @@
-#include "user.hpp"
-#include <iostream>
+#include <fstream>      // For std::ifstream
+#include <sstream>      // For std::istringstream
+#include <string>       // For std::string and std::getline
+#include <vector>       // For std::vector
+#include <iostream>     // For std::cout
+#include <chrono>       // For std::chrono
+#include <iomanip>
+#include "reservation.hpp"  // For Reservation
+#include "court.hpp"    // For Court
+#include "user.hpp"     // For User
+
 
 User::User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
-// copy constructor
-User::User(const User& other)
-    : id(other.id), name(other.name), membership_type(other.membership_type) {
-    for (const auto& court : other.all_courts) {
-        all_courts.push_back(new Court(*court));
-    }
-    for (const auto& reservation : other.my_reservations) {
-        my_reservations.push_back(new Reservation(*reservation));
-    }
-}
+// // copy constructor
+// User::User(const User &other)
+//     : id(other.id), name(other.name), membership_type(other.membership_type)
+// {
+//     for (const auto &court : other.all_courts)
+//     {
+//         all_courts.push_back(new Court(*court));
+//     }
+// }
 
-// ccopy assignment operator
-User& User::operator=(const User& other) {
-    if (this == &other) {
-        return *this;
-    }
+// // copy assignment operatior
+// User &User::operator=(const User &other)
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-    id = other.id;
-    name = other.name;
-    membership_type = other.membership_type;
+//     id = other.id;
+//     name = other.name;
+//     membership_type = other.membership_type;
 
-    // clear pointer allocations
-    for (auto court : all_courts) {
-        delete court;
-    }
-    all_courts.clear();
+//     // clear pointer allocation
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
 
-    for (auto reservation : my_reservations) {
-        delete reservation;
-    }
-    my_reservations.clear();
+//     for (const auto &court : other.all_courts)
+//     {
+//         all_courts.push_back(new Court(*court));
+//     }
 
-    // Copy courts
-    for (const auto& court : other.all_courts) {
-        all_courts.push_back(new Court(*court));
-    }
+//     return *this;
+// }
 
-    // Copy reservations
-    for (const auto& reservation : other.my_reservations) {
-        my_reservations.push_back(new Reservation(*reservation));
-    }
+// // move constructor
+// User::User(User &&other) noexcept
+//     : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
+//       all_courts(std::move(other.all_courts))
+// {
+//     other.id = 0;
+// }
 
-    return *this;
-}
+// // move assignment operator
+// User &User::operator=(User &&other) noexcept
+// {
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
 
-// move constructor
-User::User(User&& other) noexcept
-    : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
-      all_courts(std::move(other.all_courts)), my_reservations(std::move(other.my_reservations)) {
-    other.id = 0;
-}
+//     id = other.id;
+//     name = std::move(other.name);
+//     membership_type = std::move(other.membership_type);
 
-// move assignment operator
-User& User::operator=(User&& other) noexcept {
-    if (this == &other) {
-        return *this;
-    }
+//     // clear pointer allocation
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
 
-    id = other.id;
-    name = std::move(other.name);
-    membership_type = std::move(other.membership_type);
+//     all_courts = std::move(other.all_courts);
 
-    // clear pointer allocations
-    for (auto court : all_courts) {
-        delete court;
-    }
-    all_courts.clear();
+//     other.id = 0;
 
-    for (auto reservation : my_reservations) {
-        delete reservation;
-    }
-    my_reservations.clear();
+//     return *this;
+// }
 
-    all_courts = std::move(other.all_courts);
-    my_reservations = std::move(other.my_reservations);
-
-    other.id = 0;
-
-    return *this;
-}
-
-
-// destructor
-User::~User() = default;
+// // destructor
+// User::~User()
+// {
+//     for (auto court : all_courts)
+//     {
+//         delete court;
+//     }
+//     all_courts.clear();
+// }
 
 // returns this user's id
 int User::getId()
