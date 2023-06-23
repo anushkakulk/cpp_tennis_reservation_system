@@ -32,8 +32,9 @@ Court& Court::operator=(const Court& other) {
 
 // move constructor
 Court::Court(Court&& other) noexcept
-    : court_num(std::exchange(other.court_num, 0)), res(std::move(other.res)) {
-    // Reset the moved-from object
+    : court_num(std::move(other.court_num)),
+    res(std::move(other.res)) {
+    other.court_num = 0;
     other.res.clear();
 }
 // move assignment operator
@@ -41,10 +42,10 @@ Court& Court::operator=(Court&& other) noexcept {
     if (this == &other) {
         return *this;
     }
-    court_num = std::exchange(other.court_num, 0);
+    court_num = (std::move(other.court_num));
     res = std::move(other.res);
 
-    // Reset the moved-from object
+    other.court_num = 0;
     other.res.clear();
 
     return *this;

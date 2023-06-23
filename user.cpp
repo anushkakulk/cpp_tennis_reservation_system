@@ -146,7 +146,7 @@ void User::reserve()
     std::cout << "Enter the court number you want (1-3)" << std::endl;
     int courtNum;
     std::cin >> courtNum;
-    if (courtNum != 1 || courtNum != 2 || courtNum != 3)
+    if (courtNum != 1 && courtNum != 2 && courtNum != 3)
     {
         std::cout << "Invalid choice. Please try again." << std::endl;
     }
@@ -173,7 +173,7 @@ void User::cancel_reservation()
     std::cout << "Enter the court number you want to cancel (1-3)" << std::endl;
     int courtNum;
     std::cin >> courtNum;
-    if (courtNum != 1 || courtNum != 2 || courtNum != 3)
+    if (courtNum != 1 && courtNum != 2 && courtNum != 3)
     {
         std::cout << "Invalid choice. Please try again." << std::endl;
     }
