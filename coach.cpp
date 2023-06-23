@@ -141,6 +141,49 @@ void Coach::reserve()
 
 void Coach::cancel_reservation()
 {
+
+    // cout << "Cancelling a Reservation:" << endl;
+    // cout << endl;
+    // cout << "Here are your reservations:" << endl;
+
+    // for (size_t i = 0; i < coach_reservations.size(); ++i)
+    // {
+    //    cout << "[" << (i + 1) << "] " << *coach_reservations[i] << endl;
+
+    // }
+
+    // cout << "Enter the number of the reservation you want to cancel (or 0 to cancel): ";
+    // int input;
+    // cin >> input;
+    // // make sure its valid
+    // if (input >= 1 && input <= coach_reservations.size())
+    // {
+    //     // get the res
+    //     shared_ptr<Reservation> &selectedReservation = coach_reservations[input - 1];
+    //     // get the court this res is on
+    //     shared_ptr<Court> reservationCourt = selectedReservation->court;
+    //     // erase it from the court's vector
+    //     reservationCourt->delete_reservation(selectedReservation);
+
+    //     // erase the reservation from the coach's vector of reservations
+    //     coach_reservations.erase(coach_reservations.begin() + (input - 1));
+
+    //     cout << "Reservation cancelled." << endl;
+
+    // }else if (input == 0)
+    //     {
+    //         cout << "Reservation cancellation was cancelled." << endl;
+    //         cout << endl;
+    //         this->view_menu();
+    //     }
+    //     else
+    //     {
+    //         cout << "Invalid input. Reservation cancellation was aborted." << endl;
+    //         cout << endl;
+    //         this->view_menu();
+    //     }
+    
+
 }
 
 void Coach::request_timechange()
