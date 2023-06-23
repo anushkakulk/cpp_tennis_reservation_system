@@ -11,7 +11,8 @@
 class Court;
 class Reservation;
 
-class User {
+class User
+{
 private:
     // unique id for each user
     int id;
@@ -20,17 +21,22 @@ private:
     // string, either "member" "coach" "officer"
     std::string membership_type;
     // all courts
-    std::vector<Court*> all_courts;
+    std::vector<Court *> all_courts;
 
 public:
-
-    User(int id, const std::string& name, const std::string& type, std::vector<Court*> courts);
-    // returns this user's id 
+    // RULE OF 5
+    User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts);
+    User(const User &other);                // Copy constructor
+    User &operator=(const User &other);     // Copy assignment operator
+    User(User &&other) noexcept;            // Move constructor
+    User &operator=(User &&other) noexcept; // Move assignment operator
+    ~User();                                // Destructor
+    // returns this user's id
     int getId();
-    // returns this user's id 
+    // returns this user's id
     std::string get_name();
-    // returns this user's id 
-    std::vector<Court*>  get_courts();
+    // returns this user's id
+    std::vector<Court *> get_courts();
 
     // reserves a spot for this user at the given start and end time
     virtual void reserve();
@@ -42,4 +48,4 @@ public:
     virtual void view_schedule();
 };
 
-#endif  // USER_HPP
+#endif // USER_HPP

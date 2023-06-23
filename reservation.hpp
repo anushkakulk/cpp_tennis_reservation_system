@@ -21,16 +21,21 @@ private:
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
-
     // reservation id
     int id;
 
 public: 
-// the court this reservation is for
+    // the court this reservation is for
     Court* court;
 
 public:
+    // RULE OF 5
     Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
+    Reservation(const Reservation& other);  // Copy constructor
+    Reservation& operator=(const Reservation& other);  // Copy assignment operator
+    Reservation(Reservation&& other) noexcept;  // Move constructor
+    Reservation& operator=(Reservation&& other) noexcept;  // Move assignment operator
+    ~Reservation();  // Destructor
     // adds another username to users (enforce max is 2) 
     void add_user(User& u);
     // removes a user from this reservation (needs 1 user to still be on this tho)

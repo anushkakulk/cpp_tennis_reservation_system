@@ -15,6 +15,12 @@ public:
 
 public:
     Coach(int id, const std::string& name, std::vector<Court*> courts,  std::vector<Officer*> officers);
+    // RULE OF 5
+    Coach(const Coach& other); // copy 
+    Coach& operator=(const Coach& other); //copy assign. op. 
+    Coach(Coach&& other) noexcept; // move
+    Coach& operator=(Coach&& other) noexcept; // move assign. op.
+    ~Coach(); // destruct
     // displays the coach specific menu
     void view_menu() override;
     // displays the coach specific schedule

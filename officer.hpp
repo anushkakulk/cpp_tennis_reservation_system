@@ -10,6 +10,7 @@ class Court; // Forward declaration of the Court class
 
 class Officer : public Member {
 public:
+    // RULE OF 5 IMPLEMENTED IN MEMBER CLASS
     Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
     // displays the coach specific menu
     void view_menu() override;

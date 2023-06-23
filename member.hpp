@@ -20,7 +20,14 @@ public:
     std::vector<Officer*> all_officers;
 
 public:
+    
     Member(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
+    // RULE OF 5
+    Member(const Member& other); // copy 
+    Member& operator=(const Member& other); //copy assign. op. 
+    Member(Member&& other) noexcept; // move
+    Member& operator=(Member&& other) noexcept; // move assign. op.
+    ~Member(); // destruct
     // returns this member's skill level: either 'A' 'B' or 'C'
     char get_skill();
     // displays the the member specific menu

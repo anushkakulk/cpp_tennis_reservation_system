@@ -17,6 +17,12 @@ private:
 
 public:
     Court(int num);
+    // RULE OF 5
+    Court(const Court& other); // copy 
+    Court& operator=(const Court& other); // copy assignment op
+    Court(Court&& other) noexcept; // move
+    Court& operator=(Court&& other) noexcept; // move assignment op
+    ~Court(); // destruct
     // returns true if this court is reserved during the given datetime
     bool is_reserved(std::chrono::system_clock::time_point time);
     // adds a reservation to this court's reservations

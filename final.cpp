@@ -9,14 +9,15 @@
 using namespace std;
 int main()
 {
+    // initalize all practice data
     Court one = Court(1);
     Court two = Court(2);
     Court three = Court(3);
-    vector<Court *> all_courts = {&one, &two, &three}; // Pass the addresses of Court objects
+    vector<Court *> all_courts = {&one, &two, &three}; 
 
-    Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer *>());
-    Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer *>{&i}); // Pass the address of Officer i
-    vector<Officer *> all_officers = {&i, &j};                             // Pass the addresses of Officer objects
+    Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
+    Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
+    vector<Officer *> all_officers = {&i, &j};                            
 
     Member a = Member(1, "alice", 'A', all_courts, all_officers);
     Member b = Member(2, "bob", 'B', all_courts, all_officers);
@@ -27,7 +28,7 @@ int main()
     Coach g = Coach(6, "grant", all_courts, all_officers);
     Coach h = Coach(7, "hank", all_courts, all_officers);
 
-    vector<User *> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j}; // Pass the addresses of User objects
+    vector<User *> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j}; 
 
     cout << "Welcome to the court reservation system!" << endl;
     cout << "Please enter your user id: (should be from 1 through 9)" << endl;
