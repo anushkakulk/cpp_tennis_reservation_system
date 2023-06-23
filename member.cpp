@@ -36,7 +36,6 @@ Member& Member::operator=(const Member& other) {
 // move constructor
 Member::Member(Member&& other) noexcept
     : User(std::move(other)), skill_level(std::move(other.skill_level)),
-    : User(std::move(other)), skill_level(std::move(other.skill_level)),
       my_reservations(std::move(other.my_reservations)), all_officers(std::move(other.all_officers)) {
     other.skill_level = 'F';
     other.my_reservations.clear();
@@ -49,7 +48,6 @@ Member& Member::operator=(Member&& other) noexcept {
     }
     User::operator=(std::move(other));
     skill_level = (std::move(other.skill_level));
-
     for (auto* reservation : my_reservations) {
         delete reservation;
     }
@@ -156,7 +154,7 @@ void Member::reserve()
             time.tm_year = year - 1900; // years since 1900
             time.tm_mon = month - 1;    // months since January
             time.tm_mday = day;
-            time.tm_hour = hour;
+            time.tm_hour = hour - 1;
             time.tm_min = minute;
             std::time_t timeT = std::mktime(&time);
             std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
@@ -247,6 +245,8 @@ void Member::cancel_reservation()
         my_reservations.erase(my_reservations.begin() + (input - 1));
 
         cout << "Reservation cancelled." << endl;
+        std::cout << std::endl;
+        this->view_menu();
     }
     else if (input == 0)
     {

@@ -70,6 +70,7 @@ void Coach::view_menu()
     cout << "2. Reserve a Court" << endl;
     cout << "3. Cancel a Reservation" << endl;
     cout << "4. Request Time Change" << endl;
+    // cout << "5. Quit to Terminal" << endl;
     int choice;
     cin >> choice;
 
@@ -90,6 +91,9 @@ void Coach::view_menu()
     {
         request_timechange();
     }
+    // else if (choice == 5) {
+    //     return;
+    // }
     else
     {
         cout << "Invalid choice. Please try again.\n";
@@ -119,7 +123,7 @@ void Coach::reserve()
     else
     {
 
-        std::cout << "Enter the start time you want in valid format, pressing [enter] in between each input (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
+        std::cout << "Enter the start time you want in valid format, pressing [enter] in between each input (month [from 1-12], day, year [2023], hour [from 0 to 24], minute [either 0 or 30])" << std::endl;
         int month, day, year, hour, minute;
         std::cin >> month >> day >> year >> hour >> minute;
 
@@ -140,7 +144,7 @@ void Coach::reserve()
             time.tm_year = year - 1900; // years since 1900
             time.tm_mon = month - 1;    // months since January
             time.tm_mday = day;
-            time.tm_hour = hour;
+            time.tm_hour = hour - 1;
             time.tm_min = minute;
             std::time_t timeT = std::mktime(&time);
             std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
@@ -173,7 +177,7 @@ void Coach::reserve()
             }
 
             // this checks that reservation is only on weekday during coaching hours
-            else if (!((hour >= 9 && hour < 11) || (hour == 11 && minute <= 30) || (hour >= 15 && hour < 17) || (hour == 17 && minute <= 30)) || !(dayOfWeek >= 1 && dayOfWeek <= 5))
+            else if (!((hour >= 9 && hour <= 11) || (hour == 15 && minute >= 0 && minute <= 30) || (hour == 17 && minute == 0)) || !(dayOfWeek >= 1 && dayOfWeek <= 5))
             {
                 std::cout << "Invalid reservation time. Reservations are allowed between 9am-11:30am and 3pm-5:30pm, Monday to Friday." << std::endl;
                 std::cout << std::endl;
@@ -242,6 +246,8 @@ void Coach::cancel_reservation()
         coach_reservations.erase(coach_reservations.begin() + (input - 1));
 
         cout << "Reservation cancelled." << endl;
+        std::cout << std::endl;
+        this->view_menu();
     }
     else if (input == 0)
     {
