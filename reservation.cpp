@@ -127,3 +127,26 @@ bool Reservation::operator==(const Reservation &other) const
 {
     return id == other.id;
 }
+
+#include <chrono>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+
+std::string Reservation::toString() const {
+    std::stringstream ss;
+
+    // Convert the time_point to time_t to print it
+    std::time_t start_time_t = std::chrono::system_clock::to_time_t(startDateTime);
+    std::tm * ptm = std::localtime(&start_time_t);
+
+    // Assume court_num is the identifier for Court
+    int court_num = court->getCourtNum();
+
+    ss << "Player ID: " << player_id
+       << ", Start Time: " << std::put_time(ptm,"%c")
+       << ", Day: " << day
+       << ", Court: " << court_num;
+
+    return ss.str();
+}

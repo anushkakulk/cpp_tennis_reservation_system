@@ -1,5 +1,10 @@
 #include "court.hpp"
+#include "reservation.hpp"
 #include <algorithm>
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
 
 Court::Court(int num) : court_num(num) {}
 
@@ -76,6 +81,7 @@ bool Court::is_reserved(std::chrono::system_clock::time_point time)
 void Court::add_reservation(Reservation *r)
 {
     res.push_back(r);
+    saveReservationToFile(r);
 }
 
 // deletes the given from its list of reservations
@@ -86,6 +92,7 @@ void Court::delete_reservation(Reservation *r)
     {
         res.erase(it);
     }
+    removeReservationFromFile(r); 
 }
 
 // returns its court number
@@ -98,4 +105,40 @@ int Court::get_court_num()
 std::vector<Reservation *> Court::get_reservations()
 {
     return res;
+}
+
+void Court::saveReservationToFile(Reservation* r) {
+    std::string filename = "court" + std::to_string(court_num) + ".txt";
+    std::ofstream file(filename, std::ios_base::app);
+
+    if (file.is_open()) {
+        file << r.toString() << "\n";
+        file.close();
+    }
+    else {
+        std::cout << "Unable to open file" << std::endl;
+    }
+}
+
+void Court::removeReservationFromFile(Reservation* r) {
+    std::string filename = "court" + std::to_string(court_num) + ".txt";
+    std::ifstream fileIn(filename);
+    std::ofstream fileOut("temp.txt");
+
+    if (fileIn.is_open() && fileOut.is_open()) {
+        std::string line;
+        while (getline(fileIn, line)) {
+            if (line != r.toString()) {
+                fileOut << line << "\n";
+            }
+        }
+        fileIn.close();
+        fileOut.close();
+
+        std::remove(filename.c_str());
+        std::rename("temp.txt", filename.c_str());
+    }
+    else {
+        std::cout << "Unable to open file" << std::endl;
+    }
 }
