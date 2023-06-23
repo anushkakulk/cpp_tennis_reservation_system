@@ -123,6 +123,8 @@ void Member::reserve()
 
                 // TODO, check that no one is on the court then
                 my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
+                cout << endl;
+                this->view_menu();
             }
         }
         else
@@ -136,6 +138,62 @@ void Member::reserve()
 
 void Member::cancel_reservation()
 {
+    cout << "Cancelling a Reservation:" << endl;
+    cout << endl;
+    cout << "Here are your reservations:" << endl;
+
+    for (size_t i = 0; i < my_reservations.size(); ++i)
+    {
+        cout << "[" << (i + 1) << "] "
+             << "Reservation Details:" << endl;
+        cout << "Player ID(s): ";
+        for (size_t j = 0; j < my_reservations[i]->get_players().size(); ++j)
+        {
+            cout << my_reservations[i]->get_players()[j];
+            if (j < my_reservations[i]->get_players().size() - 1)
+            {
+                cout << ", ";
+            }
+        }
+
+        cout << endl;
+        std::time_t startTime = std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
+        std::tm *timeInfo = std::localtime(&startTime);
+
+        cout << "Start Time: " << std::ctime(&startTime) << "on day " << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
+        cout << endl;
+    }
+
+    cout << "Enter the number of the reservation you want to cancel (or 0 to cancel): ";
+    unsigned int input;
+    cin >> input;
+    // make sure its valid
+    if (input >= 1 && input <= my_reservations.size())
+    {
+        // get the res
+        Reservation *selectedReservation = my_reservations[input - 1];
+        // get the court this res is on
+        Court *reservationCourt = selectedReservation->court;
+        // erase it from the court's vector
+        reservationCourt->delete_reservation(selectedReservation);
+
+        // erase the reservation from the coach's vector of reservations
+        my_reservations.erase(my_reservations.begin() + (input - 1));
+
+        cout << "Reservation cancelled." << endl;
+    }
+    else if (input == 0)
+    {
+        cout << "Reservation cancellation was cancelled." << endl;
+        cout << endl;
+        this->view_menu();
+    }
+    else
+    {
+        cout << "Invalid input. Reservation cancellation was aborted." << endl;
+        cout << endl;
+        this->view_menu();
+    }
 }
 
 void Member::request_timechange()

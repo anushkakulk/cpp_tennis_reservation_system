@@ -21,10 +21,14 @@ private:
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
-    // the court this reservation is for
-    Court* court;
+
     // reservation id
     int id;
+
+public: 
+// the court this reservation is for
+    Court* court;
+
 public:
     Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
     // adds another username to users (enforce max is 2) 
