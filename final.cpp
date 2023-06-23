@@ -14,6 +14,7 @@ int main()
     Court two = Court(2);
     Court three = Court(3);
     vector<Court *> all_courts = {&one, &two, &three}; 
+    
 
     Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
     Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
@@ -28,7 +29,11 @@ int main()
     Coach g = Coach(6, "grant", all_courts, all_officers);
     Coach h = Coach(7, "hank", all_courts, all_officers);
 
-    vector<User *> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j}; 
+    vector<User*> all_users = {&a, &b, &c, &d, &e, &f, &g, &h, &i, &j}; 
+    vector<User*> all_players = {&a, &b, &c, &d, &e, &f, &g, &h}; 
+    i.all_users = all_players;
+    j.all_users = all_players;
+    
 
     cout << "Welcome to the court reservation system!" << endl;
     cout << "Please enter your user id: (should be from 1 through 9)" << endl;

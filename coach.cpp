@@ -69,7 +69,7 @@ void Coach::view_menu()
     cout << "1. View Schedule" << endl;
     cout << "2. Reserve a Court" << endl;
     cout << "3. Cancel a Reservation" << endl;
-    cout << "4. Request Time Change" << endl;
+    cout << "4. Send a Request to an Officer" << endl;
     cout << "5. Quit to Terminal" << endl;
     int choice;
     cin >> choice;
@@ -166,9 +166,7 @@ void Coach::reserve()
                 std::cout << std::endl;
                 this->view_menu();
             }
-
             // enforce 7 day rule
-
             else if (startTime > maxReservationTime)
             {
                 std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
