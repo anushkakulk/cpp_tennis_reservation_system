@@ -54,6 +54,8 @@ public:
     bool operator==(const Reservation& other) const;
     // returns the id of this reservation
     int get_id();
+    // convert reservation to string
+    std::string toString() const;
 };
 
 #endif  // RESERVATION_H

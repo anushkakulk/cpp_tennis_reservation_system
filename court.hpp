@@ -33,6 +33,10 @@ public:
     int get_court_num();
     // returns all of this court's reservations
     std::vector<Reservation*> get_reservations();
+    // saves reservation to file
+    void saveReservationToFile(Reservation* r);
+    // remove reservation from file
+    void removeReservationFromFile(Reservation* r);
 };
 
 #endif  // COURT_H
