@@ -11,6 +11,8 @@ class Court; // Forward declaration of the Court class
 class Officer : public Member {
     public:
     std::vector<User*> all_users;
+    std::vector<Reservation*> cancel_requests;
+    std::vector<Reservation*> add_requests;
 public:
     // RULE OF 5 IMPLEMENTED IN MEMBER CLASS
     Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
@@ -18,9 +20,9 @@ public:
     void view_menu() override;
     // reserved open play time for the given id for the given start/end datetimes
     void reserve_openplay();
-    // timechanges for the given id for the given start
-    void handle_request(int id, std::chrono::system_clock::time_point start_time, bool cancel);
-    // reserves or deleted time for the given id for the given start
+    // adds the given request to respective array to be cancelled or added
+    void handle_request(int id, Reservation* r, bool cancel);
+    // can either reserve or delete reservations based on requests
     void handle_requests();
     // changes the time for the given id at the given start/end datetimes to 
     // a reservation at the new start and end times 

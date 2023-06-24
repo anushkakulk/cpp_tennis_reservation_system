@@ -12,7 +12,7 @@
 #include "court.hpp"
 
 class Officer;
-class Court; // Forward declaration of the Court class
+class Court; 
 
 class Member : public User {
 public:
@@ -38,8 +38,8 @@ public:
     void reserve() override;
     // cancels a session for this member 
     void cancel_reservation() override;
-    // sends a message to an officer to request a timechange, giving it this member's id and the start end time
-    void request_timechange();
+    // sends a request to an officer to request a timechange, cancellation, or reservation
+    void request();
     // getters
     const std::vector<Reservation*> get_reservations() const;
     const std::vector<Officer*> get_officers() const;
