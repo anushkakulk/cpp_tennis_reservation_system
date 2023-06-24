@@ -16,6 +16,20 @@ class Officer : public Member {
 public:
     // RULE OF 5 IMPLEMENTED IN MEMBER CLASS
     Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers);
+    
+    ~Officer(); // Destructor
+
+    
+    Officer(const Officer& other);// Copy constructor
+
+    
+    Officer& operator=(const Officer& other);// Copy assignment operator
+
+   
+    Officer(Officer&& other) noexcept; // Move constructor
+
+   
+    Officer& operator=(Officer&& other) noexcept; // Move assignment operator
     // displays the coach specific menu
     void view_menu() override;
     // reserved open play time for the given id for the given start/end datetimes

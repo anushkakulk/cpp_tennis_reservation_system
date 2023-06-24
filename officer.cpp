@@ -5,6 +5,84 @@ using namespace std;
 
 Officer::Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : Member(id, name, skill, courts, officers) {}
 
+Officer::Officer(const Officer& other)
+    : Member(other), all_users(), cancel_requests(), add_requests() {
+    
+    for (User* user : other.all_users) {
+        all_users.push_back(new User(*user));
+    }
+
+    for (Reservation* reservation : other.cancel_requests) {
+        cancel_requests.push_back(new Reservation(*reservation));
+    }
+
+    for (Reservation* reservation : other.add_requests) {
+        add_requests.push_back(new Reservation(*reservation));
+    }
+}
+
+Officer& Officer::operator=(const Officer& other) {
+    if (this != &other) {
+        Member::operator=(other);  
+
+        
+        all_users.clear();
+
+       
+        cancel_requests.clear();
+
+        
+        add_requests.clear();
+
+        
+        for (User* user : other.all_users) {
+            all_users.push_back(new User(*user));
+        }
+
+        for (Reservation* reservation : other.cancel_requests) {
+            cancel_requests.push_back(new Reservation(*reservation));
+        }
+
+        for (Reservation* reservation : other.add_requests) {
+            add_requests.push_back(new Reservation(*reservation));
+        }
+    }
+    return *this;
+}
+
+Officer::~Officer() = default; 
+Officer::Officer(Officer&& other) noexcept
+    : Member(std::move(other)), all_users(std::move(other.all_users)),
+      cancel_requests(std::move(other.cancel_requests)), add_requests(std::move(other.add_requests)) {
+    
+    other.all_users.clear();
+    other.cancel_requests.clear();
+    other.add_requests.clear();
+}
+
+Officer& Officer::operator=(Officer&& other) noexcept {
+    if (this != &other) {
+        Member::operator=(std::move(other));  
+
+        all_users.clear();
+
+        
+        cancel_requests.clear();
+
+        add_requests.clear();
+
+       
+        all_users = std::move(other.all_users);
+        cancel_requests = std::move(other.cancel_requests);
+        add_requests = std::move(other.add_requests);
+
+        
+        other.all_users.clear();
+        other.cancel_requests.clear();
+        other.add_requests.clear();
+    }
+    return *this;
+}
 void Officer::view_menu() {
    cout << "Enter the number associated with your option choice (1-4)" << endl;
     cout << "Officer Menu: " << endl;
@@ -142,9 +220,9 @@ void Officer::handle_requests() {
 }
 void Officer::handle_request(int id, Reservation* r, bool cancel) {
     if (cancel) {
-        to_cancel.push_back(r);
+        cancel_requests.push_back(r);
     } else {
-        to_add.push_back(r);
+        add_requests.push_back(r);
     }
 }
 
