@@ -123,18 +123,18 @@ void Member::view_schedule() {
         // Parse the reservation details from the line
         std::istringstream ss(line);
 
-        // Assuming that the player ID is first in the formatted string
-        std::string player_id_str;
-        std::getline(ss, player_id_str, ',');
+                // Assuming that the player ID is first in the formatted string
+                std::string player_id_str;
+                std::getline(ss, player_id_str, ',');
 
-        // Extract the ID after "Player ID: "
-        int player_id = std::stoi(player_id_str.substr(11));
+                // Extract the ID after "Player ID: "
+                int player_id = std::stoi(player_id_str.substr(11));
 
-        // If the player ID matches the current member's ID, print the line
-        // if (player_id == current_player_id) {
-        std::cout << line << std::endl;
-        //}
-      }
+                // If the player ID matches the current member's ID, print the line
+                //if (player_id == current_player_id) {
+                    std::cout << line << std::endl;
+                //}
+            }
 
       file.close();
     } else {
@@ -143,16 +143,21 @@ void Member::view_schedule() {
   }
 }
 
-void Member::reserve() {
-  cout << "Making a Reservation:" << endl;
-  std::cout << "Enter which court you want to reserve: (1, 2, or 3): ";
-  int court_num;
-  std::cin >> court_num;
-  if (court_num != 1 && court_num != 2 && court_num != 3) {
-    cout << "Invalid choice. Please try again." << endl;
-    std::cout << std::endl;
-    this->view_menu();
-  } else {
+
+void Member::reserve()
+{
+    cout << "Making a Reservation:" << endl;
+    std::cout << "Enter which court you want to reserve: (1, 2, or 3): ";
+    int court_num;
+    std::cin >> court_num;
+    if (court_num != 1 && court_num != 2 && court_num != 3)
+    {
+        cout << "Invalid choice. Please try again." << endl;
+        std::cout << std::endl;
+        this->view_menu();
+    }
+    else
+    {
 
     std::cout << "Enter the start time you want in the valid format (month "
                  "[from 1-12], day, year [2023], hour [from 0 to 23], minute "
