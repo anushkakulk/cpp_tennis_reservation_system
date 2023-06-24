@@ -122,11 +122,10 @@ void Coach::view_schedule()
                 // Extract the ID after "Player ID: "
                 int player_id = std::stoi(player_id_str.substr(11));
 
-                // Assuming the membership type is second in the formatted string
-                std::string membership_type_str;
-                std::getline(ss, membership_type_str, ',');
-                // Extract the membership type after "Membership Type: "
-                std::string extracted_membership_type = membership_type_str.substr(18);
+                std::string extracted_membership_type;
+                if(this->get_membership().length() > 18){
+                   extracted_membership_type = this->get_membership().substr(18);
+                }
 
                 // If the player ID matches the current member's ID and the membership type matches the given type, print the line
                 if (player_id == current_player_id && extracted_membership_type == this->get_membership()) {
