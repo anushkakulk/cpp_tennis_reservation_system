@@ -130,14 +130,19 @@ void Member::view_schedule()
                 // Assuming that the player ID is first in the formatted string
                 std::string player_id_str;
                 std::getline(ss, player_id_str, ',');
-
                 // Extract the ID after "Player ID: "
                 int player_id = std::stoi(player_id_str.substr(11));
 
-                // If the player ID matches the current member's ID, print the line
-                //if (player_id == current_player_id) {
+                // Assuming the membership type is second in the formatted string
+                std::string membership_type_str;
+                std::getline(ss, membership_type_str, ',');
+                // Extract the membership type after "Membership Type: "
+                std::string extracted_membership_type = membership_type_str.substr(18);
+
+                // If the player ID matches the current member's ID and the membership type matches the given type, print the line
+                if (player_id == current_player_id && extracted_membership_type == this->get_membership()) {
                     std::cout << line << std::endl;
-                //}
+                }
             }
 
             file.close();
@@ -147,6 +152,7 @@ void Member::view_schedule()
         }
     }
 }
+
 
 
 void Member::reserve()

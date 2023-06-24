@@ -97,8 +97,8 @@ void Coach::view_menu()
 
 void Coach::view_schedule()
 {
-    // Get the ID of the current coach
-    int current_coach_id = this->getId();
+    // Get the ID of the current member
+    int current_player_id = this->getId();
 
     // Iterate through each court
     for (auto &court : this->get_courts()) {
@@ -116,15 +116,20 @@ void Coach::view_schedule()
                 // Parse the reservation details from the line
                 std::istringstream ss(line);
 
-                // Assuming that the coach ID is first in the formatted string
-                std::string coach_id_str;
-                std::getline(ss, coach_id_str, ',');
+                // Assuming that the player ID is first in the formatted string
+                std::string player_id_str;
+                std::getline(ss, player_id_str, ',');
+                // Extract the ID after "Player ID: "
+                int player_id = std::stoi(player_id_str.substr(11));
 
-                // Extract the ID after "Player ID: " (assuming similar structure for Coach)
-                int coach_id = std::stoi(coach_id_str.substr(11));
+                // Assuming the membership type is second in the formatted string
+                std::string membership_type_str;
+                std::getline(ss, membership_type_str, ',');
+                // Extract the membership type after "Membership Type: "
+                std::string extracted_membership_type = membership_type_str.substr(18);
 
-                // If the coach ID matches the current coach's ID, print the line
-                if (coach_id == current_coach_id) {
+                // If the player ID matches the current member's ID and the membership type matches the given type, print the line
+                if (player_id == current_player_id && extracted_membership_type == this->get_membership()) {
                     std::cout << line << std::endl;
                 }
             }
@@ -136,6 +141,7 @@ void Coach::view_schedule()
         }
     }
 }
+
 
 void Coach::reserve()
 {
