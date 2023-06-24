@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <chrono>
+#include <string>
 #include "user.hpp"
 #include "court.hpp"
 class User;
