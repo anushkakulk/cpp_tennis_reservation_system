@@ -8,19 +8,18 @@
 class User;
 class Court;
 
-
 class Reservation {
 private:
     // list of user ids involved in this reservation
     std::vector<int> player_ids;
-    // start and end times - format is: 
-    // EXAMPLE: std::chrono::system_clock::time_point june19 = std::chrono::system_clock::from_time_t(std::mktime(std::tm{0, 0, 0, 19, 5, 2023}));
-    // format is hour, minute, second, day, month - 1, year
+    // start and end times
     std::chrono::system_clock::time_point start_datetime;
     // represents day of the week (0 = sunday, ... 6 = saturday)
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
+    // the type of user who made the reservation
+    std::string user_type;
 
 public: 
     // the court this reservation is for
@@ -28,7 +27,7 @@ public:
 
 public:
     // RULE OF 5
-    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
+    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c, std::string userType);
     Reservation(const Reservation& other);  // Copy constructor
     Reservation& operator=(const Reservation& other);  // Copy assignment operator
     Reservation(Reservation&& other) noexcept;  // Move constructor
