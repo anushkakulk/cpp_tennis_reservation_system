@@ -24,7 +24,7 @@ public:
     void handle_requests();
     // changes the time for the given id at the given start/end datetimes to 
     // a reservation at the new start and end times 
-    void modify_reservation(int id, std::chrono::system_clock::time_point start_time);
+    void modify_reservation(int id, std::chrono::system_clock::time_point old_time, std::chrono::system_clock::time_point start_time);
 };
 
 #endif  // OFFICER_HPP

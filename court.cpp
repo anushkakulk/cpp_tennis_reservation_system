@@ -8,59 +8,55 @@
 
 Court::Court(int num) : court_num(num) {}
 
-// // copy constrcutor
-// Court::Court(const Court& other) : court_num(other.court_num) {
-//     for (const auto* reservation : other.res) {
-//         res.push_back(new Reservation(*reservation));
-//     }
-// }
-// // copy assignemnt operator
-// Court& Court::operator=(const Court& other) {
-//     if (this == &other) {
-//         return *this;
-//     }
-//     court_num = other.court_num;
+// copy constrcutor
+Court::Court(const Court& other) : court_num(other.court_num) {
+    for (const auto* reservation : other.res) {
+        res.push_back(new Reservation(*reservation));
+    }
+}
+// copy assignemnt operator
+Court& Court::operator=(const Court& other) {
+    if (this == &other) {
+        return *this;
+    }
+    court_num = other.court_num;
 
-//     // Clean up existing reservations
-//     for (auto* reservation : res) {
-//         delete reservation;
-//     }
-//     res.clear();
+    // Clean up existing reservations
+    for (auto* reservation : res) {
+        delete reservation;
+    }
+    res.clear();
 
-//     // Deep copy the reservations
-//     for (const auto* reservation : other.res) {
-//         res.push_back(new Reservation(*reservation));
-//     }
+    // Deep copy the reservations
+    for (const auto* reservation : other.res) {
+        res.push_back(new Reservation(*reservation));
+    }
 
-//     return *this;
-// }
+    return *this;
+}
 
-// // move constructor
-// Court::Court(Court&& other) noexcept
-//     : court_num(std::move(other.court_num)), res(std::move(other.res)) {
-//     other.court_num = 0;
-//     other.res.clear();
-// }
-// // move assignment operator
-// Court& Court::operator=(Court&& other) noexcept {
-//     if (this == &other) {
-//         return *this;
-//     }
-//     court_num = std::move(other.court_num);
-//     other.court_num = 0;
-//     res = std::move(other.res);
+// move constructor
+Court::Court(Court&& other) noexcept
+    : court_num(std::move(other.court_num)), res(std::move(other.res)) {
+    other.court_num = 0;
+    other.res.clear();
+}
+// move assignment operator
+Court& Court::operator=(Court&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    court_num = std::move(other.court_num);
+    other.court_num = 0;
+    res = std::move(other.res);
 
-//     other.court_num = 0;
-//     other.res.clear();
+    other.court_num = 0;
+    other.res.clear();
 
-//     return *this;
-// }
-// // destructor
-// Court::~Court() {
-//     for (auto* reservation : res) {
-//         delete reservation;
-//     }
-// }
+    return *this;
+}
+// destructor
+Court::~Court() = default;
 // checks if time is between 30 minutes from the reservations start time
 bool Court::is_reserved(std::chrono::system_clock::time_point time)
 {

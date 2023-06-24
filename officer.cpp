@@ -1,5 +1,6 @@
 #include "officer.hpp"
 #include <iostream>
+#include <algorithm>
 using namespace std; 
 
 Officer::Officer(int id, const std::string& name, char skill, std::vector<Court*> courts, std::vector<Officer*> officers) : Member(id, name, skill, courts, officers) {}
@@ -135,12 +136,32 @@ void Officer::reserve_openplay() {
     }
 }
 
+
 void Officer::handle_requests() {
-  // should change the time of a reservation? 
+    
+}
+void Officer::handle_request(int id, std::chrono::system_clock::time_point start_time, bool cancel) {
+    
 }
 
-void Officer::handle_request(int id, std::chrono::system_clock::time_point start_time, bool cancel) {
-  // should change the time of a reservation? 
+void Officer::modify_reservation(int id, std::chrono::system_clock::time_point old_start, std::chrono::system_clock::time_point new_start) {
+   for (User* user : all_users) {
+    if (user->getId() == id) {
+        for (Reservation* reservation : user->my_reservations) {
+            if (reservation->get_start() == old_start) {          
+                reservation->set_start(user->getId(), new_start);
+                
+                auto it = std::find_if(user->my_reservations.begin(), user->my_reservations.end(),
+                    [reservation](const Reservation* r) { return r == reservation; });
+                if (it != user->my_reservations.end()) {
+                    user->my_reservations.erase(it);
+                }
+                // Add the modified reservation back to the vector
+                user->my_reservations.push_back(reservation);
+                return;
+            }
+        }
+    }
 }
 
 void Officer::modify_reservation(int id, std::chrono::system_clock::time_point new_start) {

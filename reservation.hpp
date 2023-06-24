@@ -29,11 +29,11 @@ public:
 public:
     // RULE OF 5
     Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c);
-    // Reservation(const Reservation& other);  // Copy constructor
-    // Reservation& operator=(const Reservation& other);  // Copy assignment operator
-    // Reservation(Reservation&& other) noexcept;  // Move constructor
-    // Reservation& operator=(Reservation&& other) noexcept;  // Move assignment operator
-    // ~Reservation();  // Destructor
+    Reservation(const Reservation& other);  // Copy constructor
+    Reservation& operator=(const Reservation& other);  // Copy assignment operator
+    Reservation(Reservation&& other) noexcept;  // Move constructor
+    Reservation& operator=(Reservation&& other) noexcept;  // Move assignment operator
+    ~Reservation();  // Destructor
     // adds another username to users (enforce max is 2) 
     void add_user(User& u);
     // removes a user from this reservation (needs 1 user to still be on this tho)
@@ -46,7 +46,7 @@ public:
     std::chrono::system_clock::time_point get_start();
     // returns openplay bool
     bool is_openplay();
-    // changes the start time for this reservation (first checks that id is from an officer)
+    // changes the start time for this reservation (only if valid time)
     void set_start(int id, std::chrono::system_clock::time_point time);
     // override '==' operator to compare 
     bool operator==(const Reservation& other) const;
