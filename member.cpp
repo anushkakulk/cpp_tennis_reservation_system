@@ -621,7 +621,7 @@ void Member::request() {
             selectedOfficer->handle_request(
                 this->getId(),
                 (new Reservation(this->getId(), startTime, dayOfWeek,
-                                 desiredCourt)),
+                                 desiredCourt, this->get_membership())),
                 false);
             std::cout << "Reservation request sent successfully" << std::endl;
             std::cout << std::endl;
