@@ -2,6 +2,13 @@
 #include <iostream>
 #include <ctime>
 #include <chrono>
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <algorithm>
+
 using namespace std;
 
 Coach::Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "coach", courts), all_officers(officers) {}
@@ -90,8 +97,44 @@ void Coach::view_menu()
 
 void Coach::view_schedule()
 {
-    // print out the schedule by iterating through courts and iterating through each courts reservations
-    // for the next 24 hours
+    // Get the ID of the current coach
+    int current_coach_id = this->getId();
+
+    // Iterate through each court
+    for (auto &court : this->get_courts()) {
+        // Get the filename of court's reservation file
+        std::string filename = "court" + std::to_string(court->get_court_num()) + ".txt";
+
+        // Open the file
+        std::ifstream file(filename);
+
+        if (file.is_open()) {
+            std::string line;
+
+            // Read each line (reservation) in the file
+            while (getline(file, line)) {
+                // Parse the reservation details from the line
+                std::istringstream ss(line);
+
+                // Assuming that the coach ID is first in the formatted string
+                std::string coach_id_str;
+                std::getline(ss, coach_id_str, ',');
+
+                // Extract the ID after "Player ID: " (assuming similar structure for Coach)
+                int coach_id = std::stoi(coach_id_str.substr(11));
+
+                // If the coach ID matches the current coach's ID, print the line
+                if (coach_id == current_coach_id) {
+                    std::cout << line << std::endl;
+                }
+            }
+
+            file.close();
+        }
+        else {
+            std::cout << "Unable to open file" << std::endl;
+        }
+    }
 }
 
 void Coach::reserve()
