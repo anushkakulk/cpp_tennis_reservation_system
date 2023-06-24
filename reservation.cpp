@@ -7,9 +7,10 @@
 #include <ctime>
 
 
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, std::string userType)
-    : start_datetime(startDateTime), day_of_week(day), court(c)
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, const std::string& membership)
+    : start_datetime(startDateTime), day_of_week(day), court(c), membership_type(membership) 
 {
+    
     // adds this players id to reservation
     player_ids.push_back(player_id);
     // adds this rseervation to the courts
@@ -181,7 +182,7 @@ std::string Reservation::toString() const {
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", ptm);
 
     ss << "Player ID: " << get_player_id()
-       << ", Membership Type: " << user_type  // Print the user type
+       << ", Membership Type: " << get_membership_type() // Print the user type
        << ", Start Time: " << buffer
        << ", Day: " << day_of_week
        << ", Court: " << court_num;
@@ -198,4 +199,9 @@ int Reservation::get_player_id() const {
         return -1;
     }
 }
+
+std::string Reservation::get_membership_type() const {
+    return membership_type;
+}
+
 

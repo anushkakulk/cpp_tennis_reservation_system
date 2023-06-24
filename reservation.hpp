@@ -18,16 +18,15 @@ private:
     int day_of_week; 
     // is this reservation for open play or not?
     bool open_play;
-    // the type of user who made the reservation
-    std::string user_type;
-
+    // users membership type
+    std::string membership_type;
 public: 
     // the court this reservation is for
     Court* court;
 
 public:
     // RULE OF 5
-    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c, std::string userType);
+    Reservation(int player_id, const std::chrono::system_clock::time_point& startDateTime, int day, Court* c, const std::string& membership);
     Reservation(const Reservation& other);  // Copy constructor
     Reservation& operator=(const Reservation& other);  // Copy assignment operator
     Reservation(Reservation&& other) noexcept;  // Move constructor
@@ -53,6 +52,8 @@ public:
     int get_player_id() const;
     // convert reservation to string
     std::string toString() const;
+    // get user membership type
+    std::string get_membership_type() const;
 };
 
 #endif  // RESERVATION_H
