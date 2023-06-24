@@ -48,7 +48,8 @@ int main()
     j.all_users = all_players;
     */
 
-
+    // I THINK THERE SHOULD BE A CHECK TO MAKESURE YOU ARE A NEW USER VS A 
+    // RETURNING USER????
    cout << "Welcome to the court reservation system!" << endl;
    cout << "Please enter your details to interact with the system" << endl;
    User newUser = registerUser();

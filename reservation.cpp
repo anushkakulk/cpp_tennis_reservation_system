@@ -175,9 +175,13 @@ std::string Reservation::toString() const {
     // Assume court_num is the identifier for Court
     int court_num = court->get_court_num();
 
+    char buffer[80]; // buffer for time
+
+   
+    std::strftime(buffer, sizeof(buffer), "%c", ptm);
+
     ss << "Player ID: " << get_player_id()
-      //  << ", Start Time: " << std::put_time(ptm,"%c")
-      // MIGHT WANNA TRY THIS: std::ctime(&ptm)
+      << ", Start Time: " << buffer 
        << ", Day: " << day_of_week
        << ", Court: " << court_num;
 
