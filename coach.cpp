@@ -58,36 +58,30 @@ void Coach::view_menu()
 {
     cout << "Enter the number associated with your option choice (1-4)" << endl;
     cout << "Coach Menu: " << endl;
-    cout << "1. View Schedule" << endl;
-    cout << "2. Reserve a Court" << endl;
-    cout << "3. Cancel a Reservation" << endl;
-    cout << "4. Send a Request to an Officer" << endl;
-    cout << "5. Quit to Terminal" << endl;
+   cout << "1. View Schedule" << endl;
+    cout << "2. View all of your reservations" << endl;
+    cout << "3. Reserve a Court" << endl;
+    cout << "4. Cancel a Reservation" << endl;
+    cout << "5. Send a Request to an Officer" << endl;
+    cout << "6. Quit to Terminal" << endl;
     int choice;
     cin >> choice;
 
     // schedule view
-    if (choice == 1)
-    {
-        view_schedule();
-    }
-    else if (choice == 2)
-    {
+    if (choice == 1) {
+       view_schedule();
+    } else if (choice == 2) {
+        view_my_reservations();
+    } else if (choice == 3) {
         reserve();
-    }
-    else if (choice == 3)
-    {
-        cancel_reservation();
-    }
-    else if (choice == 4)
-    {
-        request_timechange();
-    }
-    else if (choice == 5) {
-        return;
-    }
-    else
-    {
+    } else if (choice == 4) {
+       cancel_reservation();
+    } else if (choice == 5) {
+       //request_timechange();
+    } else if (choice == 6) {
+      return;
+    } else {
+   
         cout << "Invalid choice. Please try again.\n";
         std::cout << std::endl;
         this->view_menu();

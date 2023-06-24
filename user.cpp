@@ -14,6 +14,7 @@
 #include "court.hpp"    // For Court
 #include "user.hpp"     // For User
 
+using namespace std;
 
 User::User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
@@ -307,4 +308,32 @@ void User::cancel_reservation()
             // cancel the reservation
         }
     }
+}
+
+
+// print out this user's schedule
+void User::view_my_reservations()
+{
+    for (size_t i = 0; i < my_reservations.size(); ++i)
+    {
+        cout << "[" << (i + 1) << "] "
+             << "Reservation Details:" << endl;
+        cout << "Player ID(s): ";
+        for (size_t j = 0; j < my_reservations[i]->get_players().size(); ++j)
+        {
+            cout << my_reservations[i]->get_players()[j];
+            if (j < my_reservations[i]->get_players().size() - 1)
+            {
+                cout << ", ";
+            }
+        }
+
+        cout << endl;
+        std::time_t startTime = std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
+        std::tm *timeInfo = std::localtime(&startTime);
+
+        cout << "Start Time: " << std::ctime(&startTime) << "on day " << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
+        cout << endl;
+    }
+    this->view_menu();
 }

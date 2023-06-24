@@ -32,7 +32,7 @@ public:
     char get_skill();
     // displays the the member specific menu
     void view_menu() override;
-    // displays the member specific schedule 
+    // displays complete schedules
     void view_schedule() override;
     // reserves a session for this member during the given start end time (if valid)
     void reserve() override;

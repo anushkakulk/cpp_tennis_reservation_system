@@ -51,6 +51,8 @@ public:
     virtual void view_menu();
     // displays the user-specific schedule;
     virtual void view_schedule();
+    // displays only this user's reservations
+    void view_my_reservations();
 
     // User registerUser(); 
 

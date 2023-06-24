@@ -78,9 +78,11 @@ void Member::view_menu()
     std::cout << std::endl; 
     cout << "Member Menu: " << endl;
     cout << "1. View Schedule" << endl;
-    cout << "2. Reserve a Court" << endl;
-    cout << "3. Cancel a Reservation" << endl;
-    cout << "4. Send a Request to an Officer" << endl;
+    cout << "2. View all of your reservations" << endl;
+    cout << "3. Reserve a Court" << endl;
+    cout << "4. Cancel a Reservation" << endl;
+    cout << "5. Send a Request to an Officer" << endl;
+    cout << "6. Quit to Terminal" << endl;
     int choice;
     cin >> choice;
 
@@ -88,11 +90,15 @@ void Member::view_menu()
     if (choice == 1) {
        view_schedule();
     } else if (choice == 2) {
-        reserve();
+        view_my_reservations();
     } else if (choice == 3) {
-        cancel_reservation();
+        reserve();
     } else if (choice == 4) {
-        // request_timechange();
+       cancel_reservation();
+    } else if (choice == 5) {
+       //request_timechange();
+    } else if (choice == 6) {
+      return;
     } else {
         cout << "Invalid choice. Please try again. \n";
         std::cout << std::endl;
@@ -129,9 +135,9 @@ void Member::view_schedule()
                 int player_id = std::stoi(player_id_str.substr(11));
 
                 // If the player ID matches the current member's ID, print the line
-                if (player_id == current_player_id) {
+                //if (player_id == current_player_id) {
                     std::cout << line << std::endl;
-                }
+                //}
             }
 
             file.close();
@@ -187,10 +193,10 @@ void Member::reserve()
             auto maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
             // makes a time
             std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
-            // gets the local time to extract day of week
+            // gets the local time 
             std::tm *localTime = std::localtime(&startTimeT);
 
-            // Extract the day of the week from the std::tm object
+            // extract the day of the week from the std::tm object
             int dayOfWeek = localTime->tm_wday;
             // makes sure its in the future
             if (startTime <= std::chrono::system_clock::now())
@@ -206,6 +212,28 @@ void Member::reserve()
                 std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
+            }
+            // prevent reserving during coaching hours 48+ hours in advance
+            else if (
+                startTime > std::chrono::system_clock::now() + std::chrono::hours(48) &&
+                (localTime->tm_wday >= 1 && localTime->tm_wday <= 5 && (
+                (localTime->tm_hour >= 9 && localTime->tm_hour < 11) ||
+                (localTime->tm_hour == 11 && localTime->tm_min <= 30) ||
+                (localTime->tm_hour >= 15 && localTime->tm_hour < 17) ||
+                (localTime->tm_hour == 17 && localTime->tm_min <= 30)))) {
+                    std::cout << "You are trying to reserve a spot that is for coaching hours." << std::endl;
+                    std::cout << "Try again 48 hours before the reservation for availability." << std::endl;
+                    std::cout << std::endl;
+                    this->view_menu();
+            } // prevent reserving during open play hours 48+ hours in advance
+            else if (
+                startTime > std::chrono::system_clock::now() + std::chrono::hours(48) &&
+                 (localTime->tm_hour >= 18 && localTime->tm_hour < 20) ||
+                  (localTime->tm_hour == 20 && localTime->tm_min <= 30)){
+                    std::cout << "You are trying to reserve a spot that is for open play hours." << std::endl;
+                    std::cout << "Try again 48 hours before the reservation for availability." << std::endl;
+                    std::cout << std::endl;
+                    this->view_menu();
             }
             else
             {
