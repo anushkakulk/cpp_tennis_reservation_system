@@ -102,15 +102,8 @@ void Member::view_menu()
 
 void Member::view_schedule()
 {
-    // print out the schedule by iterating through courts and iterating through each courts reservations
-    // for the next 24 hours
-    // print out the schedule by iterating through courts and iterating through each courts reservations
-    // for the next 24 hours
-    // Get current time
-    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-
-    // Add 24 hours to current time
-    std::chrono::system_clock::time_point next_day = now + std::chrono::hours(24);
+    // Get the ID of the current member
+    int current_player_id = this->getId();
 
     // Iterate through each court
     for (auto &court : this->get_courts()) {
@@ -126,23 +119,17 @@ void Member::view_schedule()
             // Read each line (reservation) in the file
             while (getline(file, line)) {
                 // Parse the reservation details from the line
-                // This part depends on how you've formatted the toString() function in Reservation class
-
                 std::istringstream ss(line);
 
-                // Assuming that the start time is second in the formatted string from Reservation::toString()
-                std::string ignore, start_time_str;
-                std::getline(ss, ignore, ',');
-                std::getline(ss, start_time_str, ',');
+                // Assuming that the player ID is first in the formatted string
+                std::string player_id_str;
+                std::getline(ss, player_id_str, ',');
 
-                // Assuming start time string is formatted as "%Y-%m-%d %H:%M:%S", convert it to time_point
-                std::tm tm = {};
-                std::istringstream start_time_ss(start_time_str);
-                // start_time_ss >> std::get_time(&tm, " %Y-%m-%d %H:%M:%S");
-                auto start_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+                // Extract the ID after "Player ID: "
+                int player_id = std::stoi(player_id_str.substr(11));
 
-                // If the start time of the reservation is within the next 24 hours
-                if (start_time >= now && start_time <= next_day) {
+                // If the player ID matches the current member's ID, print the line
+                if (player_id == current_player_id) {
                     std::cout << line << std::endl;
                 }
             }
@@ -154,6 +141,7 @@ void Member::view_schedule()
         }
     }
 }
+
 
 void Member::reserve()
 {
