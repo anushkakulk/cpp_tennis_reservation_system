@@ -73,7 +73,9 @@ char Member::get_skill()
 // member specific menu options
 void Member::view_menu()
 {
-    cout << "Enter the number associated with your option choice (1-4)" << endl;
+    std::cout << std::endl; 
+    cout << "Menu Style Options: Choose a feature (1-4) associated with your choice" << endl;
+    std::cout << std::endl; 
     cout << "Member Menu: " << endl;
     cout << "1. View Schedule" << endl;
     cout << "2. Reserve a Court" << endl;
@@ -83,24 +85,15 @@ void Member::view_menu()
     cin >> choice;
 
     // schedule view
-    if (choice == 1)
-    {
-        view_schedule();
-    }
-    else if (choice == 2)
-    {
+    if (choice == 1) {
+       view_schedule();
+    } else if (choice == 2) {
         reserve();
-    }
-    else if (choice == 3)
-    {
+    } else if (choice == 3) {
         cancel_reservation();
-    }
-    else if (choice == 4)
-    {
+    } else if (choice == 4) {
         // request_timechange();
-    }
-    else
-    {
+    } else {
         cout << "Invalid choice. Please try again. \n";
         std::cout << std::endl;
         this->view_menu();

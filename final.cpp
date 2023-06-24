@@ -7,6 +7,14 @@
 #include "court.hpp"
 
 using namespace std;
+
+char randomSkill() {
+   char skillLevels[] = {'A', 'B', 'C'};
+   int numLevels = sizeof(skillLevels) / sizeof(skillLevels[0]);
+   int randomIndex = rand() % numLevels;
+   return skillLevels[randomIndex];
+}
+
 int main()
 {
     // initalize all practice data
@@ -15,12 +23,16 @@ int main()
     Court three = Court(3);
     vector<Court *> all_courts = {&one, &two, &three}; 
     
-    
+    std::vector<Officer*> all_officers;
+    std::vector<User*> all_users;
+ 
+
+    /*
     Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
     Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
     vector<Officer *> all_officers = {&i, &j};                            
 
-   /*
+  
     Member a = Member(1, "alice", 'A', all_courts, all_officers);
     Member b = Member(2, "bob", 'B', all_courts, all_officers);
     Member c = Member(3, "carol", 'C', all_courts, all_officers);
@@ -44,12 +56,18 @@ int main()
    string membershipType = newUser.get_membership();
 
     if (membershipType == "member") {
-        Member member(newUser.getId(), newUser.get_name(), 'A', all_courts, all_officers); 
+        char skill = randomSkill(); 
+        Member member(newUser.getId(), newUser.get_name(), skill, all_courts, all_officers); 
         member.view_menu();
+        all_users.push_back(&member); 
     } else if (membershipType == "coach") {
-        newUser.view_menu();
+        Coach coach(newUser.getId(), newUser.get_name(), all_courts, all_officers);
+        coach.view_menu();
+        all_users.push_back(&coach);
     } else if (membershipType == "officer") {
-        newUser.view_menu();
+        Officer officer(newUser.getId(), newUser.get_name(), 'A', all_courts, all_officers);
+        officer.view_menu();
+        all_users.push_back(&officer);
     } else {
         newUser.view_menu(); 
     }
