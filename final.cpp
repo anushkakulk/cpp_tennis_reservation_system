@@ -15,11 +15,12 @@ int main()
     Court three = Court(3);
     vector<Court *> all_courts = {&one, &two, &three}; 
     
-    /*
+    
     Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
     Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
     vector<Officer *> all_officers = {&i, &j};                            
 
+   /*
     Member a = Member(1, "alice", 'A', all_courts, all_officers);
     Member b = Member(2, "bob", 'B', all_courts, all_officers);
     Member c = Member(3, "carol", 'C', all_courts, all_officers);
@@ -43,13 +44,14 @@ int main()
    string membershipType = newUser.get_membership();
 
     if (membershipType == "member") {
-        newUser.view_menu();
+        Member member(newUser.getId(), newUser.get_name(), 'A', all_courts, all_officers); 
+        member.view_menu();
     } else if (membershipType == "coach") {
         newUser.view_menu();
     } else if (membershipType == "officer") {
         newUser.view_menu();
     } else {
-        cout << "Invalid membership type!" << endl;
+        newUser.view_menu(); 
     }
 
    // delete newUserPtr;

@@ -97,7 +97,7 @@ void Member::view_menu()
     }
     else if (choice == 4)
     {
-        request_timechange();
+        // request_timechange();
     }
     else
     {
@@ -145,7 +145,7 @@ void Member::view_schedule()
                 // Assuming start time string is formatted as "%Y-%m-%d %H:%M:%S", convert it to time_point
                 std::tm tm = {};
                 std::istringstream start_time_ss(start_time_str);
-                start_time_ss >> std::get_time(&tm, " %Y-%m-%d %H:%M:%S");
+                // start_time_ss >> std::get_time(&tm, " %Y-%m-%d %H:%M:%S");
                 auto start_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 
                 // If the start time of the reservation is within the next 24 hours
@@ -306,7 +306,7 @@ void Member::cancel_reservation()
         this->view_menu();
     }
 }
-
+/*
 void Member::request_timechange()
 {
     
@@ -405,4 +405,5 @@ void Member::request_timechange()
         return;
      }
  }
- 
+}
+*/  

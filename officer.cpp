@@ -143,7 +143,7 @@ void Officer::handle_requests() {
 void Officer::handle_request(int id, std::chrono::system_clock::time_point start_time, bool cancel) {
     
 }
-
+/*
 void Officer::modify_reservation(int id, std::chrono::system_clock::time_point old_start, std::chrono::system_clock::time_point new_start) {
    for (User* user : all_users) {
     if (user->getId() == id) {
@@ -163,7 +163,9 @@ void Officer::modify_reservation(int id, std::chrono::system_clock::time_point o
         }
     }
 }
-
+}
 void Officer::modify_reservation(int id, std::chrono::system_clock::time_point new_start) {
   // should change the time of a reservation? 
-}
+} */
+
+

@@ -177,10 +177,7 @@ std::string Reservation::toString() const {
 
     ss << "Player ID: " << get_player_id()
       //  << ", Start Time: " << std::put_time(ptm,"%c")
-<<<<<<< HEAD
-=======
       // MIGHT WANNA TRY THIS: std::ctime(&ptm)
->>>>>>> 53458af1a91e51dbae3eed07b157ce53ba33e978
        << ", Day: " << day_of_week
        << ", Court: " << court_num;
 
