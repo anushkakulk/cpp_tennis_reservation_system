@@ -139,7 +139,7 @@ std::string Reservation::toString() const {
     int court_num = court->get_court_num();
 
     ss << "Player ID: " << get_player_id()
-       << ", Start Time: " << std::put_time(ptm,"%c")
+      //  << ", Start Time: " << std::put_time(ptm,"%c")
        << ", Day: " << day_of_week
        << ", Court: " << court_num;
 

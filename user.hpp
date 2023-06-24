@@ -39,6 +39,8 @@ public:
     // returns this user's id
     std::vector<Court *> get_courts();
 
+    std::string get_membership(); 
+
     // reserves a spot for this user at the given start and end time
     virtual void reserve();
     // cancels a spot for this user at the given start and end time
@@ -47,6 +49,15 @@ public:
     virtual void view_menu();
     // displays the user-specific schedule;
     virtual void view_schedule();
+
+    // User registerUser(); 
+
+    std::string toString() const {
+    std::string registeredUser = std::to_string(id) + " " + name + " " + membership_type + "\n";
+    return registeredUser;
+  }
 };
 
+User registerUser();
+ 
 #endif // USER_HPP

@@ -1,5 +1,8 @@
 #include "user.hpp"
 #include <iostream>
+#include <fstream>
+#include <vector> 
+#include <sstream>
 
 User::User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts) : id(id), name(name), membership_type(type), all_courts(courts) {}
 
@@ -96,16 +99,78 @@ std::string User::get_name()
     return name;
 }
 
+std::string User::get_membership()
+{
+   return membership_type; 
+
+}
+
 // returns all courts accessible by this user
 std::vector<Court *> User::get_courts()
 {
     return all_courts;
 }
 
+User  registerUser() {
+  std::string uniqueId;
+  std::string username;
+  std::string membershipType;
+
+  std::cout << "Enter your ID: ";
+  std::cin >> uniqueId;
+
+  std::cout << "Enter your name: ";
+  std::cin >> username;
+
+  std::cout << "Enter membership type (member, coach, or officer): ";
+  std::cin >> membershipType;
+
+  std::ifstream readFile("users.txt");
+  bool userExists = false;
+
+  if (readFile.is_open()) {
+    std::string line;
+    while (std::getline(readFile, line)) {
+        std::string id, name, membership;
+        std::istringstream iss(line);
+
+        if (std::getline(iss, id, ' ') &&
+            std::getline(iss, name, ' ') &&
+            std::getline(iss, membership, ' ')) {
+            if (id == uniqueId && name == username && membership == membershipType) {
+                userExists = true; 
+                break;
+            }
+        }
+    }
+    readFile.close();
+  } else {
+    std::cout << "Failed to open the file for reading." << std::endl;
+    return User(-1, "", "", std::vector<Court *>()); // Return an invalid user
+  }
+
+  if (userExists) {
+    std::cout << "User exists, welcome!" << std::endl;
+    return User(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
+  } else {
+    User newUser(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
+    std::ofstream outFile("users.txt", std::ios::app);
+    if (outFile.is_open()) {
+      outFile << newUser.toString();
+      outFile.close();
+      std::cout << "User registered successfully, welcome!" << std::endl;
+    } else {
+      std::cout << "Failed to open the file for writing." << std::endl;
+    }
+
+    return newUser;
+  }
+}
+
 // displays the user-specific menu
 void User::view_menu()
 {
-    std::cout << "Enter the number associated with your option choice (1-4)";
+    std::cout << "Enter the number associated with your option choice (1-4)" << std::endl; 
     std::cout << "User Menu:\n";
     std::cout << "1. View Schedule\n";
     std::cout << "2. Reserve a Court\n";

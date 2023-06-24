@@ -15,7 +15,7 @@ int main()
     Court three = Court(3);
     vector<Court *> all_courts = {&one, &two, &three}; 
     
-
+    /*
     Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
     Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
     vector<Officer *> all_officers = {&i, &j};                            
@@ -33,10 +33,30 @@ int main()
     vector<User*> all_players = {&a, &b, &c, &d, &e, &f, &g, &h}; 
     i.all_users = all_players;
     j.all_users = all_players;
-    
+    */
 
-    cout << "Welcome to the court reservation system!" << endl;
-    cout << "Please enter your user id: (should be from 1 through 9)" << endl;
+
+   cout << "Welcome to the court reservation system!" << endl;
+   cout << "Please enter your details to interact with the system" << endl;
+   User newUser = registerUser();
+   
+   string membershipType = newUser.get_membership();
+
+    if (membershipType == "member") {
+        newUser.view_menu();
+    } else if (membershipType == "coach") {
+        newUser.view_menu();
+    } else if (membershipType == "officer") {
+        newUser.view_menu();
+    } else {
+        cout << "Invalid membership type!" << endl;
+    }
+
+   // delete newUserPtr;
+
+
+
+    /* cout << "Please enter your user id: (should be from 1 through 9)" << endl;
     int login_id;
     cin >> login_id;
     for (User *user : all_users)
@@ -46,7 +66,7 @@ int main()
             user->view_menu();
             break;
         }
-    }
+    }*/ 
 
     // iterate through users and see who's id matches the login, then call their respective
     // view_menu() method!!
