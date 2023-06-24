@@ -236,9 +236,8 @@ void Member::reserve() {
         this->view_menu();
       } else {
 
-        // TODO, check that no one is on the court then
-        my_reservations.push_back(
-            new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt));
+                // TODO, check that no one is on the court then
+                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership()));
 
         cout << endl;
         this->view_menu();
