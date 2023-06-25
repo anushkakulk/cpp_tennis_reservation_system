@@ -250,7 +250,7 @@ void Coach::reserve()
             else
             {
                 // TODO, check that no one is on the court then
-                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership()));
+                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), false));
                 cout << endl;
                 this->view_menu();
             }
@@ -645,7 +645,7 @@ void Coach::request()
                         selectedOfficer->handle_request(
                             this->getId(),
                             (new Reservation(this->getId(), startTime, dayOfWeek,
-                                             desiredCourt, this->get_membership())),
+                                             desiredCourt, this->get_membership(), false)),
                             false);
                         std::cout << "Reservation request sent successfully" << std::endl;
                         std::cout << std::endl;

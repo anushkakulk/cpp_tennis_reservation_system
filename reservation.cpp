@@ -6,8 +6,8 @@
 #include <iomanip>
 #include <ctime>
 
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, const std::string &membership)
-    : start_datetime(startDateTime), day_of_week(day), court(c), membership_type(membership)
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, const std::string &membership, bool openPlay)
+    : start_datetime(startDateTime), day_of_week(day), court(c), membership_type(membership), isOpenPlay(openPlay)
 {
 
     // adds this players id to reservation
@@ -101,8 +101,7 @@ std::vector<int> Reservation::get_players()
     return player_ids;
 }
 
-void Reservation::delete_reservation()
-{
+void Reservation::delete_reservation() {
     court->delete_reservation(this);
 }
 
@@ -185,7 +184,8 @@ std::string Reservation::toString() const
     
 
         ss << "Player ID: " << get_player_id()
-           << ", Membership Type: " << get_membership_type() // Print the user type
+           << ", Membership Type: " << (get_isOpenPlay() ? "officer" : get_membership_type()) // Print the user type
+           << ", Open Play: " << (get_isOpenPlay() ? "Yes" : "No") // Print "Yes" if open_play is true, "No" otherwise
            << ", Start Time: " << buffer
            << ", Day: " << day_of_week
            << ", Court: " << court_num;
@@ -211,4 +211,8 @@ int Reservation::get_player_id() const
 std::string Reservation::get_membership_type() const
 {
     return membership_type;
+}
+
+bool Reservation::get_isOpenPlay() const {
+    return isOpenPlay;
 }
