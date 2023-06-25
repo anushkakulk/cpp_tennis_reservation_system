@@ -181,14 +181,17 @@ std::string Reservation::toString() const
 
     // Format the start_datetime using "%Y-%m-%d %H:%M:%S" format
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", ptm);
+    
+    
 
-    ss << "Player ID: " << get_player_id()
-       << ", Membership Type: " << get_membership_type() // Print the user type
-       << ", Start Time: " << buffer
-       << ", Day: " << day_of_week
-       << ", Court: " << court_num;
+        ss << "Player ID: " << get_player_id()
+           << ", Membership Type: " << get_membership_type() // Print the user type
+           << ", Start Time: " << buffer
+           << ", Day: " << day_of_week
+           << ", Court: " << court_num;
+   
 
-    return ss.str();
+        return ss.str();
 }
 
 int Reservation::get_player_id() const

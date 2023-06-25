@@ -10,8 +10,7 @@
 class Coach : public User
 {
 public:
-    // all reservations of this coach
-    std::vector<Reservation *> coach_reservations;
+
     std::vector<Officer *> all_officers;
 
 public:
