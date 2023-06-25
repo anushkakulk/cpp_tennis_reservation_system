@@ -14,39 +14,46 @@ using namespace std;
 Coach::Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers) : User(id, name, "coach", courts), all_officers(officers) {}
 
 // copy constructor
-Coach::Coach(const Coach& other) : User(other), all_officers(other.all_officers) {
-    
+Coach::Coach(const Coach &other) : User(other), all_officers(other.all_officers)
+{
 }
 
 // copy assignment operator
-Coach& Coach::operator=(const Coach& other) {
-    if (this == &other) {
+Coach &Coach::operator=(const Coach &other)
+{
+    if (this == &other)
+    {
         return *this;
     }
     User::operator=(other);
     all_officers = other.all_officers;
 
     // free up vector<officer> allocation
-    for (auto* o : all_officers) {
+    for (auto *o : all_officers)
+    {
         delete o;
     }
     all_officers.clear();
 
-    // copy 
-    for (const auto* o : other.all_officers) {
+    // copy
+    for (const auto *o : other.all_officers)
+    {
         all_officers.push_back(new Officer(*o));
     }
 
     return *this;
 }
 // move constructor
-Coach::Coach(Coach&& other) noexcept
-    : User(std::move(other)), all_officers(std::move(other.all_officers)) {
+Coach::Coach(Coach &&other) noexcept
+    : User(std::move(other)), all_officers(std::move(other.all_officers))
+{
     other.all_officers.clear();
 }
 // move assignment operator
-Coach& Coach::operator=(Coach&& other) noexcept {
-    if (this == &other) {
+Coach &Coach::operator=(Coach &&other) noexcept
+{
+    if (this == &other)
+    {
         return *this;
     }
 
@@ -65,7 +72,7 @@ void Coach::view_menu()
 {
     cout << "Enter the number associated with your option choice (1-4)" << endl;
     cout << "Coach Menu: " << endl;
-   cout << "1. View Schedule" << endl;
+    cout << "1. View Schedule" << endl;
     cout << "2. View all of your reservations" << endl;
     cout << "3. Reserve a Court" << endl;
     cout << "4. Cancel a Reservation" << endl;
@@ -75,20 +82,32 @@ void Coach::view_menu()
     cin >> choice;
 
     // schedule view
-    if (choice == 1) {
-       view_schedule();
-    } else if (choice == 2) {
+    if (choice == 1)
+    {
+        view_schedule();
+    }
+    else if (choice == 2)
+    {
         view_my_reservations();
-    } else if (choice == 3) {
+    }
+    else if (choice == 3)
+    {
         reserve();
-    } else if (choice == 4) {
-       cancel_reservation();
-    } else if (choice == 5) {
-       //request_timechange();
-    } else if (choice == 6) {
-      return;
-    } else {
-   
+    }
+    else if (choice == 4)
+    {
+        cancel_reservation();
+    }
+    else if (choice == 5)
+    {
+        // request_timechange();
+    }
+    else if (choice == 6)
+    {
+        return;
+    }
+    else
+    {
         cout << "Invalid choice. Please try again.\n";
         std::cout << std::endl;
         this->view_menu();
@@ -101,18 +120,21 @@ void Coach::view_schedule()
     int current_player_id = this->getId();
 
     // Iterate through each court
-    for (auto &court : this->get_courts()) {
+    for (auto &court : this->get_courts())
+    {
         // Get the filename of court's reservation file
         std::string filename = "court" + std::to_string(court->get_court_num()) + ".txt";
 
         // Open the file
         std::ifstream file(filename);
 
-        if (file.is_open()) {
+        if (file.is_open())
+        {
             std::string line;
 
             // Read each line (reservation) in the file
-            while (getline(file, line)) {
+            while (getline(file, line))
+            {
                 // Parse the reservation details from the line
                 std::istringstream ss(line);
 
@@ -129,19 +151,20 @@ void Coach::view_schedule()
                 std::string extracted_membership_type = membership_type_str.substr(18);
 
                 // If the player ID matches the current member's ID and the membership type matches the given type, print the line
-                if (player_id == current_player_id && extracted_membership_type == this->get_membership()) {
+                if (player_id == current_player_id && extracted_membership_type == this->get_membership())
+                {
                     std::cout << line << std::endl;
                 }
             }
 
             file.close();
         }
-        else {
+        else
+        {
             std::cout << "Unable to open file" << std::endl;
         }
     }
 }
-
 
 void Coach::reserve()
 {
@@ -157,7 +180,7 @@ void Coach::reserve()
     }
     else
     {
-
+        std::cout << "Coaching hours: 9am-Noon and 3-6pm on weekdays" << std::endl;
         std::cout << "Enter the start time you want in valid format, pressing [enter] in between each input (month [from 1-12], day, year [2023], hour [from 0 to 24], minute [either 0 or 30])" << std::endl;
         int month, day, year, hour, minute;
         std::cin >> month >> day >> year >> hour >> minute;
@@ -216,9 +239,16 @@ void Coach::reserve()
                 std::cout << std::endl;
                 this->view_menu();
             }
+            // enforce the one reservation at a time rule
+            else if (this->checkReservationWithinHours(localTime, desiredCourt->get_court_num()))
+            {
+                std::cout << "A reservation is already booked during the requested time" << std::endl;
+                std::cout << "Check the schedule again and book during a time with no reservations" << std::endl;
+                std::cout << std::endl;
+                this->view_menu();
+            }
             else
             {
-
                 // TODO, check that no one is on the court then
                 my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership()));
                 cout << endl;
@@ -255,14 +285,17 @@ void Coach::cancel_reservation()
         }
 
         cout << endl;
-        std::time_t startTime = std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
+        std::time_t startTime =
+            std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
         std::tm *timeInfo = std::localtime(&startTime);
 
-        cout << "Start Time: " << std::ctime(&startTime) << "on day " << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
+        cout << "Start Time: " << std::ctime(&startTime) << "on day "
+             << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
         cout << endl;
     }
 
-    cout << "Enter the number of the reservation you want to cancel (or 0 to cancel): ";
+    cout << "Enter the number of the reservation you want to cancel (or 0 to "
+            "cancel): ";
     unsigned int input;
     cin >> input;
     // make sure its valid
@@ -296,11 +329,7 @@ void Coach::cancel_reservation()
     }
 }
 
-void Coach::request_timechange()
+void Coach::request()
 {
-    // How to handle requests from member/coach to an officer? as in, should we
-    // have the user automatically send 008/009 a a request, passing in their id and new start
-    // time?
-    // the issue is, how do we refer to the officer object to call the officer method that
-    // makes a time change???
+    // WILL UPDATE THIS DEPENDIGN ON WHATSUP WITH THE LOG IN
 }

@@ -1,27 +1,31 @@
-# Compiler
-CC = g++
-# Compiler flags
-CFLAGS = -g -Wall -std=c++11
+IDIR =../include
+CC=g++
+CFLAGS= -I$(IDIR) -g -O0 -std=c++11
 
-# The build target executable
-TARGET = final
+ODIR=.
 
-# Source files
-SRC = coach.cpp officer.cpp member.cpp reservation.cpp user.cpp court.cpp final.cpp
+LIBS=-lncurses
 
-# Object files
-OBJ = $(SRC:.cpp=.o)
+_DEPS = 
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-# Default target
-all: $(TARGET)
+_OBJ = final.o coach.o court.o member.o officer.o reservation.o user.o 
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
-# To obtain object files
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+all: final
 
-# To remove generated files
+final: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean
+
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -f *~ core $(INCDIR)/*~ 
+	rm -f  final
+	rm -f *.o
+
+etags: 
+	find . -type f -iname "*.[ch]" | xargs etags --append  

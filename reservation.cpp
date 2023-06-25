@@ -6,11 +6,10 @@
 #include <iomanip>
 #include <ctime>
 
-
-Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, const std::string& membership)
-    : start_datetime(startDateTime), day_of_week(day), court(c), membership_type(membership) 
+Reservation::Reservation(int player_id, const std::chrono::system_clock::time_point &startDateTime, int day, Court *c, const std::string &membership)
+    : start_datetime(startDateTime), day_of_week(day), court(c), membership_type(membership)
 {
-    
+
     // adds this players id to reservation
     player_ids.push_back(player_id);
     // adds this rseervation to the courts
@@ -74,7 +73,7 @@ Reservation &Reservation::operator=(Reservation &&other) noexcept
     start_datetime = std::move(other.start_datetime);
     day_of_week = other.day_of_week;
     open_play = other.open_play;
-   
+
     court = other.court;
 
     other.court = nullptr;
@@ -142,7 +141,8 @@ void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
         return;
     }
 
-    if (id == 6 || id == 7) {
+    if (id == 6 || id == 7)
+    {
         // check if the reservation is within coaching hours (9am-11:30am and 3pm-5:30pm, Monday to Friday)
         if (!((hour >= 9 && hour <= 11) || (hour == 15 && minute >= 0 && minute <= 30) || (hour == 17 && minute == 0)) || !(dayOfWeek >= 1 && dayOfWeek <= 5))
         {
@@ -151,7 +151,8 @@ void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
             return;
         }
     }
-    else if (id == 8 || id == 9) {
+    else if (id == 8 || id == 9)
+    {
         // check if the reservation is within open play hours (6pm-9:30pm)
         if (!((hour == 18 && minute >= 0) || (hour >= 19 && hour < 21) || (hour == 21 && minute <= 30)))
         {
@@ -165,13 +166,13 @@ void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
     day_of_week = dayOfWeek;
 }
 
-
-std::string Reservation::toString() const {
+std::string Reservation::toString() const
+{
     std::stringstream ss;
 
     // Convert the time_point to time_t to print it
     std::time_t start_time_t = std::chrono::system_clock::to_time_t(start_datetime);
-    std::tm * ptm = std::localtime(&start_time_t);
+    std::tm *ptm = std::localtime(&start_time_t);
 
     // Assume court_num is the identifier for Court
     int court_num = court->get_court_num();
@@ -190,18 +191,21 @@ std::string Reservation::toString() const {
     return ss.str();
 }
 
-int Reservation::get_player_id() const {
-    if (!player_ids.empty()) {
+int Reservation::get_player_id() const
+{
+    if (!player_ids.empty())
+    {
         return player_ids[0];
-    } else {
+    }
+    else
+    {
         // Handle case when there is no player in the list
         // For instance, you can return -1 or throw an exception
         return -1;
     }
 }
 
-std::string Reservation::get_membership_type() const {
+std::string Reservation::get_membership_type() const
+{
     return membership_type;
 }
-
-

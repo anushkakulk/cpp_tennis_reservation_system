@@ -23,8 +23,9 @@ private:
     // all courts
     std::vector<Court *> all_courts;
 
-public: 
-    std::vector<Reservation*> my_reservations;
+public:
+    std::vector<Reservation *> my_reservations;
+
 public:
     User(int id, const std::string &name, const std::string &type, std::vector<Court *> courts);
 
@@ -41,7 +42,7 @@ public:
     // retrieve courts
     std::vector<Court *> get_courts();
 
-    std::string get_membership(); 
+    std::string get_membership();
 
     // reserves a spot for this user at the given start and end time
     virtual void reserve();
@@ -53,16 +54,18 @@ public:
     virtual void view_schedule();
     // displays only this user's reservations
     void view_my_reservations();
-   
+    // returns true if any reservation exists during the requested time at the given court
+    bool checkReservationWithinHours(std::tm *localTime, int court_num);
 
-    // User registerUser(); 
+    // User registerUser();
 
-    std::string toString() const {
-    std::string registeredUser = std::to_string(id) + " " + name + " " + membership_type + "\n";
-    return registeredUser;
-  }
+    std::string toString() const
+    {
+        std::string registeredUser = std::to_string(id) + " " + name + " " + membership_type + "\n";
+        return registeredUser;
+    }
 };
 
 User registerUser();
- 
+
 #endif // USER_HPP

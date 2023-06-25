@@ -1,18 +1,18 @@
 #include "user.hpp"
 #include <iostream>
 #include <fstream>
-#include <vector> 
+#include <vector>
 #include <sstream>
-#include <fstream>      // For std::ifstream
-#include <sstream>      // For std::istringstream
-#include <string>       // For std::string and std::getline
-#include <vector>       // For std::vector
-#include <iostream>     // For std::cout
-#include <chrono>       // For std::chrono
+#include <fstream>  // For std::ifstream
+#include <sstream>  // For std::istringstream
+#include <string>   // For std::string and std::getline
+#include <vector>   // For std::vector
+#include <iostream> // For std::cout
+#include <chrono>   // For std::chrono
 #include <iomanip>
-#include "reservation.hpp"  // For Reservation
-#include "court.hpp"    // For Court
-#include "user.hpp"     // For User
+#include "reservation.hpp" // For Reservation
+#include "court.hpp"       // For Court
+#include "user.hpp"        // For User
 
 using namespace std;
 
@@ -106,8 +106,7 @@ std::string User::get_name()
 
 std::string User::get_membership()
 {
-   return membership_type; 
-
+    return membership_type;
 }
 
 // returns all courts accessible by this user
@@ -116,66 +115,79 @@ std::vector<Court *> User::get_courts()
     return all_courts;
 }
 
-User  registerUser() {
-  std::string uniqueId;
-  std::string username;
-  std::string membershipType;
+User registerUser()
+{
+    std::string uniqueId;
+    std::string username;
+    std::string membershipType;
 
-  std::cout << "Enter your ID: ";
-  std::cin >> uniqueId;
+    std::cout << "Enter your ID: ";
+    std::cin >> uniqueId;
 
-  std::cout << "Enter your name: ";
-  std::cin >> username;
+    std::cout << "Enter your name: ";
+    std::cin >> username;
 
-  std::cout << "Enter membership type (member, coach, or officer): ";
-  std::cin >> membershipType;
+    std::cout << "Enter membership type (member, coach, or officer): ";
+    std::cin >> membershipType;
 
-  std::ifstream readFile("users.txt");
-  bool userExists = false;
+    std::ifstream readFile("users.txt");
+    bool userExists = false;
 
-  if (readFile.is_open()) {
-    std::string line;
-    while (std::getline(readFile, line)) {
-        std::string id, name, membership;
-        std::istringstream iss(line);
+    if (readFile.is_open())
+    {
+        std::string line;
+        while (std::getline(readFile, line))
+        {
+            std::string id, name, membership;
+            std::istringstream iss(line);
 
-        if (std::getline(iss, id, ' ') &&
-            std::getline(iss, name, ' ') &&
-            std::getline(iss, membership, ' ')) {
-            if (id == uniqueId && name == username && membership == membershipType) {
-                userExists = true; 
-                break;
+            if (std::getline(iss, id, ' ') &&
+                std::getline(iss, name, ' ') &&
+                std::getline(iss, membership, ' '))
+            {
+                if (id == uniqueId && name == username && membership == membershipType)
+                {
+                    userExists = true;
+                    break;
+                }
             }
         }
+        readFile.close();
     }
-    readFile.close();
-  } else {
-    std::cout << "Failed to open the file for reading." << std::endl;
-    return User(-1, "", "", std::vector<Court *>()); // Return an invalid user
-  }
-
-  if (userExists) {
-    std::cout << "User exists, welcome!" << std::endl;
-    return User(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
-  } else {
-    User newUser(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
-    std::ofstream outFile("users.txt", std::ios::app);
-    if (outFile.is_open()) {
-      outFile << newUser.toString();
-      outFile.close();
-      std::cout << "User registered successfully, welcome!" << std::endl;
-    } else {
-      std::cout << "Failed to open the file for writing." << std::endl;
+    else
+    {
+        std::cout << "Failed to open the file for reading." << std::endl;
+        return User(-1, "", "", std::vector<Court *>()); // Return an invalid user
     }
 
-    return newUser;
-  }
+    if (userExists)
+    {
+        std::cout << "User exists, welcome!" << std::endl;
+        return User(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
+    }
+    else
+    {
+        User newUser(std::stoi(uniqueId), username, membershipType, std::vector<Court *>());
+        std::ofstream outFile("users.txt", std::ios::app);
+        if (outFile.is_open())
+        {
+            outFile << newUser.toString();
+            outFile.close();
+            std::cout << "User registered successfully, welcome!" << std::endl;
+        }
+        else
+        {
+            std::cout << "Failed to open the file for writing." << std::endl;
+        }
+
+        return newUser;
+    }
 }
 
 // displays the user-specific menu
 void User::view_menu()
 {
-    std::cout << "Enter the number associated with your option choice (1-4)" << std::endl; 
+    std::cout << "Enter the number associated with your option choice (1-4)" << std::endl;
     std::cout << "User Menu:\n";
     std::cout << "1. View Schedule\n";
     std::cout << "2. Reserve a Court\n";
@@ -214,18 +226,21 @@ void User::view_schedule()
     std::chrono::system_clock::time_point next_day = now + std::chrono::hours(24);
 
     // Iterate through each court
-    for (auto &court : all_courts) {
+    for (auto &court : all_courts)
+    {
         // Get the filename of court's reservation file
         std::string filename = "court" + std::to_string(court->get_court_num()) + ".txt";
 
         // Open the file
         std::ifstream file(filename);
 
-        if (file.is_open()) {
+        if (file.is_open())
+        {
             std::string line;
 
             // Read each line (reservation) in the file
-            while (getline(file, line)) {
+            while (getline(file, line))
+            {
                 // Parse the reservation details from the line
                 // This part depends on how you've formatted the toString() function in Reservation class
 
@@ -243,14 +258,16 @@ void User::view_schedule()
                 auto start_time = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 
                 // If the start time of the reservation is within the next 24 hours
-                if (start_time >= now && start_time <= next_day) {
+                if (start_time >= now && start_time <= next_day)
+                {
                     std::cout << line << std::endl;
                 }
             }
 
             file.close();
         }
-        else {
+        else
+        {
             std::cout << "Unable to open file" << std::endl;
         }
     }
@@ -310,32 +327,114 @@ void User::cancel_reservation()
     }
 }
 
-
 // print out this user's schedule
 void User::view_my_reservations()
 {
-    for (size_t i = 0; i < my_reservations.size(); ++i)
+    // // Get the ID of the current member
+    int current_player_id = this->getId();
+
+    // Iterate through each court
+    for (auto &court : this->get_courts())
     {
-        cout << "[" << (i + 1) << "] "
-             << "Reservation Details:" << endl;
-        cout << "Player ID(s): ";
-        for (size_t j = 0; j < my_reservations[i]->get_players().size(); ++j)
+        // Get the filename of court's reservation file
+        std::string filename =
+            "court" + std::to_string(court->get_court_num()) + ".txt";
+
+        // Open the file
+        std::ifstream file(filename);
+
+        if (file.is_open())
         {
-            cout << my_reservations[i]->get_players()[j];
-            if (j < my_reservations[i]->get_players().size() - 1)
+            std::string line;
+
+            // Read each line (reservation) in the file
+            while (getline(file, line))
             {
-                cout << ", ";
+                // Parse the reservation details from the line
+                std::istringstream ss(line);
+
+                // // Assuming that the player ID is first in the formatted string
+                std::string player_id_str;
+                std::getline(ss, player_id_str, ',');
+
+                // // Extract the ID after "Player ID: "
+                int player_id = std::stoi(player_id_str.substr(11));
+
+                // If the player ID matches the current member's ID, print the line
+                if (player_id == current_player_id)
+                {
+                    std::cout << line << std::endl;
+                }
             }
+
+            file.close();
         }
-
-        cout << endl;
-        std::time_t startTime = std::chrono::system_clock::to_time_t(my_reservations[i]->get_start());
-        std::tm *timeInfo = std::localtime(&startTime);
-
-        cout << "Start Time: " << std::ctime(&startTime) << "on day " << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
-        cout << endl;
+        else
+        {
+            std::cout << "Unable to open file" << std::endl;
+        }
     }
-    this->view_menu();
 }
 
+bool User::checkReservationWithinHours(std::tm *localTime, int court_num)
+{
+    // all of the courts
+    std::vector<std::string> courtFiles = {"court1.txt", "court2.txt", "court3.txt"};
 
+    for (const auto &courtFile : courtFiles)
+    {
+        std::ifstream file(courtFile);
+        if (!file.is_open())
+        {
+            throw std::runtime_error("Failed to open " + courtFile);
+        }
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            size_t startTimePos = line.find("Start Time: ");
+            size_t courtPos = line.find("Court: ");
+            if (startTimePos != std::string::npos && courtPos != std::string::npos)
+            {
+                startTimePos += 12; // Move past "Start Time: "
+                std::string startTimeSubstring = line.substr(startTimePos, 19);
+
+                std::tm startTime = {};
+
+                // parse the string
+                std::sscanf(startTimeSubstring.c_str(), "%d-%d-%d %d:%d:%d",
+                            &startTime.tm_year, &startTime.tm_mon, &startTime.tm_mday,
+                            &startTime.tm_hour, &startTime.tm_min, &startTime.tm_sec);
+
+                startTime.tm_mon -= 1;
+                startTime.tm_year -= 1900;
+
+                std::string courtSubstring = line.substr(courtPos + 7);
+                int reservationCourtNum = std::stoi(courtSubstring);
+
+                // make sure the formats match
+                auto formatTime = [](const std::tm *time)
+                {
+                    char buffer[20];
+                    std::strftime(buffer, sizeof(buffer), "%Y-%-m-%-d %H:%M:%S", time);
+                    return std::string(buffer);
+                };
+
+                std::string localTimeString = formatTime(localTime);
+                std::string startTimeString = formatTime(&startTime);
+
+                std::cout << "Local Time: " << localTimeString << std::endl;
+                std::cout << "Start Time: " << startTimeString << std::endl;
+
+                // Compare the resrvation in file to given info
+                if (localTimeString == startTimeString && reservationCourtNum == court_num)
+                {
+                    file.close();
+                    return true;
+                }
+            }
+        }
+        file.close();
+    }
+    return false;
+}

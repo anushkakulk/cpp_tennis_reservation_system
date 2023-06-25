@@ -7,20 +7,21 @@
 #include <vector>
 #include <memory>
 
-class Coach : public User {
+class Coach : public User
+{
 public:
     // all reservations of this coach
-    std::vector<Reservation*> coach_reservations;
+    std::vector<Reservation *> coach_reservations;
     std::vector<Officer *> all_officers;
 
 public:
-    Coach(int id, const std::string& name, std::vector<Court*> courts,  std::vector<Officer*> officers);
+    Coach(int id, const std::string &name, std::vector<Court *> courts, std::vector<Officer *> officers);
     // RULE OF 5
-    Coach(const Coach& other); // copy 
-    Coach& operator=(const Coach& other); //copy assign. op. 
-    Coach(Coach&& other) noexcept; // move
-    Coach& operator=(Coach&& other) noexcept; // move assign. op.
-    ~Coach(); // destruct
+    Coach(const Coach &other);                // copy
+    Coach &operator=(const Coach &other);     // copy assign. op.
+    Coach(Coach &&other) noexcept;            // move
+    Coach &operator=(Coach &&other) noexcept; // move assign. op.
+    ~Coach();                                 // destruct
     // displays the coach specific menu
     void view_menu() override;
     // displays the coach specific schedule
@@ -30,7 +31,7 @@ public:
     // cancels a session for this member during the given start end time (if valid)
     void cancel_reservation() override;
     // sends a message to an officer for a timechange
-    void request_timechange();
+    void request();
 };
 
-#endif  // COACH_HPP
+#endif // COACH_HPP

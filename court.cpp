@@ -9,26 +9,32 @@
 Court::Court(int num) : court_num(num) {}
 
 // copy constrcutor
-Court::Court(const Court& other) : court_num(other.court_num) {
-    for (const auto* reservation : other.res) {
+Court::Court(const Court &other) : court_num(other.court_num)
+{
+    for (const auto *reservation : other.res)
+    {
         res.push_back(new Reservation(*reservation));
     }
 }
 // copy assignemnt operator
-Court& Court::operator=(const Court& other) {
-    if (this == &other) {
+Court &Court::operator=(const Court &other)
+{
+    if (this == &other)
+    {
         return *this;
     }
     court_num = other.court_num;
 
     // Clean up existing reservations
-    for (auto* reservation : res) {
+    for (auto *reservation : res)
+    {
         delete reservation;
     }
     res.clear();
 
     // Deep copy the reservations
-    for (const auto* reservation : other.res) {
+    for (const auto *reservation : other.res)
+    {
         res.push_back(new Reservation(*reservation));
     }
 
@@ -36,14 +42,17 @@ Court& Court::operator=(const Court& other) {
 }
 
 // move constructor
-Court::Court(Court&& other) noexcept
-    : court_num(std::move(other.court_num)), res(std::move(other.res)) {
+Court::Court(Court &&other) noexcept
+    : court_num(std::move(other.court_num)), res(std::move(other.res))
+{
     other.court_num = 0;
     other.res.clear();
 }
 // move assignment operator
-Court& Court::operator=(Court&& other) noexcept {
-    if (this == &other) {
+Court &Court::operator=(Court &&other) noexcept
+{
+    if (this == &other)
+    {
         return *this;
     }
     court_num = std::move(other.court_num);
@@ -88,7 +97,7 @@ void Court::delete_reservation(Reservation *r)
     {
         res.erase(it);
     }
-    removeReservationFromFile(r); 
+    removeReservationFromFile(r);
 }
 
 // returns its court number
@@ -103,28 +112,35 @@ std::vector<Reservation *> Court::get_reservations()
     return res;
 }
 
-void Court::saveReservationToFile(Reservation* r) {
+void Court::saveReservationToFile(Reservation *r)
+{
     std::string filename = "court" + std::to_string(court_num) + ".txt";
     std::ofstream file(filename, std::ios_base::app);
 
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         file << r->toString() << "\n";
         file.close();
     }
-    else {
+    else
+    {
         std::cout << "Unable to open file" << std::endl;
     }
 }
 
-void Court::removeReservationFromFile(Reservation* r) {
+void Court::removeReservationFromFile(Reservation *r)
+{
     std::string filename = "court" + std::to_string(court_num) + ".txt";
     std::ifstream fileIn(filename);
     std::ofstream fileOut("temp.txt");
 
-    if (fileIn.is_open() && fileOut.is_open()) {
+    if (fileIn.is_open() && fileOut.is_open())
+    {
         std::string line;
-        while (getline(fileIn, line)) {
-            if (line != r->toString()) {
+        while (getline(fileIn, line))
+        {
+            if (line != r->toString())
+            {
                 fileOut << line << "\n";
             }
         }
@@ -134,7 +150,8 @@ void Court::removeReservationFromFile(Reservation* r) {
         std::remove(filename.c_str());
         std::rename("temp.txt", filename.c_str());
     }
-    else {
+    else
+    {
         std::cout << "Unable to open file" << std::endl;
     }
 }
