@@ -10,6 +10,3 @@
 10 tania member
 100 pete coach
 12 anushka officer
-
-2 carol member
-2 D coach

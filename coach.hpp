@@ -23,7 +23,7 @@ public:
     ~Coach();                                 // destruct
     // displays the coach specific menu
     void view_menu() override;
-    // displays the coach specific schedule
+    // displays the coach specific schedule (only coach sessions)
     void view_schedule() override;
     // reserves a spot for this coach from start to end
     void reserve() override;

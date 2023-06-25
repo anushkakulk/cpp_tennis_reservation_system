@@ -109,6 +109,7 @@ void Coach::view_menu()
     }
 }
 
+// coaches only see their coaching sessions
 void Coach::view_schedule()
 {
     // Get the ID of the current member
@@ -158,6 +159,8 @@ void Coach::view_schedule()
         {
             std::cout << "Unable to open file" << std::endl;
         }
+        std::cout << std::endl;
+        this->view_menu();
     }
 }
 

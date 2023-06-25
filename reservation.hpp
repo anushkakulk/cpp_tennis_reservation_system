@@ -47,12 +47,8 @@ public:
     void delete_reservation();
     // returns the start datetime
     std::chrono::system_clock::time_point get_start();
-    // returns openplay bool
-    bool is_openplay();
     // changes the start time for this reservation (only if valid time)
     void set_start(int id, std::chrono::system_clock::time_point time);
-    // override '==' operator to compare
-    bool operator==(const Reservation &other) const;
     // returns the id of this reservation
     int get_player_id() const;
     // convert reservation to string

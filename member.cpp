@@ -161,6 +161,8 @@ void Member::view_schedule()
       std::cout << "Unable to open file" << std::endl;
     }
   }
+  std::cout << std::endl;
+  this->view_menu();
 }
 
 void Member::reserve()
@@ -300,7 +302,6 @@ void Member::reserve()
         my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), false));
         cout << endl;
         this->view_menu();
-
       }
     }
     else
@@ -619,7 +620,7 @@ void Member::request()
 
       // erase the reservation from the coach's vector of reservations
       my_reservations.erase(my_reservations.begin() + (input - 1));
-     delete selectedReservation;
+      delete selectedReservation;
       std::cout << std::endl;
       this->view_menu();
     }
