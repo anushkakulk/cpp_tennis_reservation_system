@@ -295,7 +295,7 @@ void Officer::handle_requests()
             Court *reservationCourt = selectedReservation->court;
             // erase it from the court's vector
             reservationCourt->delete_reservation(selectedReservation);
-
+            delete selectedReservation;
             cout << "Reservation cancelled." << endl;
             std::cout << std::endl;
             this->view_menu();

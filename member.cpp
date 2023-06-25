@@ -363,7 +363,7 @@ void Member::cancel_reservation()
 
     // erase the reservation from the coach's vector of reservations
     my_reservations.erase(my_reservations.begin() + (input - 1));
-
+    delete selectedReservation;
     cout << "Reservation cancelled." << endl;
     std::cout << std::endl;
     this->view_menu();
@@ -624,7 +624,7 @@ void Member::request()
 
       // erase the reservation from the coach's vector of reservations
       my_reservations.erase(my_reservations.begin() + (input - 1));
-
+     delete selectedReservation;
       std::cout << std::endl;
       this->view_menu();
     }
