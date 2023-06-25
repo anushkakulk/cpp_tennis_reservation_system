@@ -40,6 +40,9 @@ public:
     void cancel_reservation() override;
     // sends a request to an officer to request a timechange, cancellation, or reservation
     void request();
+     // checks if a reservation is set within a weeks time
+    bool checkReservationWithinWeek(int id, std::tm *localTime);
+
     // getters
     const std::vector<Reservation*> get_reservations() const;
     const std::vector<Officer*> get_officers() const;

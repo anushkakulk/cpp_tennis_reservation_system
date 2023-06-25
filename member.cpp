@@ -181,7 +181,7 @@ void Member::reserve()
       time.tm_mon = month - 1;    // months since January
       time.tm_mday = day;
       time.tm_hour = hour - 1;
-      // time.tm_min = minute;/;p[\]-
+       time.tm_min = minute;//;p[\]-
       std::time_t timeT = std::mktime(&time);
       std::chrono::system_clock::time_point startTime =
           std::chrono::system_clock::from_time_t(timeT);
@@ -208,6 +208,12 @@ void Member::reserve()
         std::cout << "Reservations can only be made up to 7 days in advance."
                   << std::endl;
         std::cout << std::endl;
+        this->view_menu();
+      } 
+      else if (this->checkReservationWithinWeek(this->getId(), localTime)) {
+        std::cout << "You already have 1 reservation within the next week." << std::endl;
+        std::cout << "Therefore you cannot reserve. Try cancelling or requesting a timechange." << std::endl;
+        std::cout<<std::endl;
         this->view_menu();
       }
       // prevent reserving during coaching hours 48+ hours in advance
@@ -569,6 +575,13 @@ void Member::request() {
           std::cout << std::endl;
           this->view_menu();
         }
+        // within a week
+        else if (this->checkReservationWithinWeek(this->getId(), localTime)) {
+        std::cout << "You already have 1 reservation within the next week." << std::endl;
+        std::cout << "Therefore you cannot reserve." << std::endl;
+        std::cout<<std::endl;
+        this->view_menu();
+      }
         // prevent reserving during coaching hours 48+ hours in advance
         else if (startTime > std::chrono::system_clock::now() +
                                  std::chrono::hours(48) &&
@@ -634,4 +647,62 @@ void Member::request() {
     std::cout << "invalid request" << std::endl;
     this->view_menu();
   }
+}
+
+bool Member::checkReservationWithinWeek(int id, std::tm* localTime) {
+    // all of the courts
+    std::vector<std::string> courtFiles = {"court1.txt", "court2.txt", "court3.txt"};
+
+    for (const auto& courtFile : courtFiles) {
+        std::ifstream file(courtFile);
+        if (!file.is_open()) {
+            throw std::runtime_error("Failed to open " + courtFile);
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            // Find the position of "Player ID: " in the line
+            size_t playerIdPos = line.find("Player ID: ");
+            if (playerIdPos != std::string::npos) {
+                // Extract the substring containing the player ID value
+                std::string playerIdSubstring = line.substr(playerIdPos + 11);
+
+                // Extract the player ID from the substring
+                int playerId = std::stoi(playerIdSubstring);
+
+                if (playerId == id) {
+                    size_t startTimePos = line.find("Start Time: ");
+                    if (startTimePos != std::string::npos) {
+                        startTimePos += 12; // Move past "Start Time: "
+                        std::string startTimeSubstring = line.substr(startTimePos, 19);
+
+                        std::tm startTime = {};
+
+                        // parse the string
+                        std::sscanf(startTimeSubstring.c_str(), "%d-%d-%d %d:%d:%d",
+                            &startTime.tm_year, &startTime.tm_mon, &startTime.tm_mday,
+                            &startTime.tm_hour, &startTime.tm_min, &startTime.tm_sec);
+
+
+                        startTime.tm_mon -= 1;
+                        startTime.tm_year -= 1900;
+
+                        // calc difference
+                        std::time_t startTimeT = std::mktime(&startTime);
+                        std::time_t currentTimeT = std::mktime(localTime);
+                        double diffSeconds = std::difftime(startTimeT, currentTimeT);
+                        // check if within a week
+                        if (diffSeconds >= 0 && diffSeconds <= 604800) {
+                            file.close();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        file.close();
+    }
+
+    return false;
 }

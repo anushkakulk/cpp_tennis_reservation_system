@@ -1,1 +1,0 @@
-Player ID: 2, Membership Type: coach, Start Time: 2023-06-28 09:00:00, Day: 3, Court: 1
