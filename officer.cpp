@@ -230,6 +230,116 @@ void Officer::reserve_openplay()
 
 void Officer::handle_requests()
 {
+    cout << "Handling Requests:" << endl;
+    cout << "Enter [1] to handle cancellation requests, Enter [2] to handle reservation requests: " << endl;
+    int input;
+    std::cin >> input;
+    if (input == 1)
+    {
+        cout << "Handling Cancellation Requests:" << endl;
+
+        cout << "What reservation would you like to cancel? Enter the "
+                "corresponding number to approve cancellation"
+             << endl;
+
+        for (size_t i = 0; i < cancel_requests.size(); ++i)
+        {
+            cout << "[" << (i + 1) << "] "
+                 << "Reservation Details:" << endl;
+            cout << "Player ID(s): ";
+            for (size_t j = 0; j < cancel_requests[i]->get_players().size(); ++j)
+            {
+                cout << cancel_requests[i]->get_players()[j];
+                if (j < cancel_requests[i]->get_players().size() - 1)
+                {
+                    cout << ", ";
+                }
+            }
+
+            cout << endl;
+            std::time_t startTime =
+                std::chrono::system_clock::to_time_t(cancel_requests[i]->get_start());
+            std::tm *timeInfo = std::localtime(&startTime);
+
+            cout << "Start Time: " << std::ctime(&startTime) << "on day "
+                 << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
+            cout << endl;
+        }
+
+        cout << "Enter the number of the reservation you want to cancel: ";
+        unsigned int input2;
+        cin >> input2;
+        if (input2 == 0 || input2 < cancel_requests.size())
+        {
+            std::cout << "invalid input" << std::endl;
+            this->view_menu();
+        }
+        else
+        {
+            // get the res
+            Reservation *selectedReservation = cancel_requests[input - 1];
+            // get the court this res is on
+            Court *reservationCourt = selectedReservation->court;
+            // erase it from the court's vector
+            reservationCourt->delete_reservation(selectedReservation);
+
+            cout << "Reservation cancelled." << endl;
+            std::cout << std::endl;
+            this->view_menu();
+        }
+    }
+    else if (input == 2)
+    {
+        cout << "Handling Reservation Requests:" << endl;
+    
+
+        cout << "What reservation would you like to approve? Enter the "
+                "corresponding number to approve reservation"
+             << endl;
+
+        for (size_t i = 0; i < add_requests.size(); ++i)
+        {
+            cout << "[" << (i + 1) << "] "
+                 << "Reservation Details:" << endl;
+            cout << "Player ID(s): ";
+            for (size_t j = 0; j < add_requests[i]->get_players().size(); ++j)
+            {
+                cout << add_requests[i]->get_players()[j];
+                if (j < add_requests[i]->get_players().size() - 1)
+                {
+                    cout << ", ";
+                }
+            }
+
+            cout << endl;
+            std::time_t startTime =
+                std::chrono::system_clock::to_time_t(add_requests[i]->get_start());
+            std::tm *timeInfo = std::localtime(&startTime);
+
+            cout << "Start Time: " << std::ctime(&startTime) << "on day "
+                 << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
+            cout << endl;
+        }
+
+        cout << "Enter the number of the reservation you want to approve: ";
+        unsigned int input2;
+        cin >> input2;
+        if (input2 == 0 || input2 < add_requests.size())
+        {
+            std::cout << "invalid input" << std::endl;
+            this->view_menu();
+        }
+        else
+        {
+            std::cout << "reservation approved" << std::endl;
+        }
+    }
+    else
+    {
+        cout << "Invalid choice. Please try again." << endl;
+        std::cout << std::endl;
+        this->view_menu();
+    }
 }
 void Officer::handle_request(int id, Reservation *r, bool cancel)
 {
