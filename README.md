@@ -12,12 +12,12 @@ Authored by Anushka Kulkarni, Deion Smith, and Tania Gole
     - When reserving, the time you input will be noted as the start time of the reservation. Reservations last 30 minutes. Open play hours are regarded as  a series of reservations with start times from 6 to 8:30 pm. 
     
     - HERE IS THE FORMAT FOR ENTERING RESERVATION TIMES (pressing the [enter] key between each number) :
-        month: int [from 1 to 12]
-        day: int [from 1 to 31]
-        year: int [2023]
-        hour: int [from 6 to 23]
-        minute: int [either 0 or 30]
-        EXAMPLE: June 30, 2023 at 1:30 pm should be inputted as 
+        - month: int [from 1 to 12]
+        -  day: int [from 1 to 31]
+        - year: int [2023]
+        - hour: int [from 6 to 23]
+        - minute: int [either 0 or 30]
+        - EXAMPLE: June 30, 2023 at 1:30 pm should be inputted as 
           - 6 [enter key] 30 [enter key] 2023 [enter key] 13 [enter key] 0 [enter key]
         
 ## General Rules/Implementations
