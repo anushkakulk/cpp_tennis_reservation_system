@@ -18,7 +18,7 @@ Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
         - hour: int [from 6 to 23]
         - minute: int [either 0 or 30]
         - EXAMPLE: June 30, 2023 at 1:30 pm should be inputted as 
-          - 6 [enter key] 30 [enter key] 2023 [enter key] 13 [enter key] 0 [enter key]
+          - 6 [enter key] 30 [enter key] 2023 [enter key] 13 [enter key] 30 [enter key]
         
 ## General Rules/Implementations
 - initially, you must login. You can either create a new account by providing a new id, name, and membership type, or you can login to an existing account (we check for unique ids)
