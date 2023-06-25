@@ -233,6 +233,7 @@ void Member::reserve()
                   << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       }
 
       // enforce the 7 day rule
@@ -242,6 +243,7 @@ void Member::reserve()
                   << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       }
       // enforce the 1 reservation a week rule
       else if (this->checkReservationWithinWeek(this->getId(), localTime))
@@ -250,6 +252,7 @@ void Member::reserve()
         std::cout << "Therefore you cannot reserve. Try cancelling or requesting a timechange." << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       }
 
       // prevent reserving during coaching hours 48+ hours in advance
@@ -269,6 +272,7 @@ void Member::reserve()
             << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       } // prevent reserving during open play hours 48+ hours in advance
       else if ((startTime > std::chrono::system_clock::now() +
                                 std::chrono::hours(48)) &&
@@ -283,6 +287,7 @@ void Member::reserve()
             << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       }
       // enforce the one reservation at a time rule
       else if (this->checkReservationWithinHours(localTime, desiredCourt->get_court_num()))
@@ -291,15 +296,16 @@ void Member::reserve()
         std::cout << "Check the schedule again and book during a time with no reservations" << std::endl;
         std::cout << std::endl;
         this->view_menu();
+        return;
       }
       else
       {
 
         // TODO, check that no one is on the court then
         my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership()));
-
         cout << endl;
         this->view_menu();
+
       }
     }
     else
@@ -609,6 +615,16 @@ void Member::request()
       selectedOfficer->handle_request(this->getId(),
                                       this->my_reservations[input], true);
       std::cout << "Cancellation request sent successfully" << std::endl;
+      // get the res
+      Reservation *selectedReservation = my_reservations[input - 1];
+      // get the court this res is on
+      Court *reservationCourt = selectedReservation->court;
+      // erase it from the court's vector
+      reservationCourt->delete_reservation(selectedReservation);
+
+      // erase the reservation from the coach's vector of reservations
+      my_reservations.erase(my_reservations.begin() + (input - 1));
+
       std::cout << std::endl;
       this->view_menu();
     }
@@ -809,9 +825,9 @@ bool Member::checkReservationWithinWeek(int id, std::tm *localTime)
 
         // Extract the player ID from the substring
         int playerId = std::stoi(playerIdSubstring);
-
         if (playerId == id)
         {
+
           size_t startTimePos = line.find("Start Time: ");
           if (startTimePos != std::string::npos)
           {
@@ -828,12 +844,13 @@ bool Member::checkReservationWithinWeek(int id, std::tm *localTime)
             startTime.tm_mon -= 1;
             startTime.tm_year -= 1900;
 
-            // calc difference
+            // Calculate the difference in hours
             std::time_t startTimeT = std::mktime(&startTime);
             std::time_t currentTimeT = std::mktime(localTime);
-            double diffSeconds = std::difftime(startTimeT, currentTimeT);
-            // check if within a week
-            if (diffSeconds >= 0 && diffSeconds <= 604800)
+            std::int64_t diffHours = std::abs(currentTimeT - startTimeT) / (60 * 60);
+
+            // Check if within a week (7 days = 168 hours)
+            if (diffHours >= 0 && diffHours <= 168)
             {
               file.close();
               return true;

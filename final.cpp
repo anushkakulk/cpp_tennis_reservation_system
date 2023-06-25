@@ -23,10 +23,14 @@ int main()
     Court two = Court(2);
     Court three = Court(3);
     vector<Court *> all_courts = {&one, &two, &three};
-    // TODO: make at least one officer here for the requesting
+    
+    
     std::vector<Officer *> all_officers;
     std::vector<User *> all_users;
-
+    Officer def1 = Officer(13, "kim", 'A', all_courts, vector<Officer *>());
+    Officer def2 = Officer(14, "kendall", 'A', all_courts, vector<Officer *>());
+    all_officers.emplace_back(&def1);
+    all_officers.emplace_back(&def2);
     /*
     Officer i = Officer(8, "grant", 'A', all_courts, vector<Officer*>());
     Officer j = Officer(9, "ian", 'A', all_courts, vector<Officer*>{&i});
@@ -78,7 +82,8 @@ int main()
     }
     else
     {
-        newUser.view_menu();
+        cout << "Invalid. Returning you to terminal" << endl;
+        return -1;
     }
 
     // delete newUserPtr;

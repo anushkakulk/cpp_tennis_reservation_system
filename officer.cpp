@@ -148,10 +148,9 @@ void Officer::reserve_openplay()
     }
     else
     {
-
-        std::cout << "Enter the start time you want in the valid format (month [from 1-12], day, year [2023], hour [from 0 to 23], minute [either 0 or 30])" << std::endl;
-        int month, day, year, hour, minute;
-        std::cin >> month >> day >> year >> hour >> minute;
+        std::cout << "Enter the date you want to reserve in the valid format (month [from 1-12], day, year [2023]):" << std::endl;
+        int month, day, year;
+        std::cin >> month >> day >> year;
 
         Court *desiredCourt = nullptr;
 
@@ -170,69 +169,78 @@ void Officer::reserve_openplay()
             time.tm_year = year - 1900; // years since 1900
             time.tm_mon = month - 1;    // months since January
             time.tm_mday = day;
-            time.tm_hour = hour - 1;
-            time.tm_min = minute;
-            std::time_t timeT = std::mktime(&time);
-            std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(timeT);
-            // max 7 days in advance
-            auto maxReservationTime = std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
+            time.tm_hour = 18; // Starting hour is 6pm
+            time.tm_min = 0;   // Starting minute is 0
+
+            std::chrono::system_clock::time_point startTime = std::chrono::system_clock::from_time_t(std::mktime(&time));
+            std::chrono::system_clock::time_point endTime = startTime + std::chrono::minutes(30);
+
             // makes a time
             std::time_t startTimeT = std::chrono::system_clock::to_time_t(startTime);
-            // gets the local time to extract day of week
             std::tm *localTime = std::localtime(&startTimeT);
 
             // Extract the day of the week from the std::tm object
             int dayOfWeek = localTime->tm_wday;
 
-            // makes sure its in the future
-            if (startTime <= std::chrono::system_clock::now())
+            // makes sure it's in the future
+            std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+            if (startTime <= now)
             {
                 std::cout << "Invalid reservation time, can only reserve in the future" << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
+                return;
             }
 
-            // enforce 7 day rule
-            else if (startTime > maxReservationTime)
+            // enforce 7-day rule
+            std::chrono::system_clock::time_point maxReservationTime = now + std::chrono::hours(7 * 24);
+            if (startTime > maxReservationTime)
             {
                 std::cout << "Reservations can only be made up to 7 days in advance." << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
+                return;
             }
 
-            // this checks that reservation is only during open play hours
-            else if (!((hour == 18 && minute >= 0) || (hour >= 19 && hour < 20) || (hour == 20 && minute <= 30)))
+            // enforce the reservation time to be within the specified range (6pm - 8:30pm)
+            std::chrono::system_clock::time_point validStartTime = std::chrono::system_clock::from_time_t(std::mktime(&time));
+            std::chrono::system_clock::time_point validEndTime = validStartTime + std::chrono::hours(2) + std::chrono::minutes(30);
+            if (!(validStartTime <= startTime && startTime < validEndTime))
             {
-                std::cout << "Invalid reservation time. Open Play Reservations are allowed between 6pm and 9pm." << std::endl;
+                std::cout << "Invalid reservation time. Open Play Reservations are allowed between 6pm and 8:30pm." << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
+                return;
             }
+
             // enforce the one reservation at a time rule
-            else if (this->checkReservationWithinHours(localTime, desiredCourt->get_court_num()))
+            if (this->checkReservationWithinHours(localTime, desiredCourt->get_court_num()))
             {
-                std::cout << "A reservation is already booked during the requested time" << std::endl;
-                std::cout << "Check the schedule again and book during a time with no reservations" << std::endl;
+                std::cout << "A reservation is already booked during the requested Open Play time" << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
+                return;
             }
-            else
-            {
 
-                // TODO, check that no one is on the court then
+            // Make 30-minute reservations from 6pm to 8:30pm
+            while (startTime <= validEndTime)
+            {
                 my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership()));
-                cout << endl;
-                this->view_menu();
+                startTime += std::chrono::minutes(30);
             }
+
+            std::cout << "Open Play reservation made successfully." << std::endl;
+            std::cout << std::endl;
+            this->view_menu();
         }
         else
         {
-            std::cout << "Error, no court of the given number exists" << std::endl;
+            std::cout << "Error: No court of the given number exists." << std::endl;
             std::cout << std::endl;
             this->view_menu();
         }
     }
 }
-
 void Officer::handle_requests()
 {
     cout << "Handling Requests:" << endl;

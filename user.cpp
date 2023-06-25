@@ -494,8 +494,6 @@ bool User::checkReservationWithinHours(std::tm *localTime, int court_num)
                 std::string localTimeString = formatTime(localTime);
                 std::string startTimeString = formatTime(&startTime);
 
-                std::cout << "Local Time: " << localTimeString << std::endl;
-                std::cout << "Start Time: " << startTimeString << std::endl;
 
                 // Compare the resrvation in file to given info
                 if (localTimeString == startTimeString && reservationCourtNum == court_num)
