@@ -9,7 +9,7 @@ Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
 2) run the executable ./final
 3) follow the instructions written in terminal for each input
 
-    - When reserving, the time you input will be noted as the start time of the reservation. Reservations last 30 minutes. Open play hours are regarded as  a series of reservations with start times from 6 to 8:30 pm. 
+    - When reserving, the time you input will be noted as the _start time_ of the reservation. Reservations last 30 minutes. Open play hours are regarded as  a series of reservations with start times from 6 to 8:30 pm. 
     
     - HERE IS THE FORMAT FOR ENTERING RESERVATION TIMES (pressing the [enter] key between each number) :
         - month: int [from 1 to 12]
@@ -40,3 +40,19 @@ you wish to do.
 ## officers
 - an officer is a member, and is capable of doing everything a member can.
 - an officer can also reserve open play sessions, which are a series of 30 minute reservations with start times from 6 to 8:30 pm. They can book these on any day, and can reserve 7 days in advance. 
+
+
+## LIST OF USERS THAT CAN BE USED TO LOGIN AND TEST FUNCTIONALITY: 
+1 alice member
+2 bob member
+3 carol member
+4 dana member
+5 edgar member
+6 frank coach
+7 grant coach
+8 hank officer
+9 ian officer
+10 tania member
+100 pete coach
+12 anushka officer
+_Or, you could create a new user_
