@@ -29,7 +29,7 @@ public:
     void reserve() override;
     // cancels a session for this member during the given start end time (if valid)
     void cancel_reservation() override;
-    // sends a message to an officer for a timechange
+    // sends a message to an officer for a timechange/cancellation/reservation
     void request();
 };
 

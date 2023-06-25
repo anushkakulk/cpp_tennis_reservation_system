@@ -52,8 +52,6 @@ public:
     virtual void view_menu();
     // displays the user-specific schedule;
     virtual void view_schedule();
-    // displays only this user's reservations
-    void view_my_reservations();
     // returns true if any reservation exists during the requested time at the given court
     bool checkReservationWithinHours(std::tm *localTime, int court_num);
 

@@ -398,55 +398,6 @@ void User::cancel_reservation()
     }
 }
 
-// print out this user's schedule
-void User::view_my_reservations()
-{
-    // // Get the ID of the current member
-    int current_player_id = this->getId();
-
-    // Iterate through each court
-    for (auto &court : this->get_courts())
-    {
-        // Get the filename of court's reservation file
-        std::string filename =
-            "court" + std::to_string(court->get_court_num()) + ".txt";
-
-        // Open the file
-        std::ifstream file(filename);
-
-        if (file.is_open())
-        {
-            std::string line;
-
-            // Read each line (reservation) in the file
-            while (getline(file, line))
-            {
-                // Parse the reservation details from the line
-                std::istringstream ss(line);
-
-                // // Assuming that the player ID is first in the formatted string
-                std::string player_id_str;
-                std::getline(ss, player_id_str, ',');
-
-                // // Extract the ID after "Player ID: "
-                int player_id = std::stoi(player_id_str.substr(11));
-
-                // If the player ID matches the current member's ID, print the line
-                if (player_id == current_player_id)
-                {
-                    std::cout << line << std::endl;
-                }
-            }
-
-            file.close();
-        }
-        else
-        {
-            std::cout << "Unable to open file" << std::endl;
-        }
-    }
-}
-
 bool User::checkReservationWithinHours(std::tm *localTime, int court_num)
 {
     // all of the courts

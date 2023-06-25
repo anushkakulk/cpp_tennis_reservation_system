@@ -110,10 +110,7 @@ std::chrono::system_clock::time_point Reservation::get_start()
     return start_datetime;
 }
 
-bool Reservation::is_openplay()
-{
-    return open_play;
-}
+
 
 void Reservation::set_start(int id, std::chrono::system_clock::time_point time)
 {
@@ -184,8 +181,8 @@ std::string Reservation::toString() const
     
 
         ss << "Player ID: " << get_player_id()
-           << ", Membership Type: " << (get_isOpenPlay() ? "officer" : get_membership_type()) // Print the user type
-           << ", Open Play: " << (get_isOpenPlay() ? "Yes" : "No") // Print "Yes" if open_play is true, "No" otherwise
+           << ", Membership Type: " << (is_openplay() ? "officer" : get_membership_type()) // Print the user type
+           << ", Open Play: " << (is_openplay() ? "Yes" : "No") // Print "Yes" if open_play is true, "No" otherwise
            << ", Start Time: " << buffer
            << ", Day: " << day_of_week
            << ", Court: " << court_num;
@@ -213,6 +210,7 @@ std::string Reservation::get_membership_type() const
     return membership_type;
 }
 
-bool Reservation::get_isOpenPlay() const {
-    return isOpenPlay;
+bool Reservation::is_openplay()
+{
+    return open_play;
 }

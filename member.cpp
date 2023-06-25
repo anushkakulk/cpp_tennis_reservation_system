@@ -80,11 +80,10 @@ void Member::view_menu()
   std::cout << std::endl;
   cout << "Member Menu: " << endl;
   cout << "1. View Schedule" << endl;
-  cout << "2. View all of your reservations" << endl;
-  cout << "3. Reserve a Court" << endl;
-  cout << "4. Cancel a Reservation" << endl;
-  cout << "5. Send a Request to an Officer" << endl;
-  cout << "6. Quit to Terminal" << endl;
+  cout << "2. Reserve a Court" << endl;
+  cout << "3. Cancel a Reservation" << endl;
+  cout << "4. Send a Request to an Officer" << endl;
+  cout << "5. Quit to Terminal" << endl;
   int choice;
   cin >> choice;
 
@@ -95,21 +94,17 @@ void Member::view_menu()
   }
   else if (choice == 2)
   {
-    view_my_reservations();
+    reserve();
   }
   else if (choice == 3)
   {
-    reserve();
+    cancel_reservation();
   }
   else if (choice == 4)
   {
-    cancel_reservation();
-  }
-  else if (choice == 5)
-  {
     request();
   }
-  else if (choice == 6)
+  else if (choice == 5)
   {
     return;
   }
