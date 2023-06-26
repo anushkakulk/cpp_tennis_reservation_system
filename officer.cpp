@@ -95,7 +95,7 @@ void Officer::view_menu()
     cout << "1. View Schedule" << endl;
     cout << "2. Reserve a Court for yourself" << endl;
     cout << "3. Reserve a Court for open-play" << endl;
-    cout << "4. Cancel your Reservation" << endl;
+    cout << "4. Cancel a Reservation" << endl;
     cout << "5. Handle incoming requests" << endl;
     cout << "6. Return to terminal" << endl;
     int choice;
@@ -207,7 +207,7 @@ void Officer::reserve_openplay()
             std::chrono::system_clock::time_point validEndTime = validStartTime + std::chrono::hours(2) + std::chrono::minutes(30);
             if (!(validStartTime <= startTime && startTime < validEndTime))
             {
-                std::cout << "Invalid reservation time. Open Play Reservations are allowed between 6pm and 8:30pm." << std::endl;
+                std::cout << "Invalid reservation time. Open Play Reservations must have start times from 6pm to 8:30pm." << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
                 return;
@@ -254,6 +254,12 @@ void Officer::handle_requests()
         cout << "What reservation would you like to cancel? Enter the "
                 "corresponding number to approve cancellation"
              << endl;
+        if (cancel_requests.size() == 0) {
+            std::cout << "You have no incoming cancel requests" << std::endl;
+            std::cout << std::endl;
+            this->view_menu();
+            
+        } else {
 
         for (size_t i = 0; i < cancel_requests.size(); ++i)
         {
@@ -301,6 +307,7 @@ void Officer::handle_requests()
             this->view_menu();
         }
     }
+    }
     else if (input == 2)
     {
         cout << "Handling Reservation Requests:" << endl;
@@ -310,6 +317,11 @@ void Officer::handle_requests()
                 "corresponding number to approve reservation"
              << endl;
 
+        if (add_requests.size() == 0) {
+        std::cout << "You have no incoming requests to make a reservation" << std::endl;
+        std::cout << std::endl;
+        this->view_menu();
+        } else {
         for (size_t i = 0; i < add_requests.size(); ++i)
         {
             cout << "[" << (i + 1) << "] "
@@ -333,6 +345,7 @@ void Officer::handle_requests()
                  << timeInfo->tm_wday << " (0 = Sun, 1 = Mon, ..., 6 = Sat)" << endl;
             cout << endl;
         }
+        
 
         cout << "Enter the number of the reservation you want to approve: ";
         unsigned int input2;
@@ -346,6 +359,7 @@ void Officer::handle_requests()
         {
             std::cout << "reservation approved" << std::endl;
         }
+    }
     }
     else
     {

@@ -157,7 +157,8 @@ void Coach::view_schedule()
                     std::string extracted_membership_type = membership_type_str.substr(18);
 
                     // If the player ID matches the current member's ID and the membership type matches the given type, print the line
-                    if (player_id == current_player_id && extracted_membership_type == this->get_membership())
+                    // if (player_id == current_player_id && extracted_membership_type == this->get_membership())
+                    if (extracted_membership_type == this->get_membership())
                     {
                         std::cout << line << std::endl;
                     }
@@ -245,7 +246,7 @@ void Coach::reserve()
             // this checks that reservation is only on weekday during coaching hours
             else if (!((hour >= 9 && hour <= 11) || (hour == 15 && minute >= 0 && minute <= 30) || (hour == 17 && minute == 0)) || !(dayOfWeek >= 1 && dayOfWeek <= 5))
             {
-                std::cout << "Invalid reservation time. Reservations are allowed between 9am-11:30am and 3pm-5:30pm, Monday to Friday." << std::endl;
+                std::cout << "Invalid reservation time. Reservations must begin between 9am-11:30am and 3pm-5:30pm, Monday to Friday." << std::endl;
                 std::cout << std::endl;
                 this->view_menu();
             }
