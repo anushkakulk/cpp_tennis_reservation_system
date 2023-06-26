@@ -60,3 +60,19 @@ you wish to do.
 - 100 pete coach
 - 12 anushka officer
 - TO LOGIN IN, ENTER THE ID AND FIRST NAME (ex: to login to anushka the officer, follow the written instructions and input '12' for id and 'anushka' for name)
+
+### Video Demo ###
+
+https://drive.google.com/file/d/1-KS_2rWAYS4J9cmqZUP24jmeFeIZze5J/view?usp=sharing
+
+^^This video demo showcases the registering of a coach ‘travis’ and the logging into officer ‘kris’ and members ‘kim’ and ‘kendall’. 
+
+Here is what occurs in the demo: 
+
+	- Travis makes reservations, views the coach schedule, cancels a reservation himself, requests cancellation via an officer. 
+	
+	- Kim makes reservations, views the schedule
+
+	- Kris reserves open-play sessions, reserves a personal session, handles any incoming requests, and views the schedule
+
+	- Kendall makes reservations, joins one of Kim’s reservations, and views the schedule
