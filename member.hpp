@@ -40,8 +40,10 @@ public:
     void cancel_reservation() override;
     // sends a request to an officer to request a timechange, cancellation, or reservation
     void request();
-    // returns true if the given user has a reservation within a weeks time
+    // returns true if the member has more than 2 reservations within a weeks time
     bool checkReservationWithinWeek(int id, std::tm *localTime);
+    // returns true if the member is trying to reserve a resrvation within 24 hours of their own existing one
+    bool checkReservationWithinDay(int id, std::tm *localTime);
 };
 
 #endif // MEMBER_HPP

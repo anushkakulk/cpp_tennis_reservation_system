@@ -241,16 +241,22 @@ void Member::view_schedule()
           this->view_menu();
           
         }
-        // enforce the 1 reservation a week rule
+        // enforce the 2 reservation per 7 days
         else if (this->checkReservationWithinWeek(this->getId(), localTime))
         {
-          std::cout << "You already have 1 reservation within the next week." << std::endl;
-          std::cout << "Therefore you cannot reserve. Try cancelling or requesting a timechange." << std::endl;
+          std::cout << "You already have 2 reservations within the next week." << std::endl;
+          std::cout << "Therefore you cannot reserve." << std::endl;
           std::cout << std::endl;
           this->view_menu();
           
+          // enforce the 1 reservation per day
+        } else if (this->checkReservationWithinDay(this->getId(), localTime))
+        {
+          std::cout << "You already have 1 reservation within 24 hours of the requested time." << std::endl;
+          std::cout << "Therefore you cannot reserve." << std::endl;
+          std::cout << std::endl;
+          this->view_menu();
         }
-
         // prevent reserving during coaching hours 48+ hours in advance
         else if (startTime >
                      std::chrono::system_clock::now() + std::chrono::hours(48) &&
@@ -710,7 +716,14 @@ void Member::view_schedule()
             std::cout << "Therefore you cannot reserve." << std::endl;
             std::cout << std::endl;
             this->view_menu();
-          }
+            // enforce the 1 reservation per day
+        } else if (this->checkReservationWithinDay(this->getId(), localTime))
+        {
+          std::cout << "You already have 1 reservation within 24 hours of the requested time." << std::endl;
+          std::cout << "Therefore you cannot reserve." << std::endl;
+          std::cout << std::endl;
+          this->view_menu();
+        }
           // prevent reserving during coaching hours 48+ hours in advance
           else if (startTime > std::chrono::system_clock::now() +
                                    std::chrono::hours(48) &&
@@ -795,9 +808,11 @@ void Member::view_schedule()
     }
   }
 
-  bool Member::checkReservationWithinWeek(int id, std::tm* localTime)
+bool Member::checkReservationWithinWeek(int id, std::tm* localTime)
 {
     std::vector<std::string> courtFiles = {"court1.txt", "court2.txt", "court3.txt"};
+
+    int reservationCount = 0;  // Counter for the number of reservations within a week
 
     for (const auto& courtFile : courtFiles)
     {
@@ -840,6 +855,67 @@ void Member::view_schedule()
 
                         if (!isOpenPlay && diffHours >= 0 && diffHours <= 168)
                         {
+                            reservationCount++;  // Increment the reservation count
+
+                            if (reservationCount >= 2)
+                            {
+                                file.close();
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        file.close();
+    }
+
+    return false;
+}
+
+
+bool Member::checkReservationWithinDay(int id, std::tm* localTime)
+{
+    std::vector<std::string> courtFiles = {"court1.txt", "court2.txt", "court3.txt"};
+
+    for (const auto& courtFile : courtFiles)
+    {
+        std::ifstream file(courtFile);
+        if (!file.is_open())
+        {
+            throw std::runtime_error("Failed to open " + courtFile);
+        }
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            size_t playerIdPos = line.find("Player ID: ");
+            if (playerIdPos != std::string::npos)
+            {
+                std::string playerIdSubstring = line.substr(playerIdPos + 11);
+                int playerId = std::stoi(playerIdSubstring);
+                if (playerId == id)
+                {
+                    size_t startTimePos = line.find("Start Time: ");
+                    if (startTimePos != std::string::npos)
+                    {
+                        startTimePos += 12;
+                        std::string startTimeSubstring = line.substr(startTimePos, 19);
+
+                        std::tm startTime = {};
+                        std::sscanf(startTimeSubstring.c_str(), "%d-%d-%d %d:%d:%d",
+                                    &startTime.tm_year, &startTime.tm_mon, &startTime.tm_mday,
+                                    &startTime.tm_hour, &startTime.tm_min, &startTime.tm_sec);
+
+                        startTime.tm_mon -= 1;
+                        startTime.tm_year -= 1900;
+
+                        std::string openPlaySubstring = line.substr(line.find("Open Play: ") + 11, 3);
+                        bool isOpenPlay = (openPlaySubstring == "Yes");
+
+                        if (!isOpenPlay && startTime.tm_mon == localTime->tm_mon && startTime.tm_mday == localTime->tm_mday)
+                        {
                             file.close();
                             return true;
                         }
@@ -850,5 +926,6 @@ void Member::view_schedule()
 
         file.close();
     }
+
     return false;
 }
