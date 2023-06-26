@@ -31,6 +31,7 @@ you wish to do.
 - a member can view the schedule, which will show _all_ reservations made for the next 7 days for each court, sorted by earliest to latest. 
 - a member can reserve a court (only 2 reservations per week, only 1 reservation per day, can be reserved 7 days in advance, can reserve during open-play hours or coaching hours if reserved within 48 hours of the designated hours if there is availability). Checks are implemented to ensure a reservation is valid
 - a member can  cancel their reservation _if it was made within the same session_. They can either cancel it themselves or send a request to a randomly chosen officer.
+- a member can _join_ an existing reservation as well. They will be presented with all reservations and will be noted as a player on the selected reservation. This joined member _can not_ cancel that reservation.
 - a member can request a timechange, cancellation, or a reservation via an officer. An officer will be randomly chosen to handle their request.
 
 ## coaches
