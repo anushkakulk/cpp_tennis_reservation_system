@@ -82,8 +82,9 @@ void Member::view_menu()
   cout << "1. View Schedule" << endl;
   cout << "2. Reserve a Court" << endl;
   cout << "3. Cancel a Reservation" << endl;
-  cout << "4. Send a Request to an Officer" << endl;
-  cout << "5. Quit to Terminal" << endl;
+  cout << "4. Join a Reservation" << endl;
+  cout << "5. Send a Request to an Officer" << endl;
+  cout << "6. Quit to Terminal" << endl;
   int choice;
   cin >> choice;
 
@@ -102,17 +103,18 @@ void Member::view_menu()
   }
   else if (choice == 4)
   {
-    request();
+    joinReservation(get_courts()); 
   }
   else if (choice == 5)
   {
-    return;
+    request();
   }
-  else
+  else if (choice = 6)
   {
-    cout << "Invalid choice. Please try again. \n";
-    std::cout << std::endl;
-    this->view_menu();
+    return; 
+  } else {
+    std::cout << "Invalid choice try again" << std::endl;
+    view_menu(); 
   }
 }
 
@@ -929,3 +931,116 @@ bool Member::checkReservationWithinDay(int id, std::tm* localTime)
 
     return false;
 }
+
+void Member::joinReservation(std::vector<Court*> all_courts)
+{
+
+    // Check if the member has more than 2 reservations within a week
+    std::time_t currentTime = std::time(nullptr);
+    std::tm* localTime = std::localtime(&currentTime);
+    if (checkReservationWithinWeek(getId(), localTime))
+    {
+        std::cout << "You have reached the maximum number of reservations within a week." << std::endl;
+        std::cout << "You cannot join another reservation at this time." << std::endl;
+        return;
+    }
+
+    // Check if the member is trying to reserve a reservation within 24 hours of their own existing one
+    if (checkReservationWithinDay(getId(), localTime))
+    {
+        std::cout << "You have already reserved a court within the next 24 hours." << std::endl;
+        std::cout << "You cannot join another reservation at this time." << std::endl;
+        return;
+    }
+    
+    // Ask the user to select a court
+    int courtChoice;
+    std::cout << "Enter the number of the court you want to join a reservation on: ";
+    std::cin >> courtChoice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // Validate the user's choice
+    if (courtChoice < 1 || courtChoice > all_courts.size())
+    {
+        std::cout << "Invalid court choice!" << std::endl;
+        return;
+    }
+
+    // Get the selected court
+    Court* selectedCourt = all_courts[courtChoice - 1];
+
+    // Read reservations from file for the selected court
+    std::string filename = "court" + std::to_string(selectedCourt->get_court_num()) + ".txt";
+    std::ifstream file(filename);
+    if (!file.is_open())
+    {
+        std::cout << "Error opening reservations file!" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> reservations;
+    std::string line;
+    int reservationNumber = 1;
+    while (std::getline(file, line))
+    {
+        // Store each reservation in a vector
+        reservations.push_back(line);
+
+        // Print the reservation with a number prefix
+        std::cout << reservationNumber << ". " << line << std::endl;
+        reservationNumber++;
+    }
+    file.close();
+
+    // Ask the user to select a reservation to join
+    int reservationChoice;
+    std::cout << "Enter the number of the reservation you want to join: ";
+    std::cin >> reservationChoice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // Validate the user's choice
+    if (reservationChoice < 1 || reservationChoice > static_cast<int>(reservations.size()))
+    {
+        std::cout << "Invalid reservation choice!" << std::endl;
+        return;
+    }
+
+    // Get the selected reservation
+    std::string selectedReservation = reservations[reservationChoice - 1];
+
+    // Join the selected reservation
+    std::string playerId = std::to_string(getId());
+    selectedReservation += ", playing with Player ID: " + playerId;
+
+    // Update the reservations file with the modified reservation
+    std::ofstream outfile(filename);
+    if (!outfile.is_open())
+    {
+        std::cout << "Error opening reservations file for writing!" << std::endl;
+        return;
+    }
+
+    for (const std::string& reservation : reservations)
+    {
+        if (reservation == reservations[reservationChoice - 1])
+        {
+            // Write the modified reservation with the added player ID
+            outfile << selectedReservation << std::endl;
+        }
+        else
+        {
+            // Write the other reservations as they were
+            outfile << reservation << std::endl;
+        }
+    }
+    outfile.close();
+
+    std::cout << "You have successfully joined the reservation:" << std::endl;
+    std::cout << selectedReservation << std::endl;
+
+    view_menu();
+
+}
+
+
+
