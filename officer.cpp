@@ -225,7 +225,7 @@ void Officer::reserve_openplay()
             // Make 30-minute reservations from 6pm to 8:30pm
             while (startTime <= validEndTime)
             {
-                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), true));
+                my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), true, this->get_name()));
                 startTime += std::chrono::minutes(30);
             }
 
