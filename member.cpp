@@ -306,7 +306,7 @@ void Member::view_schedule()
         {
 
           // TODO, check that no one is on the court then
-          my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), false));
+          my_reservations.push_back(new Reservation(this->getId(), startTime, dayOfWeek, desiredCourt, this->get_membership(), false, this->get_name()));
           cout << endl;
           this->view_menu();
         }
@@ -324,6 +324,14 @@ void Member::view_schedule()
   {
     cout << "Cancelling a Reservation:" << endl;
     cout << endl;
+
+    if (my_reservations.size() == 0) {
+             std::cout << std::endl;
+            std::cout << "You have no cancellable reservations" << std::endl;
+            std::cout << std::endl;
+            this->view_menu();
+            
+    } else { 
     cout << "Here are your reservations:" << endl;
 
     for (size_t i = 0; i < my_reservations.size(); ++i)
@@ -383,6 +391,7 @@ void Member::view_schedule()
       cout << endl;
       this->view_menu();
     }
+  }
   }
 
   void Member::request()
@@ -793,7 +802,7 @@ void Member::view_schedule()
               selectedOfficer->handle_request(
                   this->getId(),
                   (new Reservation(this->getId(), startTime, dayOfWeek,
-                                   desiredCourt, this->get_membership(), false)),
+                                   desiredCourt, this->get_membership(), false, this->get_name())),
                   false);
               std::cout << "Reservation request sent successfully" << std::endl;
               std::cout << std::endl;
