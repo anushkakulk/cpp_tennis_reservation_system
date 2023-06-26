@@ -251,16 +251,17 @@ void Officer::handle_requests()
     {
         cout << "Handling Cancellation Requests:" << endl;
 
-        cout << "What reservation would you like to cancel? Enter the "
-                "corresponding number to approve cancellation"
-             << endl;
+       
         if (cancel_requests.size() == 0) {
+             std::cout << std::endl;
             std::cout << "You have no incoming cancel requests" << std::endl;
             std::cout << std::endl;
             this->view_menu();
             
         } else {
-
+ cout << "What reservation would you like to cancel? Enter the "
+                "corresponding number to approve cancellation"
+             << endl;
         for (size_t i = 0; i < cancel_requests.size(); ++i)
         {
             cout << "[" << (i + 1) << "] "
@@ -313,15 +314,17 @@ void Officer::handle_requests()
         cout << "Handling Reservation Requests:" << endl;
     
 
-        cout << "What reservation would you like to approve? Enter the "
-                "corresponding number to approve reservation"
-             << endl;
+    
 
         if (add_requests.size() == 0) {
+        std::cout << std::endl;
         std::cout << "You have no incoming requests to make a reservation" << std::endl;
         std::cout << std::endl;
         this->view_menu();
         } else {
+            cout << "What reservation would you like to approve? Enter the "
+                "corresponding number to approve reservation"
+             << endl;
         for (size_t i = 0; i < add_requests.size(); ++i)
         {
             cout << "[" << (i + 1) << "] "

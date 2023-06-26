@@ -322,6 +322,14 @@ void Member::view_schedule()
   {
     cout << "Cancelling a Reservation:" << endl;
     cout << endl;
+
+    if (my_reservations.size() == 0) {
+             std::cout << std::endl;
+            std::cout << "You have no cancellable reservations" << std::endl;
+            std::cout << std::endl;
+            this->view_menu();
+            
+    } else { 
     cout << "Here are your reservations:" << endl;
 
     for (size_t i = 0; i < my_reservations.size(); ++i)
@@ -381,6 +389,7 @@ void Member::view_schedule()
       cout << endl;
       this->view_menu();
     }
+  }
   }
 
   void Member::request()
