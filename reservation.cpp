@@ -82,7 +82,6 @@ Reservation &Reservation::operator=(Reservation &&other) noexcept
 }
 // Destructor
 Reservation::~Reservation() = default;
-
 void Reservation::remove_user(User &u)
 {
     // Ensure there is at least 1 user remaining in the reservation

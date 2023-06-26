@@ -1,8 +1,5 @@
-Player ID: 2, Membership Type: member, Open Play: No, Start Time: 2023-06-28 07:30:00, Day: 3, Court: 3
-Player ID: 12, Membership Type: member, Open Play: No, Start Time: 2023-06-28 14:00:00, Day: 3, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 19:00:00, Day: 4, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 19:30:00, Day: 4, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 20:00:00, Day: 4, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 20:30:00, Day: 4, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 21:00:00, Day: 4, Court: 3
-Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 21:30:00, Day: 4, Court: 3
+Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-27 19:00:00, Day: 2, Court: 3
+Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-27 19:30:00, Day: 2, Court: 3
+Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-27 20:00:00, Day: 2, Court: 3
+Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-27 20:30:00, Day: 2, Court: 3
+Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-27 21:00:00, Day: 2, Court: 3

@@ -13,7 +13,7 @@ Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
     
     - HERE IS THE FORMAT FOR ENTERING RESERVATION TIMES (pressing the [enter] key between each number) :
         - month: int [from 1 to 12]
-        -  day: int [from 1 to 31]
+        - day: int [from 1 to 31]
         - year: int [2023]
         - hour: int [from 6 to 23]
         - minute: int [either 0 or 30]

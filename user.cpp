@@ -56,6 +56,18 @@ User &User::operator=(const User &other)
         all_courts.push_back(new Court(*court));
     }
 
+    // clear pointer allocation
+    for (auto r : my_reservations)
+    {
+        delete r;
+    }
+    my_reservations.clear();
+
+    for (const auto &r : other.my_reservations)
+    {
+        my_reservations.push_back(new Reservation(*r));
+    }
+
     return *this;
 }
 
@@ -87,6 +99,14 @@ User &User::operator=(User &&other) noexcept
     all_courts.clear();
 
     all_courts = std::move(other.all_courts);
+     // clear pointer allocation
+    for (auto r : my_reservations)
+    {
+        delete r;
+    }
+    my_reservations.clear();
+
+    my_reservations = std::move(other.my_reservations);
 
     other.id = 0;
 
@@ -94,7 +114,13 @@ User &User::operator=(User &&other) noexcept
 }
 
 // destructor
-User::~User() = default;
+User::~User() {
+for (Reservation* reservation : my_reservations)
+    {
+        delete reservation;
+    }
+    
+}
 
 // returns this user's id
 int User::getId()
