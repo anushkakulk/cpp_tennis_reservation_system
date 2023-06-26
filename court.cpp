@@ -112,15 +112,49 @@ std::vector<Reservation *> Court::get_reservations()
     return res;
 }
 
-void Court::saveReservationToFile(Reservation *r)
+void Court::saveReservationToFile(Reservation* r)
 {
     std::string filename = "court" + std::to_string(court_num) + ".txt";
-    std::ofstream file(filename, std::ios_base::app);
+    std::fstream file(filename, std::ios_base::in | std::ios_base::out | std::ios_base::app);
 
     if (file.is_open())
     {
-        file << r->toString() << "\n";
+        std::vector<std::string> reservations;
+        std::string line;
+
+        // Read all existing reservations into the vector
+        while (getline(file, line))
+        {
+            reservations.push_back(line);
+        }
+
+        // Add the new reservation to the vector
+        reservations.push_back(r->toString());
+
+        // Sort the reservations based on the start time
+        std::sort(reservations.begin(), reservations.end(), [](const std::string& a, const std::string& b) {
+            // Parse the start time from each reservation
+            std::size_t startPosA = a.find("Start Time: ") + 12;
+            std::size_t startPosB = b.find("Start Time: ") + 12;
+            std::string startTimeA = a.substr(startPosA, 19);
+            std::string startTimeB = b.substr(startPosB, 19);
+
+            return startTimeA < startTimeB;
+        });
+
+        // Clear the contents of the file
         file.close();
+        std::ofstream clearFile(filename, std::ofstream::out | std::ofstream::trunc);
+        clearFile.close();
+
+        // Write the sorted reservations back to the file
+        std::ofstream writeFile(filename, std::ios_base::app);
+        for (const auto& reservation : reservations)
+        {
+            writeFile << reservation << "\n";
+        }
+
+        writeFile.close();
     }
     else
     {

@@ -795,68 +795,60 @@ void Member::view_schedule()
     }
   }
 
-  bool Member::checkReservationWithinWeek(int id, std::tm *localTime)
-  {
-    // all of the courts
+  bool Member::checkReservationWithinWeek(int id, std::tm* localTime)
+{
     std::vector<std::string> courtFiles = {"court1.txt", "court2.txt", "court3.txt"};
 
-    for (const auto &courtFile : courtFiles)
+    for (const auto& courtFile : courtFiles)
     {
-      std::ifstream file(courtFile);
-      if (!file.is_open())
-      {
-        throw std::runtime_error("Failed to open " + courtFile);
-      }
-
-      std::string line;
-      while (std::getline(file, line))
-      {
-        // Find the position of "Player ID: " in the line
-        size_t playerIdPos = line.find("Player ID: ");
-        if (playerIdPos != std::string::npos)
+        std::ifstream file(courtFile);
+        if (!file.is_open())
         {
-          // Extract the substring containing the player ID value
-          std::string playerIdSubstring = line.substr(playerIdPos + 11);
-
-          // Extract the player ID from the substring
-          int playerId = std::stoi(playerIdSubstring);
-          if (playerId == id)
-          {
-
-            size_t startTimePos = line.find("Start Time: ");
-            if (startTimePos != std::string::npos)
-            {
-              startTimePos += 12; // Move past "Start Time: "
-              std::string startTimeSubstring = line.substr(startTimePos, 19);
-
-              std::tm startTime = {};
-
-              // parse the string
-              std::sscanf(startTimeSubstring.c_str(), "%d-%d-%d %d:%d:%d",
-                          &startTime.tm_year, &startTime.tm_mon, &startTime.tm_mday,
-                          &startTime.tm_hour, &startTime.tm_min, &startTime.tm_sec);
-
-              startTime.tm_mon -= 1;
-              startTime.tm_year -= 1900;
-
-              // Calculate the difference in hours
-              std::time_t startTimeT = std::mktime(&startTime);
-              std::time_t currentTimeT = std::mktime(localTime);
-              std::int64_t diffHours = std::abs(currentTimeT - startTimeT) / (60 * 60);
-
-              // Check if within a week (7 days = 168 hours)
-              if (diffHours >= 0 && diffHours <= 168)
-              {
-                file.close();
-                return true;
-              }
-            }
-          }
+            throw std::runtime_error("Failed to open " + courtFile);
         }
-      }
 
-      file.close();
+        std::string line;
+        while (std::getline(file, line))
+        {
+            size_t playerIdPos = line.find("Player ID: ");
+            if (playerIdPos != std::string::npos)
+            {
+                std::string playerIdSubstring = line.substr(playerIdPos + 11);
+                int playerId = std::stoi(playerIdSubstring);
+                if (playerId == id)
+                {
+                    size_t startTimePos = line.find("Start Time: ");
+                    if (startTimePos != std::string::npos)
+                    {
+                        startTimePos += 12;
+                        std::string startTimeSubstring = line.substr(startTimePos, 19);
+
+                        std::tm startTime = {};
+                        std::sscanf(startTimeSubstring.c_str(), "%d-%d-%d %d:%d:%d",
+                                    &startTime.tm_year, &startTime.tm_mon, &startTime.tm_mday,
+                                    &startTime.tm_hour, &startTime.tm_min, &startTime.tm_sec);
+
+                        startTime.tm_mon -= 1;
+                        startTime.tm_year -= 1900;
+
+                        std::time_t startTimeT = std::mktime(&startTime);
+                        std::time_t currentTimeT = std::mktime(localTime);
+                        std::int64_t diffHours = std::abs(currentTimeT - startTimeT) / (60 * 60);
+
+                        std::string openPlaySubstring = line.substr(line.find("Open Play: ") + 11, 3);
+                        bool isOpenPlay = (openPlaySubstring == "Yes");
+
+                        if (!isOpenPlay && diffHours >= 0 && diffHours <= 168)
+                        {
+                            file.close();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        file.close();
     }
-
     return false;
-  }
+}
