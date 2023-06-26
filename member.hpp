@@ -44,6 +44,7 @@ public:
     bool checkReservationWithinWeek(int id, std::tm *localTime);
     // returns true if the member is trying to reserve a resrvation within 24 hours of their own existing one
     bool checkReservationWithinDay(int id, std::tm *localTime);
+    void joinReservation(std::vector<Court*> all_courts);
 };
 
 #endif // MEMBER_HPP
