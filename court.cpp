@@ -32,7 +32,7 @@ Court &Court::operator=(const Court &other)
     }
     res.clear();
 
-    // Deep copy the reservations
+    // copy the reservations
     for (const auto *reservation : other.res)
     {
         res.push_back(new Reservation(*reservation));

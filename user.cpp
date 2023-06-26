@@ -26,6 +26,10 @@ User::User(const User &other)
     {
         all_courts.push_back(new Court(*court));
     }
+    for (const auto &r : other.my_reservations)
+    {
+        my_reservations.push_back(new Reservation(*r));
+    }
 }
 
 // copy assignment operatior
@@ -58,7 +62,7 @@ User &User::operator=(const User &other)
 // move constructor
 User::User(User &&other) noexcept
     : id(other.id), name(std::move(other.name)), membership_type(std::move(other.membership_type)),
-      all_courts(std::move(other.all_courts))
+      all_courts(std::move(other.all_courts)),  my_reservations(std::move(other.my_reservations))
 {
     other.id = 0;
 }

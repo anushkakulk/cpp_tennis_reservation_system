@@ -83,19 +83,19 @@ void Coach::view_menu()
     // schedule view
     if (choice == 1)
     {
-        view_schedule();
+        this->view_schedule();
     }
     else if (choice == 2)
     {
-        reserve();
+        this->reserve();
     }
     else if (choice == 3)
     {
-        cancel_reservation();
+        this->cancel_reservation();
     }
     else if (choice == 4)
     {
-         request();
+        this->request();
     }
     else if (choice == 5)
     {
@@ -112,6 +112,9 @@ void Coach::view_menu()
 // coaches only see their coaching sessions
 void Coach::view_schedule()
 {
+
+    std::cout << "Court Schedule For Next 7 Days - Coach Version" << std::endl;
+    std::cout << std::endl;
     // Get the ID of the current member
     int current_player_id = this->getId();
 
@@ -120,38 +123,47 @@ void Coach::view_schedule()
     {
         // Get the filename of court's reservation file
         std::string filename = "court" + std::to_string(court->get_court_num()) + ".txt";
-
         // Open the file
         std::ifstream file(filename);
 
         if (file.is_open())
         {
             std::string line;
-
-            // Read each line (reservation) in the file
-            while (getline(file, line))
+            std::cout << "Court " + std::to_string(court->get_court_num()) << " Reservations" << std::endl;
+            std::cout << "--------------------" << std::endl;
+            if (file.peek() == std::ifstream::traits_type::eof())
             {
-                // Parse the reservation details from the line
-                std::istringstream ss(line);
-
-                // Assuming that the player ID is first in the formatted string
-                std::string player_id_str;
-                std::getline(ss, player_id_str, ',');
-                // Extract the ID after "Player ID: "
-                int player_id = std::stoi(player_id_str.substr(11));
-
-                // Assuming the membership type is second in the formatted string
-                std::string membership_type_str;
-                std::getline(ss, membership_type_str, ',');
-                // Extract the membership type after "Membership Type: "
-                std::string extracted_membership_type = membership_type_str.substr(18);
-
-                // If the player ID matches the current member's ID and the membership type matches the given type, print the line
-                if (player_id == current_player_id && extracted_membership_type == this->get_membership())
+                std::cout << "No reservations found for this court." << std::endl;
+                std::cout << std::endl;
+            }
+            else
+            {
+                // Read each line (reservation) in the file
+                while (getline(file, line))
                 {
-                    std::cout << line << std::endl;
+                    // Parse the reservation details from the line
+                    std::istringstream ss(line);
+
+                    // Assuming that the player ID is first in the formatted string
+                    std::string player_id_str;
+                    std::getline(ss, player_id_str, ',');
+                    // Extract the ID after "Player ID: "
+                    int player_id = std::stoi(player_id_str.substr(11));
+
+                    // Assuming the membership type is second in the formatted string
+                    std::string membership_type_str;
+                    std::getline(ss, membership_type_str, ',');
+                    // Extract the membership type after "Membership Type: "
+                    std::string extracted_membership_type = membership_type_str.substr(18);
+
+                    // If the player ID matches the current member's ID and the membership type matches the given type, print the line
+                    if (player_id == current_player_id && extracted_membership_type == this->get_membership())
+                    {
+                        std::cout << line << std::endl;
+                    }
                 }
             }
+            std::cout << std::endl;
 
             file.close();
         }
@@ -159,9 +171,9 @@ void Coach::view_schedule()
         {
             std::cout << "Unable to open file" << std::endl;
         }
-        std::cout << std::endl;
-        this->view_menu();
     }
+    std::cout << std::endl;
+    this->view_menu();
 }
 
 void Coach::reserve()
@@ -407,7 +419,7 @@ void Coach::request()
         std::time_t new_start_time_t = std::chrono::system_clock::to_time_t(new_start);
         std::tm *new_start_local_time = std::localtime(&new_start_time_t);
         int dayOfWeek = new_start_local_time->tm_wday;
-         // max 7 days in advance
+        // max 7 days in advance
         auto maxReservationTime =
             std::chrono::system_clock::now() + std::chrono::hours(7 * 24);
 

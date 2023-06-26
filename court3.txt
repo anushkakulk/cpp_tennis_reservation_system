@@ -4,3 +4,5 @@ Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 
 Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 20:30:00, Day: 4, Court: 3
 Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 21:00:00, Day: 4, Court: 3
 Player ID: 12, Membership Type: officer, Open Play: Yes, Start Time: 2023-06-29 21:30:00, Day: 4, Court: 3
+Player ID: 7, Membership Type: coach, Open Play: No, Start Time: 2023-06-30 09:00:00, Day: 5, Court: 3
+Player ID: 2, Membership Type: member, Open Play: No, Start Time: 2023-06-29 12:30:00, Day: 4, Court: 3
