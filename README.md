@@ -29,7 +29,7 @@ https://drive.google.com/file/d/1-KS_2rWAYS4J9cmqZUP24jmeFeIZze5J/view?usp=shari
 - initially, you must login. You can either create a new account by providing a new id, name, and membership type, or you can login to an existing account (we check for unique ids)
 - you will be presented with a menu, which is a numbers list of options specific to your membership type. enter the number that corresponds to the option
 you wish to do.
-- to switch users, you must exit to terminal (either press the option [5] from member/coach menu, [6] from officer menu, or ctrl-c) and login as different user
+- to switch users, you must exit to terminal (either press the option to return to terminal from menu, or ctrl-c) and login as different user
 - a line on the schedule will look like this: 
   Player ID: 39, Membership Type: member, Player Name: kris, Open Play: No, Start Time: 2023-06-29 14:30:00, Day: 4, Court: 1
     - each line shows the reserver's id, membership type, name, whether or not the reservation was an open play session, the start date and time, the day of the week, and the court number

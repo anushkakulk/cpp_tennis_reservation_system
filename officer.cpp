@@ -96,8 +96,9 @@ void Officer::view_menu()
     cout << "2. Reserve a Court for yourself" << endl;
     cout << "3. Reserve a Court for open-play" << endl;
     cout << "4. Cancel a Reservation" << endl;
-    cout << "5. Handle incoming requests" << endl;
-    cout << "6. Return to terminal" << endl;
+    cout << "5. Join a Reservation" << endl;
+    cout << "6. Handle incoming requests" << endl;
+    cout << "7. Return to terminal" << endl;
     int choice;
     cin >> choice;
 
@@ -120,9 +121,13 @@ void Officer::view_menu()
     }
     else if (choice == 5)
     {
-        handle_requests();
+        joinReservation(get_courts()); 
     }
     else if (choice == 6)
+    {
+        handle_requests();
+    }
+    else if (choice == 7)
     {
         return;
     }
