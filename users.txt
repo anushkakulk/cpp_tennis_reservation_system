@@ -10,3 +10,8 @@
 10 tania member
 100 pete coach
 12 anushka officer
+42 kim member
+73 kendall member
+36 kylie coach
+39 kris officer
+101 travis coach

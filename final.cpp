@@ -85,21 +85,4 @@ int main()
         cout << "Invalid. Returning you to terminal" << endl;
         return -1;
     }
-
-    // delete newUserPtr;
-
-    /* cout << "Please enter your user id: (should be from 1 through 9)" << endl;
-    int login_id;
-    cin >> login_id;
-    for (User *user : all_users)
-    {
-        if (user->getId() == login_id)
-        {
-            user->view_menu();
-            break;
-        }
-    }*/
-
-    // iterate through users and see who's id matches the login, then call their respective
-    // view_menu() method!!
 }

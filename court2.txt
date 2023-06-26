@@ -1,6 +1,2 @@
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 19:00:00, Day: 4, Court: 2
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 19:30:00, Day: 4, Court: 2
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 20:00:00, Day: 4, Court: 2
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 20:30:00, Day: 4, Court: 2
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 21:00:00, Day: 4, Court: 2
-Player ID: 12, Membership Type: officer, Player Name: anushka, Open Play: Yes, Start Time: 2023-06-29 21:30:00, Day: 4, Court: 2
+Player ID: 36, Membership Type: coach, Player Name: kylie, Open Play: No, Start Time: 2023-06-29 09:00:00, Day: 4, Court: 2
+Player ID: 36, Membership Type: coach, Player Name: kylie, Open Play: No, Start Time: 2023-06-29 11:00:00, Day: 4, Court: 2

@@ -1,0 +1,10 @@
+Player ID: 101, Membership Type: coach, Player Name: travis, Open Play: No, Start Time: 2023-06-28 10:00:00, Day: 3, Court: 1
+Player ID: 42, Membership Type: member, Player Name: kim, Open Play: No, Start Time: 2023-06-29 07:30:00, Day: 4, Court: 1
+Player ID: 39, Membership Type: member, Player Name: kris, Open Play: No, Start Time: 2023-06-29 14:30:00, Day: 4, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 19:00:00, Day: 5, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 19:30:00, Day: 5, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 20:00:00, Day: 5, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 20:30:00, Day: 5, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 21:00:00, Day: 5, Court: 1
+Player ID: 39, Membership Type: officer, Player Name: kris, Open Play: Yes, Start Time: 2023-06-30 21:30:00, Day: 5, Court: 1
+Player ID: 73, Membership Type: member, Player Name: kendall, Open Play: No, Start Time: 2023-07-01 12:30:00, Day: 6, Court: 1

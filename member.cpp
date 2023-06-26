@@ -996,7 +996,7 @@ void Member::joinReservation(std::vector<Court*> all_courts)
         reservations.push_back(line);
 
         // Print the reservation with a number prefix
-        std::cout << reservationNumber << ". " << line << std::endl;
+        std::cout << "[" << reservationNumber << "] " << line << std::endl;
         reservationNumber++;
     }
     file.close();
@@ -1019,7 +1019,9 @@ void Member::joinReservation(std::vector<Court*> all_courts)
 
     // Join the selected reservation
     std::string playerId = std::to_string(getId());
-    selectedReservation += ", playing with Player ID: " + playerId;
+    selectedReservation += ", playing with " + get_name();
+    selectedReservation += " (Player ID: " + playerId + ")";
+   
 
     // Update the reservations file with the modified reservation
     std::ofstream outfile(filename);

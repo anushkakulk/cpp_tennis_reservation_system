@@ -2,6 +2,11 @@
 Repository for CS3520 Final Project - Court Reservation System.
 Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
 
+- LINK TO DESIGN DOCUMENT (accessed by anyone with northeastern email): https://docs.google.com/document/d/1u0eHVkeY4SWDgvGEsEyG8rWjzQZj6YxOhFQ3dTH9hXE/edit
+
+- LINK TO VIDEO DEMO (accessed by anyone with northeastern email): 
+https://drive.google.com/file/d/1-KS_2rWAYS4J9cmqZUP24jmeFeIZze5J/view?usp=sharing
+
 
 # Instructions
 
@@ -25,7 +30,10 @@ Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
 - you will be presented with a menu, which is a numbers list of options specific to your membership type. enter the number that corresponds to the option
 you wish to do.
 - to switch users, you must exit to terminal (either press the option [5] from member/coach menu, [6] from officer menu, or ctrl-c) and login as different user
-
+- a line on the schedule will look like this: 
+  Player ID: 39, Membership Type: member, Player Name: kris, Open Play: No, Start Time: 2023-06-29 14:30:00, Day: 4, Court: 1
+    - each line shows the reserver's id, membership type, name, whether or not the reservation was an open play session, the start date and time, the day of the week, and the court number
+    - the day of the week is written as a number from 0 to 6 [0 = sun, 1 = mon, 2 = tue, 3 = wed, 4 = thur, 5 = fri, 6 = sat]
 
 ## members
 - a member can view the schedule, which will show _all_ reservations made for the next 7 days for each court, sorted by earliest to latest. 
@@ -60,3 +68,19 @@ you wish to do.
 - 100 pete coach
 - 12 anushka officer
 - TO LOGIN IN, ENTER THE ID AND FIRST NAME (ex: to login to anushka the officer, follow the written instructions and input '12' for id and 'anushka' for name)
+
+### Video Demo ###
+
+https://drive.google.com/file/d/1-KS_2rWAYS4J9cmqZUP24jmeFeIZze5J/view?usp=sharing
+
+^^This video demo showcases the registering of a coach ‘travis’ and the logging into officer ‘kris’ and members ‘kim’ and ‘kendall’. 
+
+Here is what occurs in the demo: 
+
+	- Travis makes reservations, views the coach schedule, cancels a reservation himself, requests cancellation via an officer. 
+	
+	- Kim makes reservations, views the schedule
+
+	- Kris reserves open-play sessions, reserves a personal session, handles any incoming requests, and views the schedule
+
+	- Kendall makes reservations, joins one of Kim’s reservations, and views the schedule
