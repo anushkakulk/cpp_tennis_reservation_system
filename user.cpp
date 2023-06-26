@@ -150,137 +150,165 @@ User registerUser() {
     std::cout << "Welcome to the court reservation system!" << std::endl;
     std::cout << "1. Register" << std::endl;
     std::cout << "2. Login" << std::endl;
-    std::cout << "Please enter your choice (1 or 2): ";
-    std::cin >> choice;
+    std::cout << "0. Quit" << std::endl;
+    std::cout << "Please enter your choice (0, 1, or 2): ";
 
-    if (choice == "1") {
-        // User wants to register
-        std::string uniqueId;
-        std::string username;
-        std::string membershipType;
+    while (true) {
+        std::cin >> choice;
 
-        std::cout << "Enter your ID (must be a number and less than 4 digits): ";
-        while (true) {
-            std::cin >> uniqueId;
-            if (uniqueId == "Q")
-                return User(-1, "", "", std::vector<Court*>()); // Return an invalid user if user quits
-
-            // Check if the ID is a number and has less than 4 digits
-            bool isValidId = true;
-            for (char c : uniqueId) {
-                if (!std::isdigit(c)) {
-                    isValidId = false;
-                    break;
-                }
-            }
-            if (isValidId && uniqueId.size() < 4) {
-                // Check if the ID already exists in users.txt
-                std::ifstream readFile("users.txt");
-                if (readFile.is_open()) {
-                    std::string line;
-                    while (std::getline(readFile, line)) {
-                        std::string id;
-                        std::istringstream iss(line);
-
-                        if (std::getline(iss, id, ' ')) {
-                            if (id == uniqueId) {
-                                std::cout << "ID already exists. Please enter a different ID (or enter Q to quit): ";
-                                break;
-                            }
-                        }
-                    }
-                    readFile.close();
-
-                    if (line.empty())
-                        break; // ID is unique
-                }
-                else {
-                    std::cout << "Failed to open the file for reading." << std::endl;
-                    return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
-                }
-            }
-
-            std::cout << "Invalid ID. Please enter a number with less than 4 digits (or enter Q to quit): ";
+        if (choice == "0") {
+            std::cout << "Exiting the program..." << std::endl;
+            exit(0);
         }
+        else if (choice == "1") {
+            // User wants to register
+            std::string uniqueId;
+            std::string username;
+            std::string membershipType;
 
-        std::cout << "Enter your name: ";
-        std::cin >> username;
+            std::cout << "Enter your ID (must be a number and less than 4 digits): ";
+            while (true) {
+                std::cin >> uniqueId;
+                if (uniqueId == "Q")
+                    return User(-1, "", "", std::vector<Court*>()); // Return an invalid user if user quits
 
-        std::cout << "Enter membership type (member, coach, or officer): ";
-        while (true) {
-            std::cin >> membershipType;
-            if (membershipType == "member" || membershipType == "coach" || membershipType == "officer")
-                break;
-            else
-                std::cout << "Invalid membership type. Please enter member, coach, or officer: ";
-        }
-
-        std::ofstream outFile("users.txt", std::ios::app);
-        if (outFile.is_open()) {
-            outFile << uniqueId << ' ' << username << ' ' << membershipType << std::endl;
-            outFile.close();
-            std::cout << "User registered successfully, welcome!" << std::endl;
-        }
-        else {
-            std::cout << "Failed to open the file for writing." << std::endl;
-            return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
-        }
-
-        return User(std::stoi(uniqueId), username, membershipType, std::vector<Court*>());
-    }
-    else if (choice == "2") {
-        // User wants to log in
-        std::string uniqueId;
-        std::string username;
-
-        std::cout << "Enter your ID: ";
-        std::cin >> uniqueId;
-
-        std::cout << "Enter your name: ";
-        std::cin >> username;
-
-        std::ifstream readFile("users.txt");
-        bool userExists = false;
-        int userId = -1;
-        std::string membershipType;
-        std::vector<Court*> courts;
-
-        if (readFile.is_open()) {
-            std::string line;
-            while (std::getline(readFile, line)) {
-                std::string id, name, membership;
-                std::istringstream iss(line);
-
-                if (std::getline(iss, id, ' ') &&
-                    std::getline(iss, name, ' ') &&
-                    std::getline(iss, membership, ' ')) {
-                    if (id == uniqueId && name == username) {
-                        userExists = true;
-                        userId = std::stoi(id);
-                        membershipType = membership;
+                // Check if the ID is a number and has less than 4 digits
+                bool isValidId = true;
+                for (char c : uniqueId) {
+                    if (!std::isdigit(c)) {
+                        isValidId = false;
                         break;
                     }
                 }
-            }
-            readFile.close();
-        }
-        else {
-            std::cout << "Failed to open the file for reading." << std::endl;
-            return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
-        }
+                if (isValidId && uniqueId.size() < 4) {
+                    // Check if the ID already exists in users.txt
+                    std::ifstream readFile("users.txt");
+                    if (readFile.is_open()) {
+                        std::string line;
+                        while (std::getline(readFile, line)) {
+                            std::string id;
+                            std::istringstream iss(line);
 
-        if (userExists) {
-            std::cout << "User logged in successfully, welcome back!" << std::endl;
-            return User(userId, username, membershipType, courts);
+                            if (std::getline(iss, id, ' ')) {
+                                if (id == uniqueId) {
+                                    std::cout << "ID already exists. Please enter a different ID (or enter Q to quit): ";
+                                    break;
+                                }
+                            }
+                        }
+                        readFile.close();
+
+                        if (line.empty())
+                            break; // ID is unique
+                    }
+                    else {
+                        std::cout << "Failed to open the file for reading." << std::endl;
+                        return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
+                    }
+                }
+
+                std::cout << "Invalid ID. Please enter a number with less than 4 digits (or enter Q to quit): ";
+            }
+
+            std::cout << "Enter your name: ";
+            while (true) {
+                std::cin >> username;
+                if (username == "Q")
+                    return User(-1, "", "", std::vector<Court*>()); // Return an invalid user if user quits
+
+                // Check if the name has at least two characters and does not contain numbers or special symbols
+                bool isValidName = true;
+                if (username.size() < 2)
+                    isValidName = false;
+                else {
+                    for (char c : username) {
+                        if (!std::isalpha(c)) {
+                            isValidName = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (isValidName)
+                    break;
+
+                std::cout << "Invalid name. Please enter a name with at least two characters (or enter Q to quit): ";
+            }
+
+            std::cout << "Enter membership type (member, coach, or officer): ";
+            while (true) {
+                std::cin >> membershipType;
+                if (membershipType == "member" || membershipType == "coach" || membershipType == "officer")
+                    break;
+                else
+                    std::cout << "Invalid membership type. Please enter member, coach, or officer: ";
+            }
+
+            std::ofstream outFile("users.txt", std::ios::app);
+            if (outFile.is_open()) {
+                outFile << uniqueId << ' ' << username << ' ' << membershipType << std::endl;
+                outFile.close();
+                std::cout << "User registered successfully, welcome!" << std::endl;
+            }
+            else {
+                std::cout << "Failed to open the file for writing." << std::endl;
+                return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
+            }
+
+            return User(std::stoi(uniqueId), username, membershipType, std::vector<Court*>());
+        }
+        else if (choice == "2") {
+            // User wants to log in
+            std::string uniqueId;
+            std::string username;
+
+            std::cout << "Enter your ID: ";
+            std::cin >> uniqueId;
+
+            std::cout << "Enter your name: ";
+            std::cin >> username;
+
+            std::ifstream readFile("users.txt");
+            bool userExists = false;
+            int userId = -1;
+            std::string membershipType;
+            std::vector<Court*> courts;
+
+            if (readFile.is_open()) {
+                std::string line;
+                while (std::getline(readFile, line)) {
+                    std::string id, name, membership;
+                    std::istringstream iss(line);
+
+                    if (std::getline(iss, id, ' ') &&
+                        std::getline(iss, name, ' ') &&
+                        std::getline(iss, membership, ' ')) {
+                        if (id == uniqueId && name == username) {
+                            userExists = true;
+                            userId = std::stoi(id);
+                            membershipType = membership;
+                            break;
+                        }
+                    }
+                }
+                readFile.close();
+            }
+            else {
+                std::cout << "Failed to open the file for reading." << std::endl;
+                return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
+            }
+
+            if (userExists) {
+                std::cout << "User logged in successfully, welcome back!" << std::endl;
+                return User(userId, username, membershipType, courts);
+            }
+            else {
+                std::cout << "User does not exist. Please register or try again." << std::endl;
+            }
         }
         else {
-            std::cout << "User does not exist. Please register or try again." << std::endl;
-            return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
+            std::cout << "Invalid choice. Please enter 0, 1, or 2: ";
         }
-    }
-    else {
-        std::cout << "Invalid choice. Please try again." << std::endl;
-        return User(-1, "", "", std::vector<Court*>()); // Return an invalid user
     }
 }
 
