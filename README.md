@@ -2,9 +2,9 @@
 Repository for A C++ Court Reservation System.
 Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
 
-- LINK TO DESIGN DOCUMENT (accessed by anyone with northeastern email): https://docs.google.com/document/d/1u0eHVkeY4SWDgvGEsEyG8rWjzQZj6YxOhFQ3dTH9hXE/edit
+- LINK TO DESIGN DOCUMENT: https://docs.google.com/document/d/1u0eHVkeY4SWDgvGEsEyG8rWjzQZj6YxOhFQ3dTH9hXE/edit
 
-- LINK TO VIDEO DEMO (accessed by anyone with northeastern email): 
+- LINK TO VIDEO DEMO: 
 https://drive.google.com/file/d/1-KS_2rWAYS4J9cmqZUP24jmeFeIZze5J/view?usp=sharing
 
 
