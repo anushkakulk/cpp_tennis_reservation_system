@@ -1,5 +1,5 @@
-# CS3520-Summer-2023-FinalProject
-Repository for CS3520 Final Project - Court Reservation System.
+# C++ Project
+Repository for A C++ Court Reservation System.
 Authored by Anushka Kulkarni, Deion Smith, and Tania Gole.
 
 - LINK TO DESIGN DOCUMENT (accessed by anyone with northeastern email): https://docs.google.com/document/d/1u0eHVkeY4SWDgvGEsEyG8rWjzQZj6YxOhFQ3dTH9hXE/edit
